@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1059051143121",
+    "project_id": "vidhaanadmin",
+    "storage_bucket": "vidhaanadmin.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1059051143121:android:dcdd5218e9e6c8d28aaaf0",
+        "android_client_info": {
+          "package_name": "info.socorp.vidhaan"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1059051143121-sna7r8r0au6cag5htgiu0c75odt4a0jf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDKC4ZJWJZdnAN3EsTDSLRKfwSBcIPwZCU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1059051143121-sna7r8r0au6cag5htgiu0c75odt4a0jf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
