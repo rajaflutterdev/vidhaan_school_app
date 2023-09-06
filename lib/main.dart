@@ -13,6 +13,9 @@ import 'account_page.dart';
 import 'firebase_options1.dart';
 import 'firebase_options2.dart';
 import 'homepage.dart';
+import 'package:dotlottie_loader/dotlottie_loader.dart';
+import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 
 
 void main() async {
@@ -273,7 +276,7 @@ class _splashscreenState extends State<splashscreen> {
 
     }
     if(user==false){
-      Timer(Duration(seconds: 1),
+      Timer(Duration(seconds: 9),
 
               () {
             Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.fade, child:  MyHomePage()));
@@ -281,7 +284,7 @@ class _splashscreenState extends State<splashscreen> {
       );
     }
     else{
-      Timer(Duration(seconds: 1),(){
+      Timer(Duration(seconds: 9),(){
         Navigator.of(context).pushReplacement(
             MaterialPageRoute(builder:
                 (BuildContext context) => Intro_Page(),
@@ -305,41 +308,130 @@ class _splashscreenState extends State<splashscreen> {
     double height = MediaQuery.of(context).size.height;
     return   Scaffold(
 
+
       body: Center(
         child: Stack(
           alignment: Alignment.center,
           children: [
-            Container(
-              width: double.infinity,
-              height: double.infinity,
-              child: Opacity(
-                  opacity: 0.27,
-                  child: Image.asset("assets/imgbin_school-background-elements-of-each-collection-png.png",fit: BoxFit.cover,)),
-            ),
 
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
+            DotLottieLoader.fromAsset("assets/VidhaanFinialAnime.lottie",
+                frameBuilder: (BuildContext ctx, DotLottie? dotlottie) {
+                  if (dotlottie != null) {
+                    return Lottie.memory(dotlottie.animations.values.single);
+                  } else {
+                    return Container();
+                  }
+                }),
+            /*  SlideInUp(
+              delay: Duration(milliseconds: 4500),
+              duration: Duration(milliseconds: 600),
+              from: 500,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 0.0,right: 0,top: 300),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                      width: 320,
+                      height: 60,
+                      decoration: BoxDecoration(color: Color(0xffFEFCFF),
 
-              children: [
-                SizedBox(height: 320,),
+                          borderRadius: BorderRadius.circular(15),
+                          border: Border.all(color: Color(0xff0271C5).withOpacity(0.80),)
+                      ),
+                      child: Center(
+                          child: TextField(
+                            onTap: (){
+                              setState(() {
+                                school=false;
+                              });
+                            },
+                            onEditingComplete: (){
+                              setState(() {
+                                school=true;
+                              });
+                            },
+                            onSubmitted: (val){
+                              setState(() {
+                                school=true;
+                              });
+                            },
+                            textCapitalization: TextCapitalization.sentences,
+                            controller: schoolid,
+                            keyboardType: TextInputType.text,
+                            decoration: InputDecoration(
+                              hintText: "School ID",
 
-                Container(
-                  height: height/3.88,
-                  width:width/1.9,
-                  decoration: BoxDecoration(
-                      image: DecorationImage(
-                          image: AssetImage("assets/VIDHAAN LOGO-3.png")
-                      )
-                  ),
+                              prefixIcon: Icon(Icons.school,),
+                              hintStyle: GoogleFonts.poppins(
+                                fontWeight: FontWeight.w600,
+                                fontSize: width/26.84,
+
+                              ),
+
+
+                              border: InputBorder.none,
+
+                            ),
+                            style: GoogleFonts.poppins(
+                              fontWeight: FontWeight.w600,
+                              fontSize: width/22.84,
+                            ),
+                          )
+                      ),
+                    ),
+                  ],
                 ),
+              ),
+            ),
+            SlideInUp(
+              delay: Duration(milliseconds: 5000),
+              duration: Duration(milliseconds: 600),
+              from: 500,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 0.0,right: 0,top: 450),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    GestureDetector(
+                      onTap: () async {
+                        var document = await FirebaseFirestore.instance.collection("Schools").get();
+                        for(int i=0;i<document.docs.length;i++) {
+                          if (schoolid.text == document.docs[i]["schoolID"]) {
+                            initPlatformState(document.docs[i]["appurl"]);
+                            Navigator.of(context).push(
+                                MaterialPageRoute(builder: (context) =>
+                                Intro_Page(),));
+                          }
+                        }
+                      },
+                      child: Container(
+                        width: 320,
+                        height: 60,
+                        decoration: BoxDecoration(color: Color(0xff0271C5).withOpacity(0.80),
 
-              ],
+                            borderRadius: BorderRadius.circular(15),
+                            border: Border.all(color: Color(0xff0271C5).withOpacity(0.80),)
+                        ),
+                        child: Center(
+                            child: Text("Get Started", style: GoogleFonts.poppins(
+                                fontWeight: FontWeight.w600,
+                                fontSize: width/20.84,
+                                color: Colors.white
+                            ),)
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
 
-
+           */
           ],
         ),
       ),
+
     );
 
   }

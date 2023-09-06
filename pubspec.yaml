@@ -85,6 +85,7 @@ dependencies:
   expandable_page_view: ^1.0.17
   firebase_storage: ^11.2.6
   uuid: ^4.0.0
+  dotlottie_loader: ^0.0.3
 
 
 
