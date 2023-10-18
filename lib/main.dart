@@ -1,13 +1,18 @@
 import 'dart:async';
+import 'package:animate_do/animate_do.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:unique_identifier/unique_identifier.dart';
+import 'package:video_player/video_player.dart';
+import 'package:vidhaan_school_app/otp_page.dart';
 import 'Student_Landing_Page.dart';
 import 'account_page.dart';
 import 'firebase_options1.dart';
@@ -17,7 +22,16 @@ import 'package:dotlottie_loader/dotlottie_loader.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 
-
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  await Firebase.initializeApp(
+    name: 'SecondaryApp',
+    options: SecondaryFirebaseOptions.currentPlatform,
+  );
+  print('Handling a background message ${message.messageId}');
+}
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -27,7 +41,12 @@ void main() async {
     name: 'SecondaryApp',
     options: SecondaryFirebaseOptions.currentPlatform,
   );
-  runApp(const MyApp());
+
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
+
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+      .then((value) => runApp( MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -109,6 +128,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
     return Scaffold(
@@ -119,9 +139,9 @@ class _MyHomePageState extends State<MyHomePage> {
           alignment: Alignment.center,
           children: [
             Lottie.asset("assets/Vidhaan Logo Resolution Changed 3mb version.json",repeat:false,height: double.infinity),
-          /*  SlideInUp(
+            SlideInUp(
               delay: Duration(milliseconds: 4500),
-              duration: Duration(milliseconds: 600),
+              duration: Duration(milliseconds: 500),
               from: 500,
               child: Padding(
                 padding: const EdgeInsets.only(left: 0.0,right: 0,top: 300),
@@ -182,8 +202,8 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
             SlideInUp(
-              delay: Duration(milliseconds: 5000),
-              duration: Duration(milliseconds: 600),
+              delay: Duration(milliseconds: 4000),
+              duration: Duration(milliseconds: 400),
               from: 500,
               child: Padding(
                 padding: const EdgeInsets.only(left: 0.0,right: 0,top: 450),
@@ -223,8 +243,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
             ),
-
-           */
           ],
         ),
       ),
@@ -276,7 +294,7 @@ class _splashscreenState extends State<splashscreen> {
 
     }
     if(user==false){
-      Timer(Duration(seconds: 9),
+      Timer(Duration(seconds: 5),
 
               () {
             Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.fade, child:  MyHomePage()));
@@ -284,20 +302,48 @@ class _splashscreenState extends State<splashscreen> {
       );
     }
     else{
-      Timer(Duration(seconds: 9),(){
-        Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder:
-                (BuildContext context) => Intro_Page(),
-            )
-        );
+      if(_firebaseauth2db.currentUser!=null){
+        var getdate=await _firestore2db.collection('deviceid').where("id",isEqualTo: _firebaseauth2db.currentUser!.uid).where("type",isEqualTo:"Student" ).get();
+        var getdate2=await _firestore2db.collection('deviceid').where("id",isEqualTo: _firebaseauth2db.currentUser!.uid).where("type",isEqualTo:"Teacher" ).get();
+        if(getdate.docs.length>0){
+          Timer(Duration(seconds: 5),(){
+            Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.fade, child: Student_landing_Page(),));
+
+          }
+          );
+        }
+        else if(getdate2.docs.length>0){
+          Timer(Duration(seconds: 5),(){
+            Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.fade, child: Homepage(),));
+
+          }
+          );
+        }
       }
-      );
+      else{
+        print("Login Page");
+        Timer(Duration(seconds: 5),(){
+          Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.fade, child: Accountpage()));
+
+
+        }
+        );
+        // Otppage("9176463821", "Teacher", "e71KBP6ky3KnurZlHpfZ"),
+        // Otppage("9941123453", "Student", "i570pkx8k9u78gea"),
+      }
+
     }
 
   }
-
+  late VideoPlayerController _controller;
   void initState() {
-    initPlatformState();
+    _controller =
+    VideoPlayerController.asset("assets/VidhaanLogoVideonew2.mp4")
+      ..initialize().then((value) => {setState(() {})});
+    _controller.setVolume(0.0);
+    _controller.play();
+  initPlatformState();
+
     super.initState();
   }
 
@@ -309,128 +355,22 @@ class _splashscreenState extends State<splashscreen> {
     return   Scaffold(
 
 
-      body: Center(
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-
-            DotLottieLoader.fromAsset("assets/VidhaanFinialAnime.lottie",
-                frameBuilder: (BuildContext ctx, DotLottie? dotlottie) {
-                  if (dotlottie != null) {
-                    return Lottie.memory(dotlottie.animations.values.single);
-                  } else {
-                    return Container();
-                  }
-                }),
-            /*  SlideInUp(
-              delay: Duration(milliseconds: 4500),
-              duration: Duration(milliseconds: 600),
-              from: 500,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 0.0,right: 0,top: 300),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      width: 320,
-                      height: 60,
-                      decoration: BoxDecoration(color: Color(0xffFEFCFF),
-
-                          borderRadius: BorderRadius.circular(15),
-                          border: Border.all(color: Color(0xff0271C5).withOpacity(0.80),)
-                      ),
-                      child: Center(
-                          child: TextField(
-                            onTap: (){
-                              setState(() {
-                                school=false;
-                              });
-                            },
-                            onEditingComplete: (){
-                              setState(() {
-                                school=true;
-                              });
-                            },
-                            onSubmitted: (val){
-                              setState(() {
-                                school=true;
-                              });
-                            },
-                            textCapitalization: TextCapitalization.sentences,
-                            controller: schoolid,
-                            keyboardType: TextInputType.text,
-                            decoration: InputDecoration(
-                              hintText: "School ID",
-
-                              prefixIcon: Icon(Icons.school,),
-                              hintStyle: GoogleFonts.poppins(
-                                fontWeight: FontWeight.w600,
-                                fontSize: width/26.84,
-
-                              ),
-
-
-                              border: InputBorder.none,
-
-                            ),
-                            style: GoogleFonts.poppins(
-                              fontWeight: FontWeight.w600,
-                              fontSize: width/22.84,
-                            ),
-                          )
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+      body: GestureDetector(
+        onTap: (){
+          print(width);
+          print(height);
+        },
+        child: SizedBox.expand(
+          child: FittedBox(
+            fit: BoxFit.cover,
+            child: SizedBox(
+              width: width/0.98,
+              height: height/0.94337,
+              child: VideoPlayer(_controller,),
             ),
-            SlideInUp(
-              delay: Duration(milliseconds: 5000),
-              duration: Duration(milliseconds: 600),
-              from: 500,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 0.0,right: 0,top: 450),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    GestureDetector(
-                      onTap: () async {
-                        var document = await FirebaseFirestore.instance.collection("Schools").get();
-                        for(int i=0;i<document.docs.length;i++) {
-                          if (schoolid.text == document.docs[i]["schoolID"]) {
-                            initPlatformState(document.docs[i]["appurl"]);
-                            Navigator.of(context).push(
-                                MaterialPageRoute(builder: (context) =>
-                                Intro_Page(),));
-                          }
-                        }
-                      },
-                      child: Container(
-                        width: 320,
-                        height: 60,
-                        decoration: BoxDecoration(color: Color(0xff0271C5).withOpacity(0.80),
-
-                            borderRadius: BorderRadius.circular(15),
-                            border: Border.all(color: Color(0xff0271C5).withOpacity(0.80),)
-                        ),
-                        child: Center(
-                            child: Text("Get Started", style: GoogleFonts.poppins(
-                                fontWeight: FontWeight.w600,
-                                fontSize: width/20.84,
-                                color: Colors.white
-                            ),)
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-
-           */
-          ],
+          ),
         ),
-      ),
+      )
 
     );
 
@@ -461,13 +401,14 @@ class _Intro_PageState extends State<Intro_Page> {
       if(getdate.docs.length>0){
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Student_landing_Page(),));
       }
-      else if(getdate2.docs.length>0){
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Homepage(),));
+      else if(getdate2.docs.length>0){Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Homepage(),));
       }
     }
     else{
       print("Login Page");
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>Accountpage(),));
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>Accountpage()));
+     // Otppage("9176463821", "Teacher", "e71KBP6ky3KnurZlHpfZ"),
+     // Otppage("9941123453", "Student", "i570pkx8k9u78gea"),
     }
 
   }

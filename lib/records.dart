@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:vidhaan_school_app/assignmentsreports.dart';
 import 'package:vidhaan_school_app/records2.dart';
 
 import 'examreports.dart';
@@ -10,7 +11,8 @@ import 'examtimetable.dart';
 
 
 class Records extends StatefulWidget {
-  const Records({Key? key}) : super(key: key);
+  String staffregno;
+   Records(this.staffregno);
 
   @override
   State<Records> createState() => _RecordsState();
@@ -85,117 +87,188 @@ class _RecordsState extends State<Records> {
                 color: Colors.grey.shade400,
                 thickness: 1.5,
               ),
-              Material(
-                elevation:5,
-                borderRadius: BorderRadius.circular(12),
-                child: GestureDetector(
-                  onTap: (){
-                    Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context)=>Records2())
-                    );
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Material(
+                    elevation:5,
+                    borderRadius: BorderRadius.circular(12),
+                    child: GestureDetector(
+                      onTap: (){
+                        Navigator.of(context).push(
+                            MaterialPageRoute(builder: (context)=>Records2())
+                        );
 
 
-                  },
-                  child: Container(
-                      width: 350,
-                      height: 100,
+                      },
+                      child: Container(
+                          width: 350,
+                          height: 100,
 
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        color: Color(0xff0873C4),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(left: 12.0,top:8,bottom: 5),
-                                child: Text("Students Attendance",style: GoogleFonts.poppins(
-                                    color: Colors.white,
-                                    fontSize: 22,
-                                    fontWeight: FontWeight.w700
-
-                                ),
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 12.0),
-                                child: Text("View",style: GoogleFonts.poppins(
-                                    color: Colors.white,
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w600
-
-                                ),
-                                ),
-                              ),
-                            ],
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: Color(0xff0873C4),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(right: 12.0),
-                            child: Icon(Icons.school,color: Colors.white,size: 40,),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 12.0,top:8,bottom: 5),
+                                    child: Text("Students Attendance",style: GoogleFonts.poppins(
+                                        color: Colors.white,
+                                        fontSize: 22,
+                                        fontWeight: FontWeight.w700
+
+                                    ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 12.0),
+                                    child: Text("View",style: GoogleFonts.poppins(
+                                        color: Colors.white,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w600
+
+                                    ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(right: 12.0),
+                                child: Icon(Icons.school,color: Colors.white,size: 40,),
+                              )
+                            ],
                           )
-                        ],
-                      )
-                  ),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top:15.0),
-                child: Material(
-                  elevation:5,
-                  borderRadius: BorderRadius.circular(12),
-                  child: GestureDetector(
-                    onTap: (){
-                      Navigator.of(context).push(
-                          MaterialPageRoute(builder: (context)=>ExamReports())
-                      );
-                    },
-                    child: Container(
-                        width: 350,
-                        height: 100,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15),
-                          color: Color(0xff0873C4),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 12.0,top:8,bottom: 5),
-                                  child: Text("Exam Reports",style: GoogleFonts.poppins(
-                                      color: Colors.white,
-                                      fontSize: 22,
-                                      fontWeight: FontWeight.w700
-
-                                  ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 12.0),
-                                  child: Text("View",style: GoogleFonts.poppins(
-                                      color: Colors.white,
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w600
-
-                                  ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(right: 12.0),
-                              child: Icon(Icons.text_snippet_rounded,color: Colors.white,size: 40,),
-                            )
-                          ],
-                        )
+                      ),
                     ),
                   ),
-                ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top:15.0),
+                    child: Material(
+                      elevation:5,
+                      borderRadius: BorderRadius.circular(12),
+                      child: GestureDetector(
+                        onTap: (){
+                          Navigator.of(context).push(
+                              MaterialPageRoute(builder: (context)=>ExamReports())
+                          );
+                        },
+                        child: Container(
+                            width: 350,
+                            height: 100,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              color: Color(0xff0873C4),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 12.0,top:8,bottom: 5),
+                                      child: Text("Exam Reports",style: GoogleFonts.poppins(
+                                          color: Colors.white,
+                                          fontSize: 22,
+                                          fontWeight: FontWeight.w700
+
+                                      ),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 12.0),
+                                      child: Text("View",style: GoogleFonts.poppins(
+                                          color: Colors.white,
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w600
+
+                                      ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 12.0),
+                                  child: Icon(Icons.text_snippet_rounded,color: Colors.white,size: 40,),
+                                )
+                              ],
+                            )
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top:15.0),
+                    child: Material(
+                      elevation:5,
+                      borderRadius: BorderRadius.circular(12),
+                      child: GestureDetector(
+                        onTap: (){
+                          Navigator.of(context).push(
+                              MaterialPageRoute(builder: (context)=>AssignmentReports(widget.staffregno))
+                          );
+                        },
+                        child: Container(
+                            width: 350,
+                            height: 100,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              color: Color(0xff0873C4),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 12.0,top:8,bottom: 5),
+                                      child: Text("Assignments Reports",style: GoogleFonts.poppins(
+                                          color: Colors.white,
+                                          fontSize: 22,
+                                          fontWeight: FontWeight.w700
+
+                                      ),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 12.0),
+                                      child: Text("View",style: GoogleFonts.poppins(
+                                          color: Colors.white,
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w600
+
+                                      ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 12.0),
+                                  child: Icon(Icons.text_snippet_rounded,color: Colors.white,size: 40,),
+                                )
+                              ],
+                            )
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
               /*StreamBuilder(
                   stream: _firestore2db.collection("ExamMaster").snapshots(),

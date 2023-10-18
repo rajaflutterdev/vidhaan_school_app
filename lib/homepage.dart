@@ -262,16 +262,7 @@ class _HomepageState extends State<Homepage> {
     }
 
 
-    List<Widget> _widgetOptions = <Widget>[
-      Frontpage(),
 
-      Container(
-        color: Colors.white,
-      ),
-      Excelsheet(),
-
-      Profile()
-    ];
 
     String page = 'Home';
     final GlobalKey <ScaffoldState> key = GlobalKey();
@@ -296,7 +287,7 @@ class _HomepageState extends State<Homepage> {
         selectedIndexvalue == 0 ?
         Frontpage() :
         selectedIndexvalue == 1 ?
-        Records() :
+        Records(staffregno) :
         selectedIndexvalue == 2 ?
         Exams():
         selectedIndexvalue == 3 ?
@@ -337,7 +328,7 @@ class _HomepageState extends State<Homepage> {
                   duration: Duration(milliseconds: 600),
                   gap: 8,
                   color: Colors.white,
-                  activeColor: Colors.blue,
+                  activeColor: Color(0xff0873C4),
                   iconSize: 26,
                   tabBackgroundColor: Colors.white,
                   padding: EdgeInsets.symmetric(

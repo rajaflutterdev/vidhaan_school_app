@@ -7,6 +7,7 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'Profile_More_Page.dart';
+import 'Profileview.dart';
 import 'Today Presents_Page.dart';
 
 class Student_Profile extends StatefulWidget {
@@ -1320,7 +1321,7 @@ class _Student_ProfileState extends State<Student_Profile> {
                                             width: width / 2.5,
                                             margin: EdgeInsets.only(right: width / 36),
                                             decoration: BoxDecoration(
-                                              color: Color(0xff3D8CF8),
+                                              color: Color(0xff0873C4),
                                               borderRadius: BorderRadius.circular(5),
 
                                             ),
@@ -1385,11 +1386,17 @@ class _Student_ProfileState extends State<Student_Profile> {
                                         Padding(
                                           padding: EdgeInsets.only(
                                               top: height / 9.745, left: width / 12.4),
-                                          child: CircleAvatar(
-                                            radius: 64,
-                                            backgroundColor: Colors.grey.shade200,
-                                            backgroundImage:  NetworkImage(
-                                                y1['imgurl']
+                                          child: InkWell(
+                                            onTap:(){
+                                              Navigator.of(context).push(
+                                                  MaterialPageRoute(builder: (context)=>Profileview2(y1['imgurl']))
+                                              );},
+                                            child: CircleAvatar(
+                                              radius: 64,
+                                              backgroundColor: Colors.grey.shade200,
+                                              backgroundImage:  NetworkImage(
+                                                  y1['imgurl']
+                                              ),
                                             ),
                                           ),
                                         ),
@@ -1521,7 +1528,7 @@ class _Student_ProfileState extends State<Student_Profile> {
                           ),),
                           SizedBox(height:5),
                           Text(
-                            y1["admitclass"], style: GoogleFonts.poppins(
+                            "${y1["admitclass"]} ${y1["section"]}", style: GoogleFonts.poppins(
                               color: Colors.black,
                               fontSize: 18,
                               fontWeight: FontWeight.bold

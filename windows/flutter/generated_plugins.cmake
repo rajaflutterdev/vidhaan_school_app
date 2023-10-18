@@ -7,6 +7,7 @@ list(APPEND FLUTTER_PLUGIN_LIST
   firebase_core
   geolocator_windows
   local_auth_windows
+  printing
   rive_common
   smart_auth
   url_launcher_windows

@@ -42,73 +42,266 @@ class _AccountpageState extends State<Accountpage> {
     super.initState();
   }
   bool hide=false;
+  bool loading=false;
 
   final List<String> items = ["Student","Teacher"];
   String? selectedValue;
+  bool Student= true;
+  bool teacher= false;
   @override
   Widget build(BuildContext context) {
-
-    double height = MediaQuery.of(context).size.height;
-    double width = MediaQuery.of(context).size.width;
-
+    Size size = MediaQuery.of(context).size;
+    double width = size.width;
+    double height = size.height;
     return Scaffold(
-
       body:
       Stack(
         children: [
-          FlutterLogin(
-
-            loginProviders: [],
-
-            logo: "assets/TextWhitelogo.png",
-            logoTag: "Educare",
-            titleTag:"",userType: LoginUserType.name,
-
-
-            onLogin: (LoginData) {
-              setState(() {
-                phoneController.text=LoginData.password;
-
-              });
-              updatestaff();
-              print("ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
-              print(phoneController.text);
-              print(nameController.text );
-              print(_backgroundColor);
-              print(LoginData.name);
-              print(LoginData.password);
-            },
-            onRecoverPassword: (String ) {  },
-            additionalSignupFields: [
-
-            ],
-
-          ),
-          hide==false?
           Padding(
-        padding:  EdgeInsets.only(left:width/ 6,top: height/2.7),
-        child: Row(
-          children: [
-            RadioMenuButton(value: "Student", groupValue: _backgroundColor, onChanged: (val){
-              setState(() {
-                _backgroundColor="Student";
-              });
+            padding: const EdgeInsets.only(top: 190.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  width: width/5.22666667,
+                  height: height/19.575,
+                  decoration: BoxDecoration(
+                      color: Color(0xff0271c5
+                      ),
+                      borderRadius: BorderRadius.only(
+                        bottomRight: Radius.circular(10),
+                        topRight: Radius.circular(10),
+                      )
+                  ),
+                  child: Center(
+                    child: Text(
+                      "Support",style: GoogleFonts.poppins(
+                        color: Colors.white,
+                        fontSize: width/28,
+                        fontWeight: FontWeight.w500,
+                        backgroundColor: Colors.transparent,
 
-            }, child: Text("Student")),
-            RadioMenuButton(
-              style: ButtonStyle(
+                    ),
 
-              ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
+                Container(
 
-                value: "Teacher", groupValue: _backgroundColor, onChanged: (val){
-              setState(() {
-                _backgroundColor="Teacher";
-              });
+                  width: width/5.22666667,
+                  height: height/19.575,
+                  decoration: BoxDecoration(
+                    color: Color(0xff0271c5
+                    ),
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(10),
+                      topLeft: Radius.circular(10),
+                    )
+                  ),
+                  child: Center(
+                    child: Text(
+                      "T&C",style: GoogleFonts.poppins(
+                        color: Colors.white,
+                        fontSize: width/24.5,
+                        fontWeight: FontWeight.w500,
+                        backgroundColor: Colors.transparent
+                    ),
+                    ),
+                  ),
+                ),
 
-            }, child: Text("Teacher"))
-          ],
-        ),
-      ):SizedBox()
+              ],
+            ),
+          ),
+          SingleChildScrollView(
+            child: Column(
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(top: height/6.80869565),
+                  child: Container(
+                      width: width/3.01538462,
+                      height: height/6.02307692,
+                      child: Image.asset("assets/VIDHAAN LOGO-3.png")),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: height/14.23636364),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      SizedBox(width: width/9.8,),
+
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: ActionChip(
+                          disabledColor: Colors.transparent,
+                          side: BorderSide(
+                            color: student==false?Colors.black12 : Color(0xff3D8CF8)
+                          ),
+
+
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5),
+
+                          ),
+                          shadowColor: Color(0xff3D8CF8),
+                          color: MaterialStateProperty.all<Color>(Color(0xff3D8CF8)),
+                          backgroundColor: student==false?Colors.transparent: Color(0xff3D8CF8).withOpacity(0.10),
+                          avatar: Icon(student ? Icons.task_alt_rounded : Icons.task_alt_rounded,
+
+                              color: student? Color(0xff3D8CF8): Colors.black38
+                          ),
+                          label:  Text('Student',style: GoogleFonts.poppins(
+                            color: student? Colors.black: Colors.black,
+                            fontSize: 15,
+                            fontWeight: student? FontWeight.w500 :FontWeight.w500,
+                            backgroundColor: Colors.transparent
+                          ),),
+                          onPressed: () {
+                            setState(() {
+                              if(student==false) {
+                                student = !student;
+                                teacher=false;
+                                _backgroundColor="Student";
+                              }
+                            });
+                          },
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: ActionChip(
+                          disabledColor: Colors.transparent,
+                          side: BorderSide(
+                            color: teacher==false?Colors.black12 : Color(0xff3D8CF8)
+                          ),
+
+
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(5),
+
+                          ),
+                          shadowColor: Color(0xff3D8CF8),
+                          color: MaterialStateProperty.all<Color>(Color(0xff3D8CF8)),
+                          backgroundColor: teacher==false?Colors.transparent: Color(0xff3D8CF8).withOpacity(0.10),
+                          avatar: Icon(teacher ? Icons.task_alt_rounded : Icons.task_alt_rounded,
+
+                              color: teacher? Color(0xff3D8CF8): Colors.black38
+                          ),
+                          label:  Text('Staff    ',style: GoogleFonts.poppins(
+                            color: teacher? Colors.black: Colors.black,
+                            fontSize: width/26.13333333,
+                            fontWeight: teacher? FontWeight.w500 :FontWeight.w500,
+                            backgroundColor: Colors.transparent
+                          ),),
+                          onPressed: () {
+                            setState(() {
+                              if(teacher==false) {
+                                teacher = !teacher;
+                                student=false;
+                                _backgroundColor="Teacher";
+                              }
+
+                            });
+                          },
+                        ),
+                      ),
+                      SizedBox(width: width/9.8,),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: height/11.18571429,
+                ),
+
+                Container(
+                  width: width/1.30666667,
+                  height: height/7.83,
+                  child: TextField(
+                    controller: phoneController,
+                    decoration: InputDecoration(
+
+
+                      label: Text("Phone Number",style: GoogleFonts.poppins(
+                          color: Color(0xff3D8CF8),
+                          fontSize: width/23.05882353,
+                          fontWeight: FontWeight.w500,
+                          backgroundColor: Colors.transparent
+                      ),)
+                    ),
+
+                  ),
+                ),
+                SizedBox(
+                  height: height/26.1,
+                ),
+
+                Material(
+                  borderRadius: BorderRadius.circular(15),
+                  shadowColor: Color(0xff0271c5).withOpacity(0.80),
+                  elevation: 4,
+
+                  child: GestureDetector(
+                    onTap: (){
+                      updatestaff();
+                    },
+                    child: Container(
+                      width: width/1.225,
+                      height: height/13.05,
+                      decoration: BoxDecoration(color: Color(0xff0271c5).withOpacity(0.80),
+
+                          borderRadius: BorderRadius.circular(15),
+                          border: Border.all(color: Color(0xff0271c5).withOpacity(0.80),)
+                      ),
+                      child: Center(
+                          child: Text("Login Now", style: GoogleFonts.poppins(
+                              fontWeight: FontWeight.w600,
+                              fontSize: size.width/20.84,
+                              color: Colors.white
+                          ),)
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: height/7.83,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: width/26.13333333),
+                  child: Text("Powered by",
+                    style: GoogleFonts.poppins(
+                        fontWeight: FontWeight.w700,
+                        fontSize: size.width/35.84,
+                        color: Colors.black38
+                    ),
+
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8.0),
+                      child: Text("Vidhaan Educare Pvt Ltd",
+                        style: GoogleFonts.poppins(
+                            fontWeight: FontWeight.w700,
+                            fontSize: size.width/35.84,
+                            color: Color(0xff0271c5)
+                        ),
+
+                      ),
+                    )
+                  ],
+                )
+              ],
+            ),
+          ),
+         loading ==true? Center(
+            child: CircularProgressIndicator(
+              color: Color(0xff3D8CF8),
+            ),
+          ): SizedBox()
         ],
       )
 
@@ -126,6 +319,7 @@ class _AccountpageState extends State<Accountpage> {
   int staffidlength=0;
   updatestaff() async {
     setState(() {
+      loading=true;
       studentid='';
       staffid='';
       studentlength=0;
@@ -204,11 +398,10 @@ class _AccountpageState extends State<Accountpage> {
       title: 'Invalid Phone Number',
       desc: 'Sorry, Could not find your phone number',
 
-      btnCancelOnPress: () {
-
-      },
       btnOkOnPress: () {
-        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>Accountpage()));
+        setState(() {
+          loading=false;
+        });
 
       },
     )..show();

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -8,6 +9,7 @@ import 'package:shimmer_animation/shimmer_animation.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'Profile_More_Page.dart';
+import 'Profileview.dart';
 import 'Today Presents_Page.dart';
 import 'demo.dart';
 
@@ -307,7 +309,7 @@ class _ProfileState extends State<Profile> {
                                       SizedBox(
                                         width:width/1.714,
 
-                                        child: Text(": ${y1["fathername"].toString()}", style: GoogleFonts.poppins(
+                                        child: Text(": ${y1["Spousename"].toString()}", style: GoogleFonts.poppins(
                                             color: Colors.black,
                                             fontSize: 13,
                                             fontWeight: FontWeight.w500
@@ -674,65 +676,9 @@ class _ProfileState extends State<Profile> {
                                   ),
                                 ),
 
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                      left: width / 25, right: width / 45,
-                                      top: height / 94.5, bottom: height / 94.5),
-                                  child: Row(
-                                    children: [
-                                      SizedBox(
-                                        width:width/3.60,
 
-                                        child: Text("Present Salary", style: GoogleFonts.poppins(
-                                            color: Colors.black,
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w500
 
-                                        ),),
-                                      ),
-                                      SizedBox(
-                                        width:width/1.714,
 
-                                        child: Text(": ${y1["Present Salary"].toString()}", style: GoogleFonts.poppins(
-                                            color: Colors.black,
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w500
-
-                                        ),),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                      left: width / 25, right: width / 45,
-                                      top: height / 94.5, bottom: height / 94.5),
-                                  child: Row(
-                                    children: [
-                                      SizedBox(
-                                        width:width/3.60,
-
-                                        child: Text("Salary Expected", style: GoogleFonts.poppins(
-                                            color: Colors.black,
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w500
-
-                                        ),),
-                                      ),
-                                      SizedBox(
-                                        width:width/1.714,
-
-                                        child: Text(": ${y1["Salary Expected"].toString()}", style: GoogleFonts.poppins(
-                                            color: Colors.black,
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w500
-
-                                        ),),
-                                      ),
-                                    ],
-                                  ),
-                                ),
 
                                 Padding(
                                   padding: EdgeInsets.only(
@@ -794,65 +740,9 @@ class _ProfileState extends State<Profile> {
                                   ),
                                 ),
 
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                      left: width / 25, right: width / 45,
-                                      top: height / 94.5, bottom: height / 94.5),
-                                  child: Row(
-                                    children: [
-                                      SizedBox(
-                                        width:width/3.60,
 
-                                        child: Text("Absent Days", style: GoogleFonts.poppins(
-                                            color: Colors.black,
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w500
 
-                                        ),),
-                                      ),
-                                      SizedBox(
-                                        width:width/1.714,
 
-                                        child: Text(": ${y1["absentdays"].toString()}", style: GoogleFonts.poppins(
-                                            color: Colors.black,
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w500
-
-                                        ),),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                      left: width / 25, right: width / 45,
-                                      top: height / 94.5, bottom: height / 94.5),
-                                  child: Row(
-                                    children: [
-                                      SizedBox(
-                                        width:width/3.60,
-
-                                        child: Text("Gender", style: GoogleFonts.poppins(
-                                            color: Colors.black,
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w500
-
-                                        ),),
-                                      ),
-                                      SizedBox(
-                                        width:width/1.714,
-
-                                        child: Text(": ${y1["gender"].toString()}", style: GoogleFonts.poppins(
-                                            color: Colors.black,
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w500
-
-                                        ),),
-                                      ),
-                                    ],
-                                  ),
-                                ),
 
                                 Padding(
                                   padding: EdgeInsets.only(
@@ -974,95 +864,11 @@ class _ProfileState extends State<Profile> {
                                   ),
                                 ),
 
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                      left: width / 25, right: width / 45,
-                                      top: height / 94.5, bottom: height / 94.5),
-                                  child: Row(
-                                    children: [
-                                      SizedBox(
-                                        width:width/3.60,
 
-                                        child: Text("Reg No", style: GoogleFonts.poppins(
-                                            color: Colors.black,
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w500
 
-                                        ),),
-                                      ),
-                                      SizedBox(
-                                        width:width/1.714,
 
-                                        child: Text(": ${y1["regno"].toString()}", style: GoogleFonts.poppins(
-                                            color: Colors.black,
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w500
 
-                                        ),),
-                                      ),
-                                    ],
-                                  ),
-                                ),
 
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                      left: width / 25, right: width / 45,
-                                      top: height / 94.5, bottom: height / 94.5),
-                                  child: Row(
-                                    children: [
-                                      SizedBox(
-                                        width:width/3.60,
-
-                                        child: Text("Incharge", style: GoogleFonts.poppins(
-                                            color: Colors.black,
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w500
-
-                                        ),),
-                                      ),
-                                      SizedBox(
-                                        width:width/1.714,
-
-                                        child: Text(": ${y1["incharge"].toString()}", style: GoogleFonts.poppins(
-                                            color: Colors.black,
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w500
-
-                                        ),),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                      left: width / 25, right: width / 45,
-                                      top: height / 94.5, bottom: height / 94.5),
-                                  child: Row(
-                                    children: [
-                                      SizedBox(
-                                        width:width/3.60,
-
-                                        child: Text("Incharge Section", style: GoogleFonts.poppins(
-                                            color: Colors.black,
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w500
-
-                                        ),),
-                                      ),
-                                      SizedBox(
-                                        width:width/1.714,
-
-                                        child: Text(": ${y1["inchargesec"].toString()}", style: GoogleFonts.poppins(
-                                            color: Colors.black,
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w500
-
-                                        ),),
-                                      ),
-                                    ],
-                                  ),
-                                ),
 
 
                                 Padding(
@@ -1138,7 +944,7 @@ class _ProfileState extends State<Profile> {
                                         width: width / 2.5,
                                         margin: EdgeInsets.only(right: width / 36),
                                         decoration: BoxDecoration(
-                                          color: Color(0xff3D8CF8),
+                                          color: Color(0xff0873C4),
                                           borderRadius: BorderRadius.circular(5),
 
                                         ),
@@ -1203,17 +1009,24 @@ class _ProfileState extends State<Profile> {
                                       Padding(
                                         padding: EdgeInsets.only(
                                             top: height / 9.745, left: width / 12.4),
-                                        child: Container(
-                                          width: 130,
-                                          height: 130,
-                                          decoration: BoxDecoration(
-                                              color: Colors.white,
-                                            borderRadius: BorderRadius.circular(100)
-                                          ),
-                                          child: ClipRRect(
-                                              borderRadius: BorderRadius.circular(150),
-                                              child: Image.network(y1['imgurl'].toString())),
+                                        child: InkWell(
+                                          onTap:(){
+                                            Navigator.of(context).push(
+                                                MaterialPageRoute(builder: (context)=>Profileview2(y1['imgurl'].toString()))
+                                            );},
+                                          child: Container(
+                                            width: 130,
+                                            height: 130,
+                                            decoration: BoxDecoration(
+                                                color: Colors.white,
+                                              borderRadius: BorderRadius.circular(100)
+                                            ),
+                                            child: ClipRRect(
+                                                borderRadius: BorderRadius.circular(150),
+                                                child: CachedNetworkImage(
+                                                    imageUrl:y1['imgurl'].toString())),
 
+                                          ),
                                         )
                                       ),
 
@@ -1223,22 +1036,13 @@ class _ProfileState extends State<Profile> {
                                           child: CircularPercentIndicator(
                                               radius: 55,
                                               lineWidth: 12.0,
-                                              percent: 1,
-                                              center:  Column(
-                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                children: [
-                                                  Text("100%",
-                                                      style: GoogleFonts.montserrat(
-                                                          fontSize: width/20,
-                                                          fontWeight: FontWeight.bold,
-                                                          color: Colors.white)),
-                                                  Text("Completed",
-                                                      style: GoogleFonts.montserrat(
-                                                          fontSize: width/30,
-                                                          fontWeight: FontWeight.w700,
-                                                          color: Colors.white)),
-                                                ],
-                                              ),
+                                              percent: 0.76,
+                                              center:  Text("76%",
+                                                  style: GoogleFonts.montserrat(
+                                                      fontSize: width/15,
+                                                      fontWeight: FontWeight.bold,
+                                                      color: Colors.white)),
+                                              backgroundColor: Colors.white,
                                               linearGradient: const LinearGradient(begin: Alignment.topRight,
                                                   end: Alignment.bottomLeft,
                                                   colors: <Color>[
@@ -1255,7 +1059,7 @@ class _ProfileState extends State<Profile> {
                                   const SizedBox(height: 5,),
 
                                   Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
                                       Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -1292,36 +1096,53 @@ class _ProfileState extends State<Profile> {
                                           ),
                                         ],
                                       ),
-                                      GestureDetector(
-                                        onTap:(){
-                                          Navigator.of(context).push(MaterialPageRoute(builder: (context) =>Today_Presents_Page(y1["stname"],y1["regno"]) ,));
-                                        },
-                                        child: Container(
-                                          height: height / 18.9,
-                                          width: width / 2.168,
-                                          margin: EdgeInsets.only(),
-                                          decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius: BorderRadius.circular(20),
+                                      SizedBox(width: 19,),
+                                      Container(
+                                        height: 60,
+                                        child: VerticalDivider(
+                                          width: 2,
+                                          color: Colors.white,
 
-                                          ),
-                                          child: Center(
-                                            child: Row(
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              children: [
-                                                Text("Check - IN/OUT",
-                                                  style: GoogleFonts.poppins(
-                                                      color: Color(0xff0873C4),
-                                                      fontSize: 16,
-                                                      fontWeight: FontWeight.bold
-
-                                                  ),),
-
-                                              ],
-                                            ),
-                                          ),
                                         ),
-                                      )
+                                      ),
+                                      SizedBox(width: 19,),
+                                      Text("Profile \nCompleted", style: GoogleFonts.poppins(
+                                          color: Colors.white,
+                                          fontSize: 22,
+                                          fontWeight: FontWeight.bold
+
+                                      ),
+                                      textAlign: TextAlign.center,)
+                                      // GestureDetector(
+                                      //   onTap:(){
+                                      //     Navigator.of(context).push(MaterialPageRoute(builder: (context) =>Today_Presents_Page(y1["stname"],y1["regno"]) ,));
+                                      //   },
+                                      //   child: Container(
+                                      //     height: height / 18.9,
+                                      //     width: width / 2.168,
+                                      //     margin: EdgeInsets.only(),
+                                      //     decoration: BoxDecoration(
+                                      //       color: Colors.white,
+                                      //       borderRadius: BorderRadius.circular(20),
+                                      //
+                                      //     ),
+                                      //     child: Center(
+                                      //       child: Row(
+                                      //         mainAxisAlignment: MainAxisAlignment.center,
+                                      //         children: [
+                                      //           Text("Check - IN/OUT",
+                                      //             style: GoogleFonts.poppins(
+                                      //                 color: Color(0xff0873C4),
+                                      //                 fontSize: 16,
+                                      //                 fontWeight: FontWeight.bold
+                                      //
+                                      //             ),),
+                                      //
+                                      //         ],
+                                      //       ),
+                                      //     ),
+                                      //   ),
+                                      // )
                                     ],
                                   ),
 
@@ -1397,7 +1218,7 @@ class _ProfileState extends State<Profile> {
                   itemBuilder: (BuildContext context) => <PopupMenuEntry>[
                      PopupMenuItem(
                       value: 1,
-                      child: Text('Check-IN/OUT Records'),
+                      child: Text('About Vidhaan'),
                       textStyle:
                       GoogleFonts
                           .poppins(
@@ -1409,20 +1230,7 @@ class _ProfileState extends State<Profile> {
                             .w500,
                       ),
                     ),
-                     PopupMenuItem(
-                      value: 2,
-                      child: Text('Apply for leave'),
-                      textStyle:
-                      GoogleFonts
-                          .poppins(
-                        color: Colors
-                            .black,
-                        fontSize: 14,
-                        fontWeight:
-                        FontWeight
-                            .w500,
-                      ),
-                    ),
+
                      PopupMenuItem(
                       value: 3,
                       child: Text('Contact Support'),

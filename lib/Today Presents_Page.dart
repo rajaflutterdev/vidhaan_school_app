@@ -112,7 +112,7 @@ class _Today_Presents_PageState extends State<Today_Presents_Page> {
         print(_distanceInMeters);
         print((_distanceInMeters * 0.001).round());
         if(_distanceInMeters<60){
-          inoufield();
+          inoufield(1);
           setState(() {
 
 
@@ -191,7 +191,7 @@ class _Today_Presents_PageState extends State<Today_Presents_Page> {
     },);
   }
 
-  inoufield(){
+  inoufield(val){
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return showDialog(context: context, builder:(context) {
@@ -220,8 +220,9 @@ class _Today_Presents_PageState extends State<Today_Presents_Page> {
               SizedBox(height: height/32.85,),
               GestureDetector(
                 onTap: (){
-
-                  Marktheattendancefun();
+                  val==1?
+                  Marktheattendancefun():
+                  Marktheattendancefun2();
 
                 },
                 child: Material(
@@ -268,8 +269,11 @@ class _Today_Presents_PageState extends State<Today_Presents_Page> {
           "Staffattendance":true,
           "Class":section,
           "Date":"${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}",
-          "Time":DateFormat("h:mma").format(DateTime.now()),
+          "checkIntime":DateFormat("h:mma").format(DateTime.now()),
+          "checkOuttime":"",
           "timstamp":DateTime.now().millisecondsSinceEpoch,
+
+
         }
         );
 
@@ -284,13 +288,87 @@ class _Today_Presents_PageState extends State<Today_Presents_Page> {
           "Staffid":staffid,
           "Class":section,
           "Date":"${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}",
-          "Time":DateFormat("h:mma").format(DateTime.now()),
+          "checkIntime":DateFormat("h:mma").format(DateTime.now()),
+          "checkOuttime":"",
           "timstamp":DateTime.now().millisecondsSinceEpoch,
         }
 
         );
+    showmarked();
 
 
+  }
+  Marktheattendancefun2() async {
+    var document = await _firestore2db.collection("Staffs").doc(staffid).collection("Attendance").where("Date",isEqualTo: "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}").get();
+
+    if(document.docs.length>0) {
+      _firestore2db.collection("Staffs").
+      doc(staffid).
+      update(
+          {
+            "absent": false,
+          }
+      );
+
+      _firestore2db.collection("Staffs").doc(staffid).
+      collection("Attendance").doc("${DateTime
+          .now()
+          .day}${DateTime
+          .now()
+          .month}${DateTime
+          .now()
+          .year}").
+      update(
+          {
+
+
+            "checkOuttime": DateFormat("h:mma").format(DateTime.now()),
+
+
+          }
+      );
+
+      _firestore2db.collection("Staff_attendance").
+      doc("${DateTime
+          .now()
+          .day}${DateTime
+          .now()
+          .month}${DateTime
+          .now()
+          .year}").
+      collection("Staffs").doc(staffid).
+      set(
+          {
+            "checkOuttime": DateFormat("h:mma").format(DateTime.now()),
+          }
+
+      );
+      showmarked();
+    }
+    else{
+      checkinpopup();
+    }
+
+  }
+  checkinpopup(){
+
+    double width = MediaQuery.of(context).size.width;
+    return AwesomeDialog(
+        width: width/0.8,
+        context: context,
+        dialogType: DialogType.warning,
+        animType: AnimType.rightSlide,
+        title: "Check Out can't be marked",
+        desc: "Please mark Check IN record",
+
+
+
+
+        btnOkOnPress: () {
+
+        },
+        btnOkText: "Ok"
+    )..show();
   }
 
   String staffid="";
@@ -324,7 +402,8 @@ class _Today_Presents_PageState extends State<Today_Presents_Page> {
           staffregno=staffvalue['regno'];
           staffimg=staffvalue['imgurl'];
           if(document2.docs.length>0){
-            status = 3;
+            status = 1;
+            showpopup();
           }
           else {
             if (staffvalue['faceid'] == true) {
@@ -357,9 +436,9 @@ class _Today_Presents_PageState extends State<Today_Presents_Page> {
     super.initState();
   }
   File? _pickedFile2;
-  verfiy() async {
+  verfiy(val) async {
     ImagePicker _picker = ImagePicker();
-    await _picker.pickImage(source: ImageSource.camera,preferredCameraDevice: CameraDevice.front).then((xFile) {
+    await _picker.pickImage(source: ImageSource.camera,preferredCameraDevice: CameraDevice.values[2]).then((xFile) {
       if (xFile != null) {
         setState(() {
           _pickedFile2 = File(xFile.path);
@@ -418,70 +497,72 @@ class _Today_Presents_PageState extends State<Today_Presents_Page> {
       setState(() {
         i=0;
       });
-      if(value!["leftEyePositionx"]<=leftEyePosition!.x+100&&value!["leftEyePositionx"]>=leftEyePosition!.x-100){
+      if(value!["leftEyePositionx"]<=leftEyePosition!.x+150&&value!["leftEyePositionx"]>=leftEyePosition!.x-150){
         setState(() {
           i=i+1;
         });
       }
-      if(value!["rightEyePositionx"]<=rightEyePosition!.x+100&&value!["rightEyePositionx"]>=rightEyePosition!.x-100){
+      if(value!["rightEyePositionx"]<=rightEyePosition!.x+150&&value!["rightEyePositionx"]>=rightEyePosition!.x-150){
         setState(() {
           i=i+1;
         });
       }
-      if(value!["bottommouthPositionx"]<=bottommouthPosition!.x+100&&value!["bottommouthPositionx"]>=bottommouthPosition!.x-100){
+      if(value!["bottommouthPositionx"]<=bottommouthPosition!.x+150&&value!["bottommouthPositionx"]>=bottommouthPosition!.x-150){
         setState(() {
           i=i+1;
         });
       }
-      if(value!["rightmouthPositionx"]<=rightmouthPosition!.x+100&&value!["rightmouthPositionx"]>=rightmouthPosition!.x-100){
+      if(value!["rightmouthPositionx"]<=rightmouthPosition!.x+150&&value!["rightmouthPositionx"]>=rightmouthPosition!.x-150){
         setState(() {
           i=i+1;
         });
       }
-      if(value!["leftmouthPositionx"]<=leftmouthPosition!.x+100&&value!["leftmouthPositionx"]>=leftmouthPosition!.x-100){
+      if(value!["leftmouthPositionx"]<=leftmouthPosition!.x+150&&value!["leftmouthPositionx"]>=leftmouthPosition!.x-150){
         setState(() {
           i=i+1;
         });
       }
-      if(value!["nousePositionx"]<=nousePosition!.x+100&&value!["nousePositionx"]>=nousePosition!.x-100){
+      if(value!["nousePositionx"]<=nousePosition!.x+150&&value!["nousePositionx"]>=nousePosition!.x-150){
         setState(() {
           i=i+1;
         });
       }
 
-      if(value!["leftEyePositiony"]<=leftEyePosition!.y+100&&value!["leftEyePositiony"]>=leftEyePosition!.y-100){
+      if(value!["leftEyePositiony"]<=leftEyePosition!.y+150&&value!["leftEyePositiony"]>=leftEyePosition!.y-150){
         setState(() {
           i=i+1;
         });
       }
-      if(value!["rightEyePositiony"]<=rightEyePosition!.y+100&&value!["rightEyePositiony"]>=rightEyePosition!.y-100){
+      if(value!["rightEyePositiony"]<=rightEyePosition!.y+150&&value!["rightEyePositiony"]>=rightEyePosition!.y-150){
         setState(() {
           i=i+1;
         });
       }
-      if(value!["bottommouthPositiony"]<=bottommouthPosition!.y+100&&value!["bottommouthPositiony"]>=bottommouthPosition!.y-100){
+      if(value!["bottommouthPositiony"]<=bottommouthPosition!.y+150&&value!["bottommouthPositiony"]>=bottommouthPosition!.y-150){
         setState(() {
           i=i+1;
         });
       }
-      if(value!["rightmouthPositiony"]<=rightmouthPosition!.y+100&&value!["rightmouthPositiony"]>=rightmouthPosition!.y-100){
+      if(value!["rightmouthPositiony"]<=rightmouthPosition!.y+150&&value!["rightmouthPositiony"]>=rightmouthPosition!.y-150){
         setState(() {
           i=i+1;
         });
       }
-      if(value!["leftmouthPositiony"]<=leftmouthPosition!.y+100&&value!["leftmouthPositiony"]>=leftmouthPosition!.y-100){
+      if(value!["leftmouthPositiony"]<=leftmouthPosition!.y+150&&value!["leftmouthPositiony"]>=leftmouthPosition!.y-150){
         setState(() {
           i=i+1;
         });
       }
-      if(value!["nousePositiony"]<=nousePosition!.y+100&&value!["nousePositiony"]>=nousePosition!.y-100){
+      if(value!["nousePositiony"]<=nousePosition!.y+150&&value!["nousePositiony"]>=nousePosition!.y-150){
         setState(() {
           i=i+1;
         });
       }
-      if(i==12){
-        Marktheattendancefun();
-        showmarked();
+      if(i==12||i==11||i==10){
+        val==1?
+        Marktheattendancefun():
+        Marktheattendancefun2();
+
       }
       else{
         showwwaring2();
@@ -498,7 +579,7 @@ class _Today_Presents_PageState extends State<Today_Presents_Page> {
   }
   enroll() async {
     ImagePicker _picker = ImagePicker();
-    await _picker.pickImage(source: ImageSource.camera,preferredCameraDevice: CameraDevice.front,).then((xFile) {
+    await _picker.pickImage(source: ImageSource.camera,preferredCameraDevice: CameraDevice.values[2]).then((xFile) {
       if (xFile != null) {
         setState(() {
           _pickedFile2 = File(xFile.path);
@@ -581,16 +662,75 @@ class _Today_Presents_PageState extends State<Today_Presents_Page> {
     print("Fun 2 Completedddddddddddddddddddddddddddddddddddddddddddddd");
   }
 
+  showpopup(){
+    return AlertDialog(
+      content: Column(
+
+        children: [
+          SizedBox(height: 20,),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text("Thanks,${staffname}",style: GoogleFonts.montserrat(
+                fontWeight: FontWeight.w800,
+                fontSize: 25
+            ),),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text("Your attendance is marked \nFor Today",style: GoogleFonts.montserrat(
+              fontWeight: FontWeight.w700,
+              fontSize: 20,
+            ),textAlign: TextAlign.center,),
+          ),
+          Lottie.asset("assets/done.json"),
+          SizedBox(height: 50,),
+
+          GestureDetector(
+            onTap: (){
+              Navigator.of(context).pop();
+              //Navigator.of(context).pop();
+            },
+            child: Container(
+              height: 50,
+              width: 200,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(7),
+                color: Color(0xff0271C5),
+              ),
+              child: Center(child: Text("OK",style: GoogleFonts.montserrat(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 19),)),
+            ),
+          ),
+          SizedBox(height: 20,),
+          /*  GestureDetector(
+            onTap: (){
+              verfiy();
+            },
+            child: Container(
+              height: 50,
+            width: 200,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(7),
+                color: Color(0xff0271C5),
+              ),
+              child: Center(child: Text("Mark Now",style: GoogleFonts.montserrat(color: Colors.white,fontWeight: FontWeight.bold),)),
+            ),
+          ),*/
+
+
+
+
+
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Mark Today Attendance"),
-      ),
-      body: status==1?
+    return  status==1?
 
       Column(
 
@@ -613,20 +753,44 @@ class _Today_Presents_PageState extends State<Today_Presents_Page> {
          Lottie.asset("assets/faceidd.json"),
           SizedBox(height: 50,),
 
-          GestureDetector(
-            onTap: (){
-              verfiy();
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              GestureDetector(
+                onTap: (){
+                  verfiy(1);
 
-            },
-            child: Container(
-              height: 50,
-            width: 200,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(7),
-                color: Color(0xff0271C5),
+                },
+                child: Container(
+                  height: 50,
+                width: 150,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(7),
+                    color: Color(0xff0271C5),
+                  ),
+                  child: Center(child: Text("Mark Check IN",style:
+                  GoogleFonts.montserrat(color: Colors.white,
+                      fontWeight: FontWeight.bold,fontSize: 15),)),
+                ),
               ),
-              child: Center(child: Text("Mark Attendance",style: GoogleFonts.montserrat(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 19),)),
-            ),
+              GestureDetector(
+                onTap: (){
+                  verfiy(2);
+
+                },
+                child: Container(
+                  height: 50,
+                width: 150,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(7),
+                    color: Color(0xff0271C5),
+                  ),
+                  child: Center(child: Text("Mark Check Out",style:
+                  GoogleFonts.montserrat(color: Colors.white,
+                      fontWeight: FontWeight.bold,fontSize: 15),)),
+                ),
+              ),
+            ],
           ),
           SizedBox(height: 20,),
         /*  GestureDetector(
@@ -706,66 +870,9 @@ class _Today_Presents_PageState extends State<Today_Presents_Page> {
 
 
         ],
-      ) : status==3?
-      Column(
-
-        children: [
-          SizedBox(height: 20,),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text("Thanks,${staffname}",style: GoogleFonts.montserrat(
-                fontWeight: FontWeight.w800,
-                fontSize: 25
-            ),),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text("Your attendance is marked \nFor Today",style: GoogleFonts.montserrat(
-              fontWeight: FontWeight.w700,
-              fontSize: 20,
-            ),textAlign: TextAlign.center,),
-          ),
-          Lottie.asset("assets/done.json"),
-          SizedBox(height: 50,),
-
-          GestureDetector(
-            onTap: (){
-              Navigator.of(context).pop();
-            },
-            child: Container(
-              height: 50,
-              width: 200,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(7),
-                color: Color(0xff0271C5),
-              ),
-              child: Center(child: Text("OK",style: GoogleFonts.montserrat(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 19),)),
-            ),
-          ),
-          SizedBox(height: 20,),
-          /*  GestureDetector(
-            onTap: (){
-              verfiy();
-            },
-            child: Container(
-              height: 50,
-            width: 200,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(7),
-                color: Color(0xff0271C5),
-              ),
-              child: Center(child: Text("Mark Now",style: GoogleFonts.montserrat(color: Colors.white,fontWeight: FontWeight.bold),)),
-            ),
-          ),*/
-
-
-
-
-
-        ],
       ) :
-      Center(child: CircularProgressIndicator())
-    );
+      Center(child: CircularProgressIndicator());
+
   }
 
 
@@ -812,7 +919,7 @@ class _Today_Presents_PageState extends State<Today_Presents_Page> {
         ),
 
       btnOkOnPress: () {
-       verfiy();
+       verfiy(1);
       },
       btnOkText: "Try Again"
     )..show();
