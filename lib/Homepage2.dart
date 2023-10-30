@@ -1,4 +1,6 @@
+import 'dart:convert';
 import 'dart:io';
+import 'dart:math';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:calendar_timeline/calendar_timeline.dart';
@@ -18,7 +20,7 @@ import 'package:lottie/lottie.dart';
 import 'package:pdf/pdf.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
 import 'package:vidhaan_school_app/account_page.dart';
-
+import 'package:http/http.dart' as http;
 import 'Notifications.dart';
 import 'Profileview.dart';
 import 'Root_Page2.dart';
@@ -92,6 +94,26 @@ class _FrontpageState extends State<Frontpage> with SingleTickerProviderStateMix
         desc: "Image Should be clear and visible  \nImage should be less than 2MB\nAll images formats are accepted\n",
 
 
+        descTextStyle: TextStyle(
+
+        ),
+
+        btnOkOnPress: () {
+
+        },
+
+    )..show();
+
+
+  }
+  revokedshow(){
+    double width = MediaQuery.of(context).size.width;
+    return AwesomeDialog(
+        width: width/0.8,
+        context: context,
+        dialogType: DialogType.success,
+        animType: AnimType.rightSlide,
+        title: 'Leave Successfully Revoked',
         descTextStyle: TextStyle(
 
         ),
@@ -227,6 +249,8 @@ class _FrontpageState extends State<Frontpage> with SingleTickerProviderStateMix
   String staffname = "";
   String staffregno = "";
   String staffimg = "";
+  String staffphono = "";
+  String staffauthendicationid = "";
 
   getstaffdetails() async {
     var document = await _firestore2db.collection("Staffs").get();
@@ -234,6 +258,7 @@ class _FrontpageState extends State<Frontpage> with SingleTickerProviderStateMix
       if (document.docs[i]["userid"] == _firebaseauth2db.currentUser!.uid) {
         setState(() {
           staffid = document.docs[i].id;
+          staffauthendicationid = document.docs[i]['userid'];
         });
         print("Saffid:${staffid}");
         print(staffid);
@@ -248,6 +273,7 @@ class _FrontpageState extends State<Frontpage> with SingleTickerProviderStateMix
       staffname = staffvalue!['stname'];
       staffregno = staffvalue['regno'];
       staffimg = staffvalue['imgurl'];
+      staffphono = staffvalue['mobile'];
     });
 
     print("staffname stff id staff img");
@@ -337,6 +363,21 @@ class _FrontpageState extends State<Frontpage> with SingleTickerProviderStateMix
 
   int pageselected = 0;
 
+  List<String>  Homesearclist=[
+    "Attendance",
+    "Assignments",
+    "Feedback",
+    "Circulars",
+    "Time Table",
+    "Check-In/Out",
+    "Payroll",
+    "LTP",
+    "Groups"
+
+  ];
+
+  bool search=false;
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery
@@ -358,6 +399,59 @@ class _FrontpageState extends State<Frontpage> with SingleTickerProviderStateMix
         .of(context)
         .size
         .height;
+
+
+    List<Widget> widgetlist=[
+      ///Attendance
+      Icon(
+        Icons.calendar_month_outlined,
+        color: Color(0xff609F00),
+        size: width / 12,
+      ),
+      ///asisignment
+      Icon(Icons.note_alt_sharp,
+          color: Color(0xffFECE3E),
+          size: width / 12),
+      ///Feed Back
+      Icon(Icons.person_outline,
+          color: Color(
+              0xffA021FF),
+          size: width / 12),
+      ///Circulars
+      Icon(
+        Icons.note_alt_outlined,
+          color: Color(
+              0xffFECE3E),
+          size: width / 12),
+      ///Time Table
+      Icon(Icons.timer_outlined,
+          color: Color(0xff224FFF),
+          size: width / 12),
+
+      ///check In
+      Icon(
+        Icons.input_rounded,
+        color: Color(
+            0xff609F00),
+        size: width / 12,),
+      ///payroll
+      Icon(
+        Icons.payment_rounded,
+        color: Color(
+            0xff609F00),
+        size: width / 12,),
+
+      ///leave
+      Icon(Icons.sick_rounded,
+          color: Color(
+              0xffFECE3E),
+          size: width / 12),
+      ///Groups
+      Icon(Icons.message_sharp,
+        color: Color(0xffA021FF),
+        size: width / 12,),
+    ];
+
     return Scaffold(
       key: key,
       backgroundColor: Color(0xff0873C4),
@@ -700,11 +794,14 @@ class _FrontpageState extends State<Frontpage> with SingleTickerProviderStateMix
         onWillPop: () {
           if (page == "Home") {
             demo();
-          } else {
+            Searchcontroller.clear();
+          }
+          else {
             setState(() {
               page = "Home";
               Searchcontroller.clear();
             });
+            print("HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH");
           }
           return demo2();
         },
@@ -717,7 +814,7 @@ class _FrontpageState extends State<Frontpage> with SingleTickerProviderStateMix
               AnimatedContainer(
                 duration: Duration(milliseconds: 700),
                 curve: Curves.ease,
-                height: page == "Home" ? height / 2.156 :
+                height: page == "Home" &&Searchcontroller.text==""? height / 2.055 :
                 page == "Attendance" ? height / 3.63 :
                 page == "Home Works" ? height / 3.63 :
                 page == "Behaviour" ? 76.123 :
@@ -725,7 +822,8 @@ class _FrontpageState extends State<Frontpage> with SingleTickerProviderStateMix
                 page == "Time Table" ? 76.123 :
                 page == "Payroll" ? 76.123 :
                 page == "Leave" ? 76.123 :
-                page == "Messages" ? 76.123 : 0,
+                page == "Messages" ? 76.123 :
+                Searchcontroller.text!=""&& page == "Home"?height / 3.63:0,
 
 
                 child: page == "Circulars" || page == "Behaviour" ||
@@ -955,7 +1053,7 @@ class _FrontpageState extends State<Frontpage> with SingleTickerProviderStateMix
 
                         Container(
 
-                          height: 1,
+                          height: height/756,
                           width: width / 0.947,
                           color: Colors.white,
 
@@ -990,10 +1088,11 @@ class _FrontpageState extends State<Frontpage> with SingleTickerProviderStateMix
                             borderRadius: BorderRadius.only(
                                 topRight: Radius.circular(35),
                                 topLeft: Radius.circular(35))),
-                        child: page == "Home"
+                          child: page == "Home"
                             ? Padding(
-                          padding: EdgeInsets.only(top: height / 20.12),
-                          child: Column(
+                          padding: EdgeInsets.only(top: Searchcontroller.text!=""?height / 250.12:height / 20.12),
+                          child: Searchcontroller.text==""?
+                          Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Padding(
@@ -1253,7 +1352,6 @@ class _FrontpageState extends State<Frontpage> with SingleTickerProviderStateMix
                                                   page = "CheckIn";
                                                   Searchcontroller.clear();
                                                 });
-                                                print("Payroll");
                                               },
                                               child: Container(
                                                 width: width/3.56363636,
@@ -1457,7 +1555,148 @@ class _FrontpageState extends State<Frontpage> with SingleTickerProviderStateMix
                             ],
 
 
-                          ),
+                          ):
+                          SingleChildScrollView(
+                            physics: const ScrollPhysics(),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                ListView.builder(
+                                  
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemCount:Homesearclist.length,
+                                  shrinkWrap: true,
+                                  itemBuilder:(context, index) {
+
+                                    if( Homesearclist[index].toString().toLowerCase().contains(Searchcontroller.text.toLowerCase()))
+                                    {
+                                      return  InkWell(
+                                        onTap:(){
+
+                                          if(Homesearclist[index]=="Attendance"){
+                                            setState((){
+                                              page="Attendance";
+                                              Searchcontroller.clear();
+                                            });
+                                          }
+                                          if(Homesearclist[index]=="Assignments"){
+                                            setState((){
+                                              page="Home Works";
+                                              Searchcontroller.clear();
+                                            });
+                                          }
+                                          if(Homesearclist[index]=="Feedback"){
+                                            setState((){
+                                              page="Behaviour";
+                                              Searchcontroller.clear();
+                                            });
+                                          }
+                                          if(Homesearclist[index]=="Time Table"){
+                                            setState((){
+                                              page="Time Table";
+                                              Searchcontroller.clear();
+                                            });
+                                            timetablelogic();
+                                          }
+                                          if(Homesearclist[index]=="Circulars"){
+                                            setState((){
+                                              page="Circulars";
+                                              Searchcontroller.clear();
+                                            });
+                                          }
+                                          if(Homesearclist[index]=="Check-In/Out"){
+                                            setState((){
+                                              page="CheckIn";
+                                              Searchcontroller.clear();
+                                            });
+                                          }
+                                          if(Homesearclist[index]=="Payroll"){
+                                            setState((){
+                                              page="Payroll";
+                                              Searchcontroller.clear();
+                                            });
+                                          }
+                                          if(Homesearclist[index]=="LTP"){
+                                            setState((){
+                                              page="Leave";
+                                              Searchcontroller.clear();
+                                            });
+
+                                          }
+                                          if(Homesearclist[index]=="Groups"){
+                                            setState((){
+                                              page="Messages";
+                                              Searchcontroller.clear();
+                                            });
+
+                                          }
+
+                                        },
+                                        child: Padding(
+                                          padding:  EdgeInsets.only(
+
+                                              bottom:height/184.5,
+                                              top:height/64.5,
+                                              left: width/45,
+                                              right: width/45
+                                          ),
+                                          child: Material(
+                                            borderRadius: BorderRadius.circular(8),
+                                            color: Color(0xffF9F9F9),
+                                            elevation:2,
+                                            child: Container(
+                                              height:height/14.45,
+                                              width:width/1.028,
+                                              decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(8),
+                                                color: Color(0xffF9F9F9),
+
+                                              ),
+
+                                              child: Container(
+                                                width: width/3.56363636,
+                                                height: height/11.18571429,
+                                                child: Row(
+                                                  mainAxisAlignment: MainAxisAlignment.start,
+                                                  children: [
+                                                    SizedBox(width:width/8.0),
+                                                    widgetlist[index],
+                                                    SizedBox(width:width/10.0),
+                                                    Padding(
+                                                      padding: EdgeInsets.only(
+
+                                                          top: height / 94.5,
+                                                          bottom: height / 94.5),
+                                                      child: Text(
+                                                        Homesearclist[index].toString(),
+                                                        style: GoogleFonts.poppins(
+                                                            color: Colors.black,
+                                                            fontSize: width/25.714,
+                                                            fontWeight:
+                                                            FontWeight.w500),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      );
+
+
+                                    }
+
+
+                                    return const SizedBox();
+
+                                  }, ),
+                                SizedBox(height:height/15.12),
+
+                              ],
+                            ),
+                          )
+
                         )
                             : page == "Circulars"
                             ? Padding(
@@ -1562,269 +1801,275 @@ class _FrontpageState extends State<Frontpage> with SingleTickerProviderStateMix
                                           physics: const ScrollPhysics(),
                                           itemCount: snapshot.data!.docs.length,
                                           itemBuilder: (context, index) {
-                                            return
-                                              Searchcontroller.text==""?
-                                              Container(
+                                         return
+                                           Searchcontroller.text==""&&snapshot.data!.docs[index]["type"].toString().toLowerCase()!="Student".toString().toLowerCase()?
+                                           Container(
 
-                                              width: width / 1.0714,
-                                              margin: EdgeInsets.only(
-                                                  bottom: height / 30.24),
-                                              decoration: BoxDecoration(
-                                                  color: Colors.white,
-                                                  borderRadius:
-                                                  BorderRadius.circular(12),
-                                                  border: Border.all(
-                                                      color: Colors.black)),
-                                              child: Padding(
-                                                padding: EdgeInsets.only(
-                                                    left: width / 45,
-                                                    right: width / 45,
-                                                    top: height / 94.5,
-                                                    bottom: height / 94.5),
-                                                child: Column(
-                                                  mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                                  crossAxisAlignment: CrossAxisAlignment
-                                                      .start,
-                                                  children: [
-                                                    Row(
-                                                      crossAxisAlignment: CrossAxisAlignment
-                                                          .start,
-                                                      children: [
-                                                        Image.asset(
-                                                            "assets/Exlmtry.png"),
-                                                        SizedBox(
-                                                            width: width / 60),
-                                                        Container(
-                                                          width: width / 1.3,
-                                                          child: Text(
-                                                            snapshot.data!
-                                                                .docs[index]["Descr"],
-                                                            style:
-                                                            GoogleFonts.poppins(
-                                                                color:
-                                                                Colors.black,
-                                                                fontSize: width /
-                                                                    22.5,
-                                                                fontWeight:
-                                                                FontWeight
-                                                                    .w600),
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    SizedBox(
-                                                        height: height / 73.7),
-                                                    Text(
-                                                      snapshot.data!
-                                                          .docs[index]["reason"],
-                                                      style: GoogleFonts
-                                                          .poppins(
-                                                          color: Colors.black,
-                                                          fontSize: width/26.13333333,
-                                                          fontWeight:
-                                                          FontWeight.w500),
-                                                    ),
-                                                    SizedBox(height: height/78.3),
-                                                    Row(
-                                                      mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .start,
-                                                      children: [
-                                                        Container(
-                                                          width: width / 3.8,
-                                                          child: Text(
-                                                    snapshot.data!
-                                                          .docs[index]["Date"],
+                                             width: width / 1.0714,
+                                             margin: EdgeInsets.only(
+                                                 bottom: height / 30.24),
+                                             decoration: BoxDecoration(
+                                                 color: Colors.white,
+                                                 borderRadius:
+                                                 BorderRadius.circular(12),
+                                                 border: Border.all(
+                                                     color: Colors.black)),
+                                             child: Padding(
+                                               padding: EdgeInsets.only(
+                                                   left: width / 45,
+                                                   right: width / 45,
+                                                   top: height / 94.5,
+                                                   bottom: height / 94.5),
+                                               child: Column(
+                                                 mainAxisAlignment:
+                                                 MainAxisAlignment.start,
+                                                 crossAxisAlignment: CrossAxisAlignment
+                                                     .start,
+                                                 children: [
+                                                   Row(
+                                                     crossAxisAlignment: CrossAxisAlignment
+                                                         .start,
+                                                     children: [
+                                                       Image.asset(
+                                                           "assets/Exlmtry.png"),
+                                                       SizedBox(
+                                                           width: width / 60),
+                                                       Container(
+                                                         width: width / 1.3,
+                                                         child: Text(
+                                                           snapshot.data!
+                                                               .docs[index]["Descr"],
+                                                           style:
+                                                           GoogleFonts.poppins(
+                                                               color:
+                                                               Colors.black,
+                                                               fontSize: width /
+                                                                   22.5,
+                                                               fontWeight:
+                                                               FontWeight
+                                                                   .w600),
+                                                         ),
+                                                       ),
+                                                     ],
+                                                   ),
+                                                   SizedBox(
+                                                       height: height / 73.7),
+                                                   Text(
+                                                     snapshot.data!
+                                                         .docs[index]["reason"],
+                                                     style: GoogleFonts
+                                                         .poppins(
+                                                         color: Colors.black,
+                                                         fontSize: width/26.13333333,
+                                                         fontWeight:
+                                                         FontWeight.w500),
+                                                   ),
+                                                   SizedBox(height: height/78.3),
+                                                   Row(
+                                                     mainAxisAlignment:
+                                                     MainAxisAlignment
+                                                         .start,
+                                                     children: [
+                                                       Container(
+                                                         width: width / 3.8,
+                                                         child: Text(
+                                                           snapshot.data!
+                                                               .docs[index]["Date"],
 
-                                                            style: GoogleFonts
-                                                                .poppins(
-                                                                color: Colors
-                                                                    .grey
-                                                                    .shade700,
-                                                                fontSize: width/26.13333333,
-                                                                fontWeight:
-                                                                FontWeight
-                                                                    .w500),
-                                                          ),
-                                                        ),
+                                                           style: GoogleFonts
+                                                               .poppins(
+                                                               color: Colors
+                                                                   .grey
+                                                                   .shade700,
+                                                               fontSize: width/26.13333333,
+                                                               fontWeight:
+                                                               FontWeight
+                                                                   .w500),
+                                                         ),
+                                                       ),
 
-                                                        Padding(
-                                                          padding: const EdgeInsets.only(right: 8.0),
-                                                          child: Container(
-                                                            height:
-                                                            height / 49.133,
-                                                            width: width / 170,
-                                                            color: Colors.grey,
-                                                          ),
-                                                        ),
+                                                       Padding(
+                                                         padding: const EdgeInsets.only(right: 8.0),
+                                                         child: Container(
+                                                           height:
+                                                           height / 49.133,
+                                                           width: width / 170,
+                                                           color: Colors.grey,
+                                                         ),
+                                                       ),
 
-                                                        Container(
-                                                          width: width / 2.6,
-                                                          child: Text(
-                                                            snapshot.data!
-                                                                .docs[index]["Time"],
-                                                            style: GoogleFonts
-                                                                .poppins(
-                                                                color: Colors
-                                                                    .grey
-                                                                    .shade700,
-                                                                fontSize: width/26.13333333,
-                                                                fontWeight:
-                                                                FontWeight
-                                                                    .w500),
-                                                          ),
-                                                        ),
-                                                        Text(
-                                                          snapshot.data!
-                                                              .docs[index]["From"],
+                                                       Container(
+                                                         width: width / 2.6,
+                                                         child: Text(
+                                                           snapshot.data!
+                                                               .docs[index]["Time"],
+                                                           style: GoogleFonts
+                                                               .poppins(
+                                                               color: Colors
+                                                                   .grey
+                                                                   .shade700,
+                                                               fontSize: width/26.13333333,
+                                                               fontWeight:
+                                                               FontWeight
+                                                                   .w500),
+                                                         ),
+                                                       ),
+                                                       Text(
+                                                         snapshot.data!
+                                                             .docs[index]["From"],
 
-                                                          style:
-                                                          GoogleFonts.poppins(
-                                                              color:
-                                                              Colors.green,
-                                                              fontSize: width /
-                                                                  22.5,
-                                                              fontWeight:
-                                                              FontWeight
-                                                                  .w600),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ],
-                                                ),
+                                                         style:
+                                                         GoogleFonts.poppins(
+                                                             color:
+                                                             Colors.green,
+                                                             fontSize: width /
+                                                                 22.5,
+                                                             fontWeight:
+                                                             FontWeight
+                                                                 .w600),
+                                                       ),
+                                                     ],
+                                                   ),
+                                                 ],
+                                               ),
 
-                                              ),
+                                             ),
 
-                                            ) : Searchcontroller.text.toLowerCase()== snapshot.data!.docs[index]["Descr"].toLowerCase() || Searchcontroller.text.toLowerCase()== snapshot.data!.docs[index]["Date"].toLowerCase() || Searchcontroller.text.toLowerCase()== snapshot.data!.docs[index]["From"].toLowerCase() ?
-                                              Container(
+                                           ) :
+                                           snapshot.data!.docs[index]["type"].toString().toLowerCase()!="Student".toString().toLowerCase()&&snapshot.data!.docs[index]["Descr"].toString().toLowerCase().contains(Searchcontroller.text.toLowerCase()) ||
+                                               snapshot.data!.docs[index]["type"].toString().toLowerCase()!="Student".toString().toLowerCase()&& snapshot.data!.docs[index]["Date"].toString().toLowerCase().contains(Searchcontroller.text.toLowerCase()) ||
+                                               snapshot.data!.docs[index]["type"].toString().toLowerCase()!="Student".toString().toLowerCase()&& snapshot.data!.docs[index]["From"].toString().toLowerCase().contains(Searchcontroller.text.toLowerCase())
+                                               ?
+                                           Container(
 
-                                                width: width / 1.0714,
-                                                margin: EdgeInsets.only(
-                                                    bottom: height / 30.24),
-                                                decoration: BoxDecoration(
-                                                    color: Colors.white,
-                                                    borderRadius:
-                                                    BorderRadius.circular(12),
-                                                    border: Border.all(
-                                                        color: Colors.black)),
-                                                child: Padding(
-                                                  padding: EdgeInsets.only(
-                                                      left: width / 45,
-                                                      right: width / 45,
-                                                      top: height / 94.5,
-                                                      bottom: height / 94.5),
-                                                  child: Column(
-                                                    mainAxisAlignment:
-                                                    MainAxisAlignment.start,
-                                                    crossAxisAlignment: CrossAxisAlignment
-                                                        .start,
-                                                    children: [
-                                                      Row(
-                                                        crossAxisAlignment: CrossAxisAlignment
-                                                            .start,
-                                                        children: [
-                                                          Image.asset(
-                                                              "assets/Exlmtry.png"),
-                                                          SizedBox(
-                                                              width: width / 60),
-                                                          Container(
-                                                            width: width / 1.3,
-                                                            child: Text(
-                                                              snapshot.data!
-                                                                  .docs[index]["Descr"],
-                                                              style:
-                                                              GoogleFonts.poppins(
-                                                                  color:
-                                                                  Colors.black,
-                                                                  fontSize: width /
-                                                                      22.5,
-                                                                  fontWeight:
-                                                                  FontWeight
-                                                                      .w600),
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      SizedBox(
-                                                          height: height / 73.7),
-                                                      Text(
-                                                        snapshot.data!
-                                                            .docs[index]["reason"],
-                                                        style: GoogleFonts
-                                                            .poppins(
-                                                            color: Colors.black,
-                                                            fontSize: width/26.13333333,
-                                                            fontWeight:
-                                                            FontWeight.w500),
-                                                      ),
-                                                      SizedBox(height: height/78.3),
-                                                      Row(
-                                                        mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                        children: [
-                                                          Text(
-                                                            snapshot.data!
-                                                                .docs[index]["Date"],
+                                             width: width / 1.0714,
+                                             margin: EdgeInsets.only(
+                                                 bottom: height / 30.24),
+                                             decoration: BoxDecoration(
+                                                 color: Colors.white,
+                                                 borderRadius:
+                                                 BorderRadius.circular(12),
+                                                 border: Border.all(
+                                                     color: Colors.black)),
+                                             child: Padding(
+                                               padding: EdgeInsets.only(
+                                                   left: width / 45,
+                                                   right: width / 45,
+                                                   top: height / 94.5,
+                                                   bottom: height / 94.5),
+                                               child: Column(
+                                                 mainAxisAlignment:
+                                                 MainAxisAlignment.start,
+                                                 crossAxisAlignment: CrossAxisAlignment
+                                                     .start,
+                                                 children: [
+                                                   Row(
+                                                     crossAxisAlignment: CrossAxisAlignment
+                                                         .start,
+                                                     children: [
+                                                       Image.asset(
+                                                           "assets/Exlmtry.png"),
+                                                       SizedBox(
+                                                           width: width / 60),
+                                                       Container(
+                                                         width: width / 1.3,
+                                                         child: Text(
+                                                           snapshot.data!
+                                                               .docs[index]["Descr"],
+                                                           style:
+                                                           GoogleFonts.poppins(
+                                                               color:
+                                                               Colors.black,
+                                                               fontSize: width /
+                                                                   22.5,
+                                                               fontWeight:
+                                                               FontWeight
+                                                                   .w600),
+                                                         ),
+                                                       ),
+                                                     ],
+                                                   ),
+                                                   SizedBox(
+                                                       height: height / 73.7),
+                                                   Text(
+                                                     snapshot.data!
+                                                         .docs[index]["reason"],
+                                                     style: GoogleFonts
+                                                         .poppins(
+                                                         color: Colors.black,
+                                                         fontSize: width/26.13333333,
+                                                         fontWeight:
+                                                         FontWeight.w500),
+                                                   ),
+                                                   SizedBox(height: height/78.3),
+                                                   Row(
+                                                     mainAxisAlignment:
+                                                     MainAxisAlignment
+                                                         .spaceBetween,
+                                                     children: [
+                                                       Text(
+                                                         snapshot.data!
+                                                             .docs[index]["Date"],
 
-                                                            style: GoogleFonts
-                                                                .poppins(
-                                                                color: Colors
-                                                                    .grey
-                                                                    .shade700,
-                                                                fontSize: width/26.13333333,
-                                                                fontWeight:
-                                                                FontWeight
-                                                                    .w500),
-                                                          ),
-                                                          SizedBox(
-                                                              width:
-                                                              width / 33.33),
-                                                          Container(
-                                                            height:
-                                                            height / 49.133,
-                                                            width: width / 170,
-                                                            color: Colors.grey,
-                                                          ),
-                                                          SizedBox(
-                                                              width:
-                                                              width / 33.33),
-                                                          Text(
-                                                            snapshot.data!
-                                                                .docs[index]["Time"],
-                                                            style: GoogleFonts
-                                                                .poppins(
-                                                                color: Colors
-                                                                    .grey
-                                                                    .shade700,
-                                                                fontSize: width/26.13333333,
-                                                                fontWeight:
-                                                                FontWeight
-                                                                    .w500),
-                                                          ),
-                                                          Text(
-                                                            snapshot.data!
-                                                                .docs[index]["From"],
+                                                         style: GoogleFonts
+                                                             .poppins(
+                                                             color: Colors
+                                                                 .grey
+                                                                 .shade700,
+                                                             fontSize: width/26.13333333,
+                                                             fontWeight:
+                                                             FontWeight
+                                                                 .w500),
+                                                       ),
+                                                       SizedBox(
+                                                           width:
+                                                           width / 33.33),
+                                                       Container(
+                                                         height:
+                                                         height / 49.133,
+                                                         width: width / 170,
+                                                         color: Colors.grey,
+                                                       ),
+                                                       SizedBox(
+                                                           width:
+                                                           width / 33.33),
+                                                       Text(
+                                                         snapshot.data!
+                                                             .docs[index]["Time"],
+                                                         style: GoogleFonts
+                                                             .poppins(
+                                                             color: Colors
+                                                                 .grey
+                                                                 .shade700,
+                                                             fontSize: width/26.13333333,
+                                                             fontWeight:
+                                                             FontWeight
+                                                                 .w500),
+                                                       ),
+                                                       Text(
+                                                         snapshot.data!
+                                                             .docs[index]["From"],
 
-                                                            style:
-                                                            GoogleFonts.poppins(
-                                                                color:
-                                                                Colors.green,
-                                                                fontSize: width /
-                                                                    22.5,
-                                                                fontWeight:
-                                                                FontWeight
-                                                                    .w600),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ],
-                                                  ),
+                                                         style:
+                                                         GoogleFonts.poppins(
+                                                             color:
+                                                             Colors.green,
+                                                             fontSize: width /
+                                                                 22.5,
+                                                             fontWeight:
+                                                             FontWeight
+                                                                 .w600),
+                                                       ),
+                                                     ],
+                                                   ),
+                                                 ],
+                                               ),
 
-                                                ),
+                                             ),
 
-                                              ): SizedBox();
+                                           ): SizedBox();
+
+
                                           }
                                       );
                                     }
@@ -2109,7 +2354,7 @@ class _FrontpageState extends State<Frontpage> with SingleTickerProviderStateMix
                                                   print(
                                                       pickedDate); //pickedDate output format => 2021-03-10 00:00:00.000
                                                   String formattedDate = DateFormat(
-                                                      'dd/M/yyyy').format(
+                                                      'dd-M-yyyy').format(
                                                       pickedDate);
                                                   print(
                                                       formattedDate); //formatted date output using intl package =>  2021-03-16
@@ -2121,9 +2366,11 @@ class _FrontpageState extends State<Frontpage> with SingleTickerProviderStateMix
 
                                                     //set output date to TextField value.
                                                   });
-                                                } else {
                                                   print("Date is not selected");
-                                                }
+                                                 }
+                                                //else {
+                                                //   print("Date is not selected");
+                                                // }
                                               },
                                               style: GoogleFonts
                                                   .poppins(
@@ -2169,7 +2416,63 @@ class _FrontpageState extends State<Frontpage> with SingleTickerProviderStateMix
                                         ],
                                       ),
                                       SizedBox(height: height / 80.85),
+                                      Row(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(
+                                              "Topic",
+                                              style: GoogleFonts.poppins(
+                                                  color: Colors.black,
+                                                  fontSize: width/28,
+                                                  fontWeight:
+                                                  FontWeight.w600),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
 
+                                      /// today homework
+
+
+                                      Center(
+                                        child: Container(
+                                          padding: EdgeInsets.only(
+                                              top: height / 157.8,
+                                              left: width / 20),
+                                          height: height / 14.74,
+                                          width: width / 1.0636,
+                                          decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              border: Border.all(
+                                                  color: Colors.grey),
+                                              borderRadius:
+                                              BorderRadius.circular(
+                                                  12)),
+                                          child: TextField(
+                                            controller: topic,
+
+                                            decoration:
+                                            InputDecoration(
+                                                hintText:
+                                                "",
+                                                hintStyle:
+                                                GoogleFonts
+                                                    .poppins(
+                                                  color: Colors
+                                                      .grey
+                                                      .shade700,
+                                                  fontSize: width/28,
+                                                  fontWeight:
+                                                  FontWeight
+                                                      .w500,
+                                                ),
+                                                border:
+                                                InputBorder
+                                                    .none),
+                                          ),
+                                        ),
+                                      ),
 
                                       Row(
                                         children: [
@@ -2214,7 +2517,7 @@ class _FrontpageState extends State<Frontpage> with SingleTickerProviderStateMix
                                             decoration:
                                             InputDecoration(
                                                 hintText:
-                                                "English - Read Lessons Fully",
+                                                "",
                                                 hintStyle:
                                                 GoogleFonts
                                                     .poppins(
@@ -2256,11 +2559,11 @@ class _FrontpageState extends State<Frontpage> with SingleTickerProviderStateMix
                                                         12)),
 
                                                 child: Padding(
-                                                  padding: const EdgeInsets.only(
-                                                      top: 8.0,
-                                                      bottom: 8,
-                                                      right: 8,
-                                                      left: 8),
+                                                  padding:  EdgeInsets.only(
+                                                      top: height/94.5,
+                                                      bottom: height/94.5,
+                                                      right: width/45,
+                                                      left: width/45),
                                                   child: Row(
                                                       children: [
                                                        Padding(
@@ -2268,10 +2571,10 @@ class _FrontpageState extends State<Frontpage> with SingleTickerProviderStateMix
                                                          child: Icon(Icons.file_download_done_sharp),
                                                        ),
                                                         Padding(
-                                                          padding: const EdgeInsets
-                                                              .only(left: 15.0),
+                                                          padding:  EdgeInsets
+                                                              .only(left: width/24),
                                                           child: Container(
-                                                            width: 170,
+                                                            width: width/2.117,
                                                             child: Text(
                                                              p.basename(_pickedFile!.path),
 
@@ -2326,8 +2629,8 @@ class _FrontpageState extends State<Frontpage> with SingleTickerProviderStateMix
                                                           child: Icon(Icons.file_download_done_sharp),
                                                         ),
                                                         Padding(
-                                                          padding: const EdgeInsets
-                                                              .only(left: 15.0),
+                                                          padding:  EdgeInsets
+                                                              .only(left: width/24),
                                                           child: Container(
                                                             width: width/2.30588235,
                                                             child: Text(
@@ -2384,8 +2687,8 @@ class _FrontpageState extends State<Frontpage> with SingleTickerProviderStateMix
                                                           child: Icon(Icons.file_download_done_sharp),
                                                         ),
                                                         Padding(
-                                                          padding: const EdgeInsets
-                                                              .only(left: 15.0),
+                                                          padding:  EdgeInsets
+                                                              .only(left: width/24),
                                                           child: Container(
                                                             width: width/2.30588235,
                                                             child: Text(
@@ -2442,8 +2745,8 @@ class _FrontpageState extends State<Frontpage> with SingleTickerProviderStateMix
                                                           child: Icon(Icons.file_download_done_sharp),
                                                         ),
                                                         Padding(
-                                                          padding: const EdgeInsets
-                                                              .only(left: 15.0),
+                                                          padding:  EdgeInsets
+                                                              .only(left: width/24),
                                                           child: Container(
                                                             width: width/2.30588235,
                                                             child: Text(
@@ -2500,8 +2803,8 @@ class _FrontpageState extends State<Frontpage> with SingleTickerProviderStateMix
                                                           child: Icon(Icons.file_download_done_sharp),
                                                         ),
                                                         Padding(
-                                                          padding: const EdgeInsets
-                                                              .only(left: 15.0),
+                                                          padding:  EdgeInsets
+                                                              .only(left: width/24),
                                                           child: Container(
                                                             width: width/2.30588235,
                                                             child: Text(
@@ -2573,8 +2876,8 @@ class _FrontpageState extends State<Frontpage> with SingleTickerProviderStateMix
                                                         ),
                                                       ),
                                                       Padding(
-                                                        padding: const EdgeInsets
-                                                            .only(left: 15.0),
+                                                        padding:  EdgeInsets
+                                                            .only(left: width/24),
                                                         child: Container(
                                                           width: width/2.30588235,
                                                           child: Text(
@@ -2594,8 +2897,8 @@ class _FrontpageState extends State<Frontpage> with SingleTickerProviderStateMix
                                                         ),
                                                       ),
                                                       Padding(
-                                                        padding: const EdgeInsets
-                                                            .only(left: 60.0),
+                                                        padding:  EdgeInsets
+                                                            .only(left: width/6),
                                                         child: GestureDetector(
                                                             onTap:(){
                                                               showwwaring();
@@ -2701,7 +3004,8 @@ class _FrontpageState extends State<Frontpage> with SingleTickerProviderStateMix
                                   crossAxisAlignment: CrossAxisAlignment.start,
 
                                   children: [
-                                    GestureDetector(
+
+                                    Searchcontroller.text==""?GestureDetector(
                                       onTap: () {
                                         setState(() {
                                           page = "Home";
@@ -2718,9 +3022,9 @@ class _FrontpageState extends State<Frontpage> with SingleTickerProviderStateMix
                                             FontWeight
                                                 .w600),
                                       ),
-                                    ),
+                                    ):const  SizedBox(),
 
-                                    Row(
+                                    Searchcontroller.text==""?   Row(
                                       children: [
                                         Text(
                                           "${DateFormat.yMMMd().format(DateTime.now())}",
@@ -2761,19 +3065,19 @@ class _FrontpageState extends State<Frontpage> with SingleTickerProviderStateMix
                                                   .w500),
                                         ),
                                       ],
-                                    ),
+                                    ):const SizedBox(),
 
                                     /// date/day
 
-                                    SizedBox(
+                                    Searchcontroller.text==""? SizedBox(
                                       height: height / 49.13,
-                                    ),
+                                    ):const SizedBox(),
 
-                                    Divider(
+                                    Searchcontroller.text==""? Divider(
                                       color:
                                       Colors.grey.shade400,
                                       thickness: 1.5,
-                                    ),
+                                    ):const SizedBox(),
 
                                     Column(
                                         children: [
@@ -3100,7 +3404,7 @@ class _FrontpageState extends State<Frontpage> with SingleTickerProviderStateMix
                                                               ],
                                                             ) :
 
-                                                            snapshot.data!.docs[index]["stname"].toLowerCase().startsWith(Searchcontroller.text.toString().toLowerCase()) ?
+                                                            snapshot.data!.docs[index]["stname"].toLowerCase().contains(Searchcontroller.text.toString().toLowerCase()) ?
 
                                                             Row(
                                                               mainAxisAlignment: MainAxisAlignment
@@ -3225,18 +3529,23 @@ class _FrontpageState extends State<Frontpage> with SingleTickerProviderStateMix
                                                         });
                                                   }),
                                               SizedBox(height: height / 25.2,),
-                                              Searchcontroller.text==""? Center(
+                                              marked == false && Searchcontroller.text==""?
+                                              Center(
                                                 child: GestureDetector(
                                                   onTap: () {
-                                                    if (dropdownValue4 ==
-                                                        "Class" ||
-                                                        dropdownValue5 ==
-                                                            "Section") {
+                                                    if (dropdownValue4 == "Class" || dropdownValue5 == "Section") {
                                                       Errordialog();
-                                                    } else {
-                                                      attendaceupload();
+                                                    }
+                                                    else {
+                                                      if(marked == false){
+                                                        attendaceupload();
 
-                                                      Successdialog();
+                                                      }
+                                                      else{
+                                                        setState((){
+                                                          marked=true;
+                                                        });
+                                                      }
                                                     }
                                                   },
                                                   child: Container(
@@ -3356,47 +3665,54 @@ class _FrontpageState extends State<Frontpage> with SingleTickerProviderStateMix
 
                                   children: [
 
-                                    GestureDetector(
-                                      onTap: () {
-                                        setState(() {
-                                          page = "Home";
-                                        });
-                                      },
-                                      child: Text(
-                                        "Student Feedback",
-                                        style: GoogleFonts.poppins(
-                                            color: Colors
-                                                .blueAccent,
-                                            fontSize: width/21.77777778,
-                                            fontWeight:
-                                            FontWeight
-                                                .w600),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                        height: height /
-                                            92.125),
-                                    Text(
-                                      "Student report",
-                                      style: GoogleFonts
-                                          .poppins(
-                                          color: Colors
-                                              .grey
-                                              .shade700,
-                                          fontSize: width/26.13333333,
-                                          fontWeight:
-                                          FontWeight
-                                              .w600),
-                                    ),
+                                  Searchcontroller.text==""? SizedBox(
+                                     child:Column(
+                                       crossAxisAlignment: CrossAxisAlignment.start,
+                                       children: [
+                                         GestureDetector(
+                                           onTap: () {
+                                             setState(() {
+                                               page = "Home";
+                                             });
+                                           },
+                                           child: Text(
+                                             "Student Feedback",
+                                             style: GoogleFonts.poppins(
+                                                 color: Colors
+                                                     .blueAccent,
+                                                 fontSize: width/21.77777778,
+                                                 fontWeight:
+                                                 FontWeight
+                                                     .w600),
+                                           ),
+                                         ),
+                                         SizedBox(
+                                             height: height /
+                                                 92.125),
+                                         Text(
+                                           "Student report",
+                                           style: GoogleFonts
+                                               .poppins(
+                                               color: Colors
+                                                   .grey
+                                                   .shade700,
+                                               fontSize: width/26.13333333,
+                                               fontWeight:
+                                               FontWeight
+                                                   .w600),
+                                         ),
 
-                                    SizedBox(
-                                        height:
-                                        height / 36.85),
+                                         SizedBox(
+                                             height:
+                                             height / 36.85),
 
-                                    Divider(
-                                      color: Colors.grey.shade400,
-                                      thickness: 1,
-                                    ),
+                                         Divider(
+                                           color: Colors.grey.shade400,
+                                           thickness: 1,
+                                         ),
+                                       ],
+                                     )
+                                   ):const SizedBox(),
 
                                     SizedBox(
                                         height: height /
@@ -3622,9 +3938,15 @@ class _FrontpageState extends State<Frontpage> with SingleTickerProviderStateMix
                                                         GestureDetector(
                                                           onTap: (){
                                                             Navigator.of(context).push(
-                                                              MaterialPageRoute(builder: (context)=>Feedbackhistory(snapshot.data!
-                                                                  .docs[index].id,snapshot.data!
-                                                                  .docs[index]["stname"],staffname)));
+                                                              MaterialPageRoute(builder: (context)=>Feedbackhistory(
+                                                                  snapshot.data!.docs[index].id,
+                                                                  snapshot.data!.docs[index]["stname"],
+                                                                  staffname,
+                                                                  snapshot.data!.docs[index]["token"],
+                                                                  staffid,
+                                                                  staffauthendicationid
+
+                                                              )));
 
                                                           },
                                                           child: Container(
@@ -3698,13 +4020,19 @@ class _FrontpageState extends State<Frontpage> with SingleTickerProviderStateMix
                                                             ),
                                                           ),
                                                         ) :
-                                                        snapshot.data!.docs[index]["stname"].toLowerCase().startsWith(Searchcontroller.text.toString().toLowerCase()) ?
+                                                        snapshot.data!.docs[index]["stname"].toLowerCase().contains(Searchcontroller.text.toString().toLowerCase()) ?
                                                         GestureDetector(
                                                           onTap: (){
                                                             Navigator.of(context).push(
                                                                 MaterialPageRoute(builder: (context)=>Feedbackhistory(snapshot.data!
                                                                     .docs[index].id,snapshot.data!
-                                                                    .docs[index]["stname"],staffname)));
+                                                                    .docs[index]["stname"],
+                                                                    staffname,
+                                                                    snapshot.data!.docs[index]["token"],
+                                                                    staffid,
+                                                                    staffauthendicationid
+
+                                                                )));
 
                                                           },
                                                           child: Container(
@@ -4801,13 +5129,13 @@ class _FrontpageState extends State<Frontpage> with SingleTickerProviderStateMix
                                                     children: [
                                                       p.Container(
                                                           width:380,
-                                                          height: 120,
+                                                          height: height/6.3,
                                                           decoration: p.BoxDecoration(
                                                               border: p.Border.all(color: PdfColors.black)
                                                           ),
                                                           child:
                                                           p.Padding(
-                                                              padding: p.EdgeInsets.only(left: 10),
+                                                              padding: p.EdgeInsets.only(left: width/36.0),
                                                               child: p.Column(
                                                                   crossAxisAlignment: p.CrossAxisAlignment.start,
                                                                   children: [
@@ -4842,7 +5170,7 @@ class _FrontpageState extends State<Frontpage> with SingleTickerProviderStateMix
                                                       ),
                                                       p.Container(
                                                           width: 100,
-                                                          height: 120,
+                                                          height: height/6.3,
                                                           decoration: p.BoxDecoration(
                                                               border: p.Border.all(color: PdfColors.black)
                                                           ),
@@ -4887,7 +5215,7 @@ class _FrontpageState extends State<Frontpage> with SingleTickerProviderStateMix
 
                                               ),
 
-                                              p.SizedBox(height: 10),
+                                              p.SizedBox(height: height/75.6),
 
                                               p.Container(
                                                 child: p.Row(
@@ -4932,13 +5260,13 @@ class _FrontpageState extends State<Frontpage> with SingleTickerProviderStateMix
                                                     children: [
                                                       p.Container(
                                                           width:380,
-                                                          height: 120,
+                                                          height: height/6.3,
                                                           decoration: p.BoxDecoration(
                                                               border: p.Border.all(color: PdfColors.black)
                                                           ),
                                                           child:
                                                           p.Padding(
-                                                              padding: p.EdgeInsets.only(left: 10),
+                                                              padding: p.EdgeInsets.only(left: width/36.0),
                                                               child: p.Column(
                                                                   crossAxisAlignment: p.CrossAxisAlignment.start,
                                                                   children: [
@@ -4979,7 +5307,7 @@ class _FrontpageState extends State<Frontpage> with SingleTickerProviderStateMix
                                                       ),
                                                       p.Container(
                                                           width: 100,
-                                                          height: 120,
+                                                          height: height/6.3,
                                                           decoration: p.BoxDecoration(
                                                               border: p.Border.all(color: PdfColors.black)
                                                           ),
@@ -5029,7 +5357,7 @@ class _FrontpageState extends State<Frontpage> with SingleTickerProviderStateMix
 
 
                                               ),
-                                              p.SizedBox(height: 10),
+                                              p.SizedBox(height: height/75.6),
                                               p.Text("9500"),
                                               p.SizedBox(height: 5),
                                               p.Text("Nine Thousand Five Hundred"),
@@ -5038,7 +5366,7 @@ class _FrontpageState extends State<Frontpage> with SingleTickerProviderStateMix
                                                   mainAxisAlignment: p.MainAxisAlignment.spaceAround,
                                                   children: [
                                                     p.SizedBox(
-                                                      width: 200,
+                                                      width: width/1.8,
                                                       child:  p.Column(
                                                           children: [
                                                             p.Text("Employer Signature"),
@@ -5048,7 +5376,7 @@ class _FrontpageState extends State<Frontpage> with SingleTickerProviderStateMix
                                                       ),
                                                     ),
                                                     p.SizedBox(
-                                                      width: 200,
+                                                      width: width/1.8,
                                                       child:  p.Column(
                                                           children: [
                                                             p.Text("Employee Signature"),
@@ -5091,8 +5419,8 @@ class _FrontpageState extends State<Frontpage> with SingleTickerProviderStateMix
 
                                       },
                                       child: Container(
-                                          width: 370,
-                                          height: 100,
+                                          width: width/0.972,
+                                          height: height/7.56,
 
                                           decoration: BoxDecoration(
                                             borderRadius: BorderRadius.circular(15),
@@ -5105,7 +5433,7 @@ class _FrontpageState extends State<Frontpage> with SingleTickerProviderStateMix
                                                 crossAxisAlignment: CrossAxisAlignment.start,
                                                 children: [
                                                   Padding(
-                                                    padding: const EdgeInsets.only(left: 12.0,top:8,bottom: 5),
+                                                    padding:  EdgeInsets.only(left: width/30,top:8,bottom: 5),
                                                     child: Text("Download Payroll",style: GoogleFonts.poppins(
                                                         color: Colors.white,
                                                         fontSize: 23,
@@ -5115,10 +5443,10 @@ class _FrontpageState extends State<Frontpage> with SingleTickerProviderStateMix
                                                     ),
                                                   ),
                                                   Padding(
-                                                    padding: const EdgeInsets.only(left: 12.0),
+                                                    padding:  EdgeInsets.only(left: width/30),
                                                     child: Text("September Month ",style: GoogleFonts.poppins(
                                                         color: Colors.white,
-                                                        fontSize: 16,
+                                                        fontSize: width/22.5,
                                                         fontWeight: FontWeight.w600
 
                                                     ),
@@ -5127,7 +5455,7 @@ class _FrontpageState extends State<Frontpage> with SingleTickerProviderStateMix
                                                 ],
                                               ),
                                               Padding(
-                                                padding: const EdgeInsets.only(right: 12.0),
+                                                padding:  EdgeInsets.only(right: width/30),
                                                 child: Icon(Icons.download,color: Colors.white,size: 40,),
                                               )
                                             ],
@@ -5559,6 +5887,14 @@ class _FrontpageState extends State<Frontpage> with SingleTickerProviderStateMix
                                     ),
                                     StreamBuilder(stream: _firestore2db.collection("Staffs").doc(staffid).collection('Leave').orderBy("timestamp",descending: true).snapshots(),
                                         builder: (context,snap){
+
+                                      if(!snap.hasData){
+                                        return const Center(child: CircularProgressIndicator(),);
+                                      }
+                                      if(snap.hasData==null){
+                                        return const Center(child: CircularProgressIndicator(),);
+                                      }
+
                                       return ListView.builder(
                                         physics: NeverScrollableScrollPhysics(),
                                           shrinkWrap: true,
@@ -5567,7 +5903,7 @@ class _FrontpageState extends State<Frontpage> with SingleTickerProviderStateMix
                                         return GestureDetector(
                                           onTap: (){
                                             ltpdialog(snap.data!.docs[index]["type"],snap.data!.docs[index]["date"],snap.data!.docs[index]["time"],snap.data!.docs[index]["leaveon"],
-                                                snap.data!.docs[index]["reason"],snap.data!.docs[index]["status"]
+                                                snap.data!.docs[index]["reason"],snap.data!.docs[index]["status"],snap.data!.docs[index].id
                                             );
                                           },
                                           child: Column(
@@ -5589,13 +5925,26 @@ class _FrontpageState extends State<Frontpage> with SingleTickerProviderStateMix
                                                     fontWeight:
                                                     FontWeight
                                                         .w600),),
-                                                trailing: Text(snap.data!.docs[index]["status"],style: GoogleFonts.poppins(
-                                                    color: Colors
-                                                        .orange,
-                                                    fontSize: width/26.13333333,
-                                                    fontWeight:
-                                                    FontWeight
-                                                        .w600),
+                                                trailing: Container(
+                                                  decoration: BoxDecoration(
+                                                    color: snap.data!.docs[index]["status"].toString().toLowerCase()=="approved"?Colors.green:
+                                                    snap.data!.docs[index]["status"].toString().toLowerCase()=="pending"? Colors.orange:
+                                                    snap.data!.docs[index]["status"].toString().toLowerCase()=="denied"? Colors.red:
+                                                    Colors.blueAccent,
+                                                    borderRadius: BorderRadius.circular(8)
+                                                  ),
+                                                  padding: EdgeInsets.symmetric(
+
+                                                    vertical: height/216,
+                                                    horizontal: width/102.85
+                                                  ),
+                                                  child: Text(snap.data!.docs[index]["status"],style: GoogleFonts.poppins(
+                                                      color: Colors.white,
+                                                      fontSize: width/26.13333333,
+                                                      fontWeight:
+                                                      FontWeight
+                                                          .w600),
+                                                  ),
                                                 ),
                                               ),
                                               Container(
@@ -5611,7 +5960,7 @@ class _FrontpageState extends State<Frontpage> with SingleTickerProviderStateMix
 
                                       });
                                     }),
-                                    SizedBox(height: 100,)
+                                    SizedBox(height: height/7.56,)
 
                             
 
@@ -5625,7 +5974,8 @@ class _FrontpageState extends State<Frontpage> with SingleTickerProviderStateMix
                     ),
                   ),
 
-                  page=="Home Works"  ||    page=="Time Table" || page=="CheckIn"|| page=="Leave"|| page=="Messages"?  SizedBox() :Padding(
+                  page=="Home Works"  ||    page=="Time Table" || page=="CheckIn"|| page=="Leave"|| page=="Messages"?  SizedBox() :
+                  Padding(
                     padding:  EdgeInsets.only(left: width/13.33,right: width/13.333),
                     child: Container(
                       height: height / 14.28,
@@ -5655,6 +6005,7 @@ class _FrontpageState extends State<Frontpage> with SingleTickerProviderStateMix
                                   onTap: (){
                                     setState(() {
                                       Searchcontroller.clear();
+                                      page = "Home";
                                     });
                                   },
                                   child: Icon(Icons.cancel)),
@@ -5713,12 +6064,33 @@ class _FrontpageState extends State<Frontpage> with SingleTickerProviderStateMix
 
 
                           },
-                          controller: Searchcontroller,
                           onChanged: (val){
+                            if(Searchcontroller.text==""){
+                              setState((){
+                                search=false;
+                                Searchcontroller.clear();
+                              });
+                              print(search);
+                              setState(() {
+
+                              });
+                            }
+                            else{
+                              setState((){
+                                search=true;
+                                Searchcontroller.text=val;
+                              });
+                              setState(() {
+
+                              });
+                            }
                             setState(() {
 
                             });
+                            print(Searchcontroller.text);
                           },
+                          controller: Searchcontroller,
+
                         ),
                       ),
                     ),
@@ -5739,16 +6111,102 @@ class _FrontpageState extends State<Frontpage> with SingleTickerProviderStateMix
   File? _pickedFile5;
 
   TextEditingController leavedes= new TextEditingController();
+  var _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+  Random _rnd = Random();
+
+  String getRandomString(int length) => String.fromCharCodes(Iterable.generate(
+      length, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
+
   submitleave(){
-    _firestore2db.collection("Staffs").doc(staffid).collection('Leave').doc().set({
-      "type":leavetype,
-      "date":"${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}",
-      "time":"${DateFormat('hh:mm a').format(DateTime.now())}",
-      "reason":homecoller.text,
-      "status":"Pending",
-      "timestamp":DateTime.now().millisecondsSinceEpoch,
-      "leaveon":duedate.text,
-    });
+
+    if(docid=="") {
+      String docid = getRandomString(16);
+      _firestore2db.collection("Staffs").doc(staffid).collection('Leave').doc(
+          docid).set({
+        "type": leavetype,
+        "date": "${DateTime
+            .now()
+            .day}-${DateTime
+            .now()
+            .month}-${DateTime
+            .now()
+            .year}",
+        "time": "${DateFormat('hh:mm a').format(DateTime.now())}",
+        "reason": homecoller.text,
+        "status": "Pending",
+        "timestamp": DateTime
+            .now()
+            .millisecondsSinceEpoch,
+        "leaveon": duedate.text,
+        "phoneno": staffphono,
+        "staffname": staffname,
+        "regno": staffregno,
+      });
+      _firestore2db.collection('Leave').doc(docid).set({
+        "type": leavetype,
+        "date": "${DateTime
+            .now()
+            .day}-${DateTime
+            .now()
+            .month}-${DateTime
+            .now()
+            .year}",
+        "time": "${DateFormat('hh:mm a').format(DateTime.now())}",
+        "reason": homecoller.text,
+        "status": "Pending",
+        "timestamp": DateTime
+            .now()
+            .millisecondsSinceEpoch,
+        "leaveon": duedate.text,
+        "phoneno": staffphono,
+        "staffname": staffname,
+        "regno": staffregno,
+      });
+    }
+    else{
+      _firestore2db.collection("Staffs").doc(staffid).collection('Leave').doc(
+          docid).update({
+        "type": leavetype,
+        "date": "${DateTime
+            .now()
+            .day}-${DateTime
+            .now()
+            .month}-${DateTime
+            .now()
+            .year}",
+        "time": "${DateFormat('hh:mm a').format(DateTime.now())}",
+        "reason": homecoller.text,
+        "status": "Pending",
+        "timestamp": DateTime
+            .now()
+            .millisecondsSinceEpoch,
+        "leaveon": duedate.text,
+        "phoneno": staffphono,
+        "staffname": staffname,
+        "regno": staffregno,
+      });
+      _firestore2db.collection('Leave').doc(docid).update({
+        "type": leavetype,
+        "date": "${DateTime
+            .now()
+            .day}-${DateTime
+            .now()
+            .month}-${DateTime
+            .now()
+            .year}",
+        "time": "${DateFormat('hh:mm a').format(DateTime.now())}",
+        "reason": homecoller.text,
+        "status": "Pending",
+        "timestamp": DateTime
+            .now()
+            .millisecondsSinceEpoch,
+        "leaveon": duedate.text,
+        "phoneno": staffphono,
+        "staffname": staffname,
+        "regno": staffregno,
+      });
+    }
+
   }
 
   submitleavepopup() {
@@ -5766,6 +6224,8 @@ class _FrontpageState extends State<Frontpage> with SingleTickerProviderStateMix
         setState(() {
           leavetype="Leave Type";
           homecoller.clear();
+          topic.clear();
+
           duedate.clear();
         });
       },
@@ -6098,76 +6558,100 @@ class _FrontpageState extends State<Frontpage> with SingleTickerProviderStateMix
   }
   final homecontroller = Get.put(HomeController());
 
+
+
   attendaceupload() async {
-    var document = await _firestore2db.collection("Students").orderBy(
-        "timestamp").get();
-    for (int i = 0; i < document.docs.length; i++) {
-      if (document.docs[i]["admitclass"] == _typeAheadControllerclass.text &&
-          document.docs[i]["section"] == _typeAheadControllersection.text) {
-        _firestore2db.collection("Attendance").doc("${_typeAheadControllerclass.text}${_typeAheadControllersection.text}").
-        collection("${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}").doc().set({
-          "stname": document.docs[i]["stname"],
-          "regno": document.docs[i]["regno"],
-          "stdocid": document.docs[i].id,
-          "present": present[i],
-          "order": i
-        });
-        if (present[i] == true) {
-          _firestore2db.collection("Students").doc(document.docs[i].id)
-              .collection("Attendance").
-          doc("${DateTime
+    var document2 = await _firestore2db.collection("Attendance").doc("${_typeAheadControllerclass.text}${_typeAheadControllersection.text}").collection("${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}").get();
+    if(document2.docs.length>0){
+      Alreadymarked();
+    }
+    else {
+      Successdialog();
+      var document = await _firestore2db.collection("Students").orderBy("timestamp").get();
+      for (int i = 0; i < document.docs.length; i++) {
+        if (document.docs[i]["admitclass"] == _typeAheadControllerclass.text &&
+            document.docs[i]["section"] == _typeAheadControllersection.text) {
+          _firestore2db.collection("Attendance").doc(
+              "${_typeAheadControllerclass.text}${_typeAheadControllersection
+                  .text}").
+          collection("${DateTime
               .now()
               .day}-${DateTime
               .now()
               .month}-${DateTime
               .now()
-              .year}")
-              .set({
-            "Attendance": "Present",
-            "Date": "${DateTime
+              .year}").doc().set({
+            "stname": document.docs[i]["stname"],
+            "regno": document.docs[i]["regno"],
+            "stdocid": document.docs[i].id,
+            "present": present[i],
+            "order": i
+          });
+          if (present[i] == true) {
+            _firestore2db.collection("Students").doc(document.docs[i].id)
+                .collection("Attendance").
+            doc("${DateTime
                 .now()
                 .day}-${DateTime
                 .now()
                 .month}-${DateTime
                 .now()
-                .year}",
-            "timesatmp": DateTime
-                .now()
-                .millisecondsSinceEpoch,
-          });
-        }
-        if (present[i] == false) {
-          _firestore2db.collection("Students").doc(document.docs[i].id)
-              .collection("Attendance").
-          doc("${DateTime
-              .now()
-              .day}-${DateTime
-              .now()
-              .month}-${DateTime
-              .now()
-              .year}")
-              .set({
-            "Attendance": "Absent",
-            "Date": "${DateTime
+                .year}")
+                .set({
+              "Attendance": "Present",
+              "Date": "${DateTime
+                  .now()
+                  .day}-${DateTime
+                  .now()
+                  .month}-${DateTime
+                  .now()
+                  .year}",
+              "timesatmp": DateTime
+                  .now()
+                  .millisecondsSinceEpoch,
+              "month":cmonth
+            });
+          }
+          if (present[i] == false) {
+            _firestore2db.collection("Students").doc(document.docs[i].id)
+                .collection("Attendance").
+            doc("${DateTime
                 .now()
                 .day}-${DateTime
                 .now()
                 .month}-${DateTime
                 .now()
-                .year}",
-            "timesatmp": DateTime
-                .now()
-                .millisecondsSinceEpoch,
-          });
-          _firestore2db.collection("Students").doc(document.docs[i].id).update({
-            "absentdays": FieldValue.increment(1),
-          });
-        }
-        if(present[i] == true){
-          homecontroller.sendPushMessage(document.docs[i]["token"], "${document.docs[i]["stname"]} is Present today", "Attendance Update");
-        }
-        if(present[i] == false){
-          homecontroller.sendPushMessage(document.docs[i]["token"], "${document.docs[i]["stname"]} is Absent today", "Attendance Update");
+                .year}")
+                .set({
+              "Attendance": "Absent",
+              "Date": "${DateTime
+                  .now()
+                  .day}-${DateTime
+                  .now()
+                  .month}-${DateTime
+                  .now()
+                  .year}",
+              "timesatmp": DateTime
+                  .now()
+                  .millisecondsSinceEpoch,
+              "month":cmonth
+            });
+            _firestore2db.collection("Students")
+                .doc(document.docs[i].id)
+                .update({
+              "absentdays": FieldValue.increment(1),
+            });
+          }
+          if (present[i] == true) {
+            homecontroller.sendPushMessage(document.docs[i]["token"],
+                "Attendance marked as Present for ${document
+                    .docs[i]["stname"]} today", "Attendance Update","Attendance");
+          }
+          if (present[i] == false) {
+            homecontroller.sendPushMessage(document.docs[i]["token"],
+                "Attendance marked as Absent for ${document
+                    .docs[i]["stname"]} today", "Attendance Update","Attendance");
+          }
         }
       }
     }
@@ -6214,6 +6698,7 @@ class _FrontpageState extends State<Frontpage> with SingleTickerProviderStateMix
     return AwesomeDialog(
       width: 450,
       context: context,
+
       dialogType: DialogType.success,
       animType: AnimType.rightSlide,
       title: 'Attendance Submitted Successfully',
@@ -6223,6 +6708,32 @@ class _FrontpageState extends State<Frontpage> with SingleTickerProviderStateMix
 
       btnOkOnPress: () {
         checkattendance();
+        setState(() {
+          page="Home";
+        });
+       // Navigator.of(context).pop();
+      },
+    )
+      ..show();
+  }
+  Alreadymarked() {
+    return AwesomeDialog(
+      width: 450,
+      context: context,
+
+      dialogType: DialogType.error,
+      animType: AnimType.rightSlide,
+      title: 'Attendance Already Marked',
+      desc: 'Attendance Already Marked for - ${_typeAheadControllerclass
+          .text} ${_typeAheadControllersection.text}',
+
+
+      btnOkOnPress: () {
+        checkattendance();
+        setState(() {
+          page="Home";
+        });
+       // Navigator.of(context).pop();
       },
     )
       ..show();
@@ -6267,14 +6778,8 @@ class _FrontpageState extends State<Frontpage> with SingleTickerProviderStateMix
     setState(() {
       marked = false;
     });
-    var document = await _firestore2db.collection("Attendance").doc(
-        "${dropdownValue4}${dropdownValue5}").collection("${DateTime
-        .now()
-        .day}-${DateTime
-        .now()
-        .month}-${DateTime
-        .now()
-        .year}").get();
+    var document = await _firestore2db.collection("Attendance").doc("${dropdownValue4}${dropdownValue5}").
+    collection("${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}").get();
     if (document.docs.length > 0) {
       setState(() {
         marked = true;
@@ -6286,23 +6791,23 @@ class _FrontpageState extends State<Frontpage> with SingleTickerProviderStateMix
 
 
   TextEditingController homecoller = TextEditingController();
+  TextEditingController topic = TextEditingController();
   dynamic formatterDate = DateFormat('dd');
   dynamic currentTime = DateFormat.jm().format(DateTime.now());
 
   SuccessHomeworkdialog() {
     double width = MediaQuery.of(context).size.width;
     return AwesomeDialog(
+      dismissOnTouchOutside: false,
+
       width: width/0.87111111,
       context: context,
       dialogType: DialogType.success,
       animType: AnimType.rightSlide,
+
       title: 'Assignment assigned Successfully',
       desc: '${subject} Assignment assigned for - ${_typeAheadControllerclass
           .text} ${_typeAheadControllersection.text} ',
-
-      btnCancelOnPress: () {
-
-      },
       btnOkOnPress: () {
         setState(() {
           _pickedFile=null;
@@ -6316,7 +6821,16 @@ class _FrontpageState extends State<Frontpage> with SingleTickerProviderStateMix
           imageurl4="";
           imageurl5="";
           homecoller.clear();
+          topic.clear();
           page = "Home";
+          _typeAheadControllerclass.clear();
+          _typeAheadControllersection.clear();
+           dropdownValue4 = "Class";
+           dropdownValue5 = "Section";
+          duedate.clear();
+          homecoller.clear();
+          topic.clear();
+          subject="Subject";
         });
       },
     )
@@ -6667,24 +7181,22 @@ class _FrontpageState extends State<Frontpage> with SingleTickerProviderStateMix
         print(imageurl5);
       }
     }
-    _firestore2db.collection("homeworks").
-    doc("${DateTime
-        .now()
-        .day}${DateTime
-        .now()
-        .month}${DateTime
-        .now()
-        .year}").
-    collection(_typeAheadControllerclass.text).doc(
-        _typeAheadControllersection.text).collection("class HomeWorks")
-        .doc().set({
+
+    print( "${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}");
+    print(homecoller.text);
+    print(topic.text);
+    print("+Des++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+    _firestore2db.collection("homeworks").doc("${DateTime.now().day}${DateTime.now().month}${DateTime.now().year}").
+    collection(_typeAheadControllerclass.text).doc(_typeAheadControllersection.text).
+    collection("class HomeWorks").doc().set({
       "class": _typeAheadControllerclass.text,
       "section": _typeAheadControllersection.text,
-      "date": DateFormat.yMMMd().format(DateTime.now()),
+      "date": "${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}",
+      "Assignedondate":"${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}",
+      "Duedate":duedate.text,
       "des": homecoller.text,
-      "timestamp": DateTime
-          .now()
-          .millisecondsSinceEpoch,
+      "topic": topic.text,
+      "timestamp": DateTime.now().millisecondsSinceEpoch,
       "Time": "${DateFormat('hh:mm a').format(DateTime.now())}",
       "statffname": staffname,
       "statffregno": staffregno,
@@ -6697,16 +7209,67 @@ class _FrontpageState extends State<Frontpage> with SingleTickerProviderStateMix
       "imageurl5": imageurl5,
       "submited":[]
     });
+    
+    
+    var studentdata=await _firestore2db.collection("Students").
+    where("admitclass",isEqualTo: _typeAheadControllerclass.text).where("section",isEqualTo: _typeAheadControllersection.text).get();
+
+    for(int i=0;i<studentdata.docs.length;i++){
+      sendPushMessage( studentdata.docs[i]['token'],  "New Assignment has been assigned for ${subject}","Assignment Update","Assignment");
+    }
+
+    
+    
+
+    
     _typeAheadControllerclass.clear();
     _typeAheadControllersection.clear();
+    duedate.clear();
     homecoller.clear();
+    topic.clear();
+    subject="Subject";
     setState(() {
       dropdownValue4 = "Class";
       dropdownValue5 = "Section";
+       _pickedFile=null;
+       _pickedFile2=null;
+      _pickedFile3=null;
+       _pickedFile4=null;
+       _pickedFile5=null;
     });
   }
   TextEditingController editreq= new TextEditingController();
 
+
+  void sendPushMessage(String token, String body, String title,String Page) async {
+    try {
+      await http.post(
+        Uri.parse('https://fcm.googleapis.com/fcm/send'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+          'Authorization':
+          'key=AAAA9pRd_9E:APA91bGFLaH3PezX-9cPq6c4udZ2lHi5kM3XF6UCdyASEy313xc6SugRk07JiSTzdlSILGA9szuW3DUjyKvtPYttwsgD7oU7D6edQ6Gc9Txvq0EqeMLvrAwcmR2wAaRLh3b1LxStu23m',
+        },
+        body: jsonEncode(
+          <String, dynamic>{
+            'notification': <String, dynamic>{'body': body, 'title': title,  "page":Page},
+            'priority': 'high',
+            'data': <String, dynamic>{
+              'click_action': 'FLUTTER_NOTIFICATION_CLICK',
+              'id': '1',
+              'status': 'done',
+
+            },
+            "to": token,
+          },
+        ),
+      );
+    } catch (e) {
+      print("error push notification");
+    }
+  }
+  
+  
   showedit() {
     return showDialog(
       context: context,
@@ -6800,7 +7363,7 @@ class _FrontpageState extends State<Frontpage> with SingleTickerProviderStateMix
       }
     );
   }
-  ltpdialog(type,date,time,leaveon,reason,status) {
+  ltpdialog(type,date,time,leaveon,reason,status,id) {
     return showDialog(
       context: context,
       builder: (context) {
@@ -6830,14 +7393,14 @@ class _FrontpageState extends State<Frontpage> with SingleTickerProviderStateMix
                       fontWeight: FontWeight.w600,
                       fontSize: width/25.68),
                   textAlign: TextAlign.center,),
-                  SizedBox(height: 10,),
+                  SizedBox(height: height/75.6,),
                   Text("Reason",style: GoogleFonts.poppins(
 
                       color: Colors.black,
                       fontWeight: FontWeight.w600,
                       fontSize: width/25.68),
                     textAlign: TextAlign.center,),
-                  SizedBox(height: 10,),
+                  SizedBox(height: height/75.6,),
                   Container(
                     padding: EdgeInsets.only(
                         left: width / 36, right: width / 36),
@@ -6860,6 +7423,39 @@ class _FrontpageState extends State<Frontpage> with SingleTickerProviderStateMix
 
 
                   ),
+                  status=="Pending"?     Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      status=="Pending"?   TextButton(
+                        child: const Text('Revoke'),
+                        onPressed: () {
+                          _firestore2db.collection("Staffs").doc(staffid).collection('Leave').doc(id).update({
+                            "status":"Revoked"
+                          });
+                          Navigator.of(context).pop();
+                          revokedshow();
+
+                        },
+                      ) : SizedBox(),
+                      status=="Pending"?  TextButton(
+                        child: const Text('Edit'),
+                        onPressed: () {
+                          Future.delayed(Duration(seconds: 1),(){
+                            setdata(type,leaveon,reason,id);
+                          });
+                          Navigator.of(context).pop();
+
+
+                        },
+                      ) : SizedBox(),
+                      TextButton(
+                        child: const Text('OK'),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                    ],
+                  ) : SizedBox()
 
 
 
@@ -6867,17 +7463,29 @@ class _FrontpageState extends State<Frontpage> with SingleTickerProviderStateMix
               ),
             ),
           ),
-          actions: <Widget>[
-            TextButton(
+          actions: [
+            status=="Pending"? SizedBox(): TextButton(
               child: const Text('OK'),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
           ],
+
         );
       }
     );
+  }
+
+  String docid="";
+  setdata(leavetype2,duedate2,reason,id){
+    setState(() {
+      leavetype=leavetype2;
+      duedate.text=duedate2;
+      homecoller.text=reason;
+      docid=id;
+    });
+
   }
 
   updaetremarks(id, value, remarks) {
@@ -7140,6 +7748,15 @@ class _FrontpageState extends State<Frontpage> with SingleTickerProviderStateMix
         "sender":staffname,
         "submitdate":"${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}",
       };
+      var document = await _firestore2db.collection("Students").orderBy("timestamp").get();
+      for (int i = 0; i < document.docs.length; i++) {
+        if (document.docs[i]["admitclass"] == _typeAheadControllerclass.text &&
+            document.docs[i]["section"] == _typeAheadControllersection.text) {
+          homecontroller.sendPushMessage(document.docs[i]["token"], _message.text, "New message alert","Message");
+        }
+      }
+
+
       _message.clear();
       await _firestore2db
           .collection('${dropdownValue4}${dropdownValue5}chat')
@@ -7147,26 +7764,7 @@ class _FrontpageState extends State<Frontpage> with SingleTickerProviderStateMix
     }
   }
 
-  void onSendMessag() async {
-    if (_message.text.isNotEmpty) {
-      Map<String, dynamic> messages = {
-        "message": _message.text,
-        "type": "text",
-        "time": FieldValue.serverTimestamp(),
-        "submittime":"${DateFormat('hh:mm a').format(DateTime.now())}",
-        "sender":staffname,
-        "submitdate":"${DateTime.now().year}-${DateTime.now().month}-${DateTime.now().day}",
-      };
 
-      _message.clear();
-      await _firestore2db
-          .collection('${dropdownValue4}${dropdownValue5}chat')
-          .add(messages);
-    }
-    else {
-      print("Enter Some Text");
-    }
-  }
 }
 
 

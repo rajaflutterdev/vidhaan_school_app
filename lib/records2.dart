@@ -99,7 +99,7 @@ class _Records2State extends State<Records2> {
       appBar: AppBar(
         title: Text("Students Attendance",style: GoogleFonts.poppins(
             color: Colors.white,
-            fontSize: 22,
+            fontSize: width/16.363,
             fontWeight: FontWeight.w700
 
         ),),
@@ -107,7 +107,7 @@ class _Records2State extends State<Records2> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(height: 20,),
+            SizedBox(height: height/37.8,),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
@@ -115,7 +115,7 @@ class _Records2State extends State<Records2> {
                 Container(
                   padding: EdgeInsets.only(left: width/36,right:  width/36),
                   height: height / 14.74,
-                  width: width / 2.363,
+                  width: width / 2.2,
                   decoration: BoxDecoration(
                       color: Colors.white,
                       border: Border.all(
@@ -128,7 +128,7 @@ class _Records2State extends State<Records2> {
                     isExpanded: true,
                     style: TextStyle(
                         color: Color(0xff3D8CF8),
-                        fontSize: 17,fontWeight: FontWeight.w700),
+                        fontSize: width/21.176,fontWeight: FontWeight.w700),
                     underline: Container(
                       color: Color(0xff3D8CF8),
                     ),
@@ -158,7 +158,7 @@ class _Records2State extends State<Records2> {
                 Container(
                   padding: EdgeInsets.only(left: width/36,right: width/36),
                   height: height / 14.74,
-                  width: width / 2.363,
+                  width: width / 2.2,
                   decoration: BoxDecoration(
                       color: Colors.white,
                       border: Border.all(
@@ -171,7 +171,7 @@ class _Records2State extends State<Records2> {
                     isExpanded: true,
                     style: TextStyle(
                         color: Color(0xff3D8CF8),
-                        fontSize: 17,fontWeight: FontWeight.w700),
+                        fontSize: width/21.176,fontWeight: FontWeight.w700),
                     underline: Container(
                       color: Color(0xff3D8CF8),
                     ),
@@ -198,7 +198,7 @@ class _Records2State extends State<Records2> {
 
               ],
             ),
-            SizedBox(height: 15,),
+            SizedBox(height: height/50.4,),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
@@ -206,7 +206,7 @@ class _Records2State extends State<Records2> {
                 Container(
                   padding: EdgeInsets.only(left: width/36,right: width/36),
                   height: height / 14.74,
-                  width: width / 2.363,
+                  width: width / 2.2,
                   decoration: BoxDecoration(
                       color: Colors.white,
                       border: Border.all(
@@ -249,7 +249,7 @@ class _Records2State extends State<Records2> {
                         .poppins(
                       color: Colors
                           .black,
-                      fontSize: 14,
+                      fontSize:width/25.714,
                       fontWeight:
                       FontWeight
                           .w500,
@@ -259,7 +259,7 @@ class _Records2State extends State<Records2> {
                     minLines: 1,
                     decoration:
                     InputDecoration(
-                        contentPadding: EdgeInsets.only(top:15),
+                        contentPadding: EdgeInsets.only(top:height/50.4),
                         suffixIcon: Icon(Icons.calendar_month,color:Colors.black),
                         hintText:
                         "Due Date",
@@ -268,7 +268,7 @@ class _Records2State extends State<Records2> {
                             .poppins(
                           color: Colors
                               .black,
-                          fontSize: 14,
+                          fontSize:width/25.714,
                           fontWeight:
                           FontWeight
                               .w500,
@@ -289,7 +289,7 @@ class _Records2State extends State<Records2> {
                   child: Container(
                     padding: EdgeInsets.only(left: width/36,right: width/36),
                     height: height / 14.74,
-                    width: width / 2.363,
+                    width: width / 2.2,
                     decoration: BoxDecoration(
                         color: Colors.white,
                         border: Border.all(
@@ -304,40 +304,40 @@ class _Records2State extends State<Records2> {
                           children: [
                             Text("${presentcount} ",style: GoogleFonts.poppins(
                                 color: Colors.green,
-                                fontSize: 15,
+                                fontSize:width/24,
                                 fontWeight: FontWeight.w600
 
                             ),),
 
                             Text("Present",style: GoogleFonts.poppins(
                                 color: Colors.green,
-                                fontSize: 15,
+                                fontSize:width/24,
                                 fontWeight: FontWeight.w600
 
                             ),),
                           ],
                         ),
-                        SizedBox(width: 5,),
+                        SizedBox(width:width/72,),
                         Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8.0),
+                          padding:  EdgeInsets.symmetric(vertical: height/94.5),
                           child: VerticalDivider(
-                            width: 3,
+                            width: width/120,
                             color: Color(0xff0873C4),
                           ),
                         ),
-                        SizedBox(width: 5,),
+                        SizedBox(width:width/72,),
                         Column(
                           children: [
                             Text("${absentcount} ",style: GoogleFonts.poppins(
                                 color: Colors.red,
-                                fontSize: 15,
+                                fontSize:width/24,
                                 fontWeight: FontWeight.w600
 
                             ),),
 
                             Text("Absent",style: GoogleFonts.poppins(
                                 color: Colors.red,
-                                fontSize: 15,
+                                fontSize:width/24,
                                 fontWeight: FontWeight.w600
 
                             ),),
@@ -352,7 +352,7 @@ class _Records2State extends State<Records2> {
 
               ],
             ),
-            SizedBox(height: 20,),
+            SizedBox(height: height/37.8,),
             Row(
               children: [
                 SizedBox(
@@ -363,7 +363,7 @@ class _Records2State extends State<Records2> {
                       .poppins(
                       color: Colors
                           .black,
-                      fontSize: 15,
+                      fontSize:width/24,
                       fontWeight:
                       FontWeight
                           .w600),
@@ -376,7 +376,7 @@ class _Records2State extends State<Records2> {
                       .poppins(
                       color: Colors
                           .black,
-                      fontSize: 15,
+                      fontSize:width/24,
                       fontWeight:
                       FontWeight
                           .w600),
@@ -389,14 +389,14 @@ class _Records2State extends State<Records2> {
                       .poppins(
                       color: Colors
                           .black,
-                      fontSize: 15,
+                      fontSize:width/24,
                       fontWeight:
                       FontWeight
                           .w600),
                 ),
               ],
             ),
-            SizedBox(height: 15,),
+            SizedBox(height: height/50.4,),
 
 
             ///  title
@@ -435,7 +435,7 @@ class _Records2State extends State<Records2> {
                                   width: width / 3.5,
                                   child: Text(
                                     snapshot.data!.docs[index]["stname"],
-                                    style: GoogleFonts.poppins(color: Colors.black, fontSize: 15, fontWeight: FontWeight.w600),
+                                    style: GoogleFonts.poppins(color: Colors.black, fontSize:width/24, fontWeight: FontWeight.w600),
                                   ),
                                 ),
                               ),

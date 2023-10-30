@@ -70,18 +70,18 @@ class _Statff_Leave_PageState extends State<Statff_Leave_Page> {
                 crossAxisAlignment: CrossAxisAlignment.center,
 
                 children: [
-                  SizedBox(height: 50,),
+                  SizedBox(height: height/15.12,),
 
                   Row(
                     children: [
-                      SizedBox(width: 10,),
+                      SizedBox(width:width/36.0,),
                       GestureDetector(
                         onTap: (){
                           Navigator.pop(context);
                         },
                         child: SizedBox(
-                          height:35,
-                          width: 35,
+                          height:height/21.6,
+                          width: width/10.285,
                           child: Material(
                               elevation: 15,
                               borderRadius: BorderRadius.circular(100),
@@ -90,7 +90,7 @@ class _Statff_Leave_PageState extends State<Statff_Leave_Page> {
                                   : Icon(Icons.arrow_back)),
                         ),
                       ),
-                      SizedBox(width: 10,),
+                      SizedBox(width:width/36.0,),
                       Text("Today Attendance",style: GoogleFonts.montserrat(
                           fontSize: 18,
                           fontWeight: FontWeight.w700,color: Colors.white),)
@@ -144,7 +144,7 @@ class _Statff_Leave_PageState extends State<Statff_Leave_Page> {
                   
                 ],
               )),
-          SizedBox(height: 50,),
+          SizedBox(height: height/15.12,),
           
           GestureDetector(
             onTap: (){
@@ -157,8 +157,8 @@ class _Statff_Leave_PageState extends State<Statff_Leave_Page> {
                 color: Colors.indigoAccent,
                 borderRadius: BorderRadius.circular(5),
               child: Container(
-                  height: 50,
-                  width: 200,
+                  height: height/15.12,
+                  width: width/1.8,
                   decoration: BoxDecoration(
                     color: Colors.indigoAccent,
                     borderRadius: BorderRadius.circular(5)
@@ -179,8 +179,8 @@ class _Statff_Leave_PageState extends State<Statff_Leave_Page> {
               color: Colors.indigoAccent,
               borderRadius: BorderRadius.circular(5),
               child: Container(
-                  height: 50,
-                  width: 200,
+                  height: height/15.12,
+                  width: width/1.8,
                   decoration: BoxDecoration(
                       color: Colors.indigoAccent,
                       borderRadius: BorderRadius.circular(5)

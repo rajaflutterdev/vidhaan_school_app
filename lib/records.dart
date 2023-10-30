@@ -43,7 +43,7 @@ class _RecordsState extends State<Records> {
                   "R & R",
                   style: GoogleFonts.poppins(
                       color:Color(0xff0873C4),
-                      fontSize: 18,
+                      fontSize: width/20,
                       fontWeight:
                       FontWeight.w600),
                 ),
@@ -56,7 +56,7 @@ class _RecordsState extends State<Records> {
                     style: GoogleFonts.poppins(
                         color: Colors
                             .grey.shade700,
-                        fontSize: 15,
+                        fontSize:width/24,
                         fontWeight:
                         FontWeight.w500),
                   ),
@@ -72,7 +72,7 @@ class _RecordsState extends State<Records> {
                     style: GoogleFonts.poppins(
                         color: Colors
                             .grey.shade700,
-                        fontSize: 15,
+                        fontSize:width/24,
                         fontWeight:
                         FontWeight.w500),
                   ),
@@ -92,7 +92,7 @@ class _RecordsState extends State<Records> {
                 children: [
                   Material(
                     elevation:5,
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(15),
                     child: GestureDetector(
                       onTap: (){
                         Navigator.of(context).push(
@@ -102,8 +102,8 @@ class _RecordsState extends State<Records> {
 
                       },
                       child: Container(
-                          width: 350,
-                          height: 100,
+                          width: width/1.1,
+                          height: height/7.56,
 
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(15),
@@ -116,20 +116,20 @@ class _RecordsState extends State<Records> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Padding(
-                                    padding: const EdgeInsets.only(left: 12.0,top:8,bottom: 5),
+                                    padding:  EdgeInsets.only(left: width/30,top: height/94.5,bottom: height/151.2),
                                     child: Text("Students Attendance",style: GoogleFonts.poppins(
                                         color: Colors.white,
-                                        fontSize: 22,
+                                        fontSize: width/18,
                                         fontWeight: FontWeight.w700
 
                                     ),
                                     ),
                                   ),
                                   Padding(
-                                    padding: const EdgeInsets.only(left: 12.0),
+                                    padding:  EdgeInsets.only(left: width/30),
                                     child: Text("View",style: GoogleFonts.poppins(
                                         color: Colors.white,
-                                        fontSize: 20,
+                                        fontSize: width/20,
                                         fontWeight: FontWeight.w600
 
                                     ),
@@ -138,8 +138,8 @@ class _RecordsState extends State<Records> {
                                 ],
                               ),
                               Padding(
-                                padding: const EdgeInsets.only(right: 12.0),
-                                child: Icon(Icons.school,color: Colors.white,size: 40,),
+                                padding:  EdgeInsets.only(right: width/30),
+                                child: Icon(Icons.school,color: Colors.white,size: width/9,),
                               )
                             ],
                           )
@@ -148,14 +148,15 @@ class _RecordsState extends State<Records> {
                   ),
                 ],
               ),
+
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(top:15.0),
+                    padding:  EdgeInsets.only(top:height/50.4),
                     child: Material(
                       elevation:5,
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(15),
                       child: GestureDetector(
                         onTap: (){
                           Navigator.of(context).push(
@@ -163,8 +164,8 @@ class _RecordsState extends State<Records> {
                           );
                         },
                         child: Container(
-                            width: 350,
-                            height: 100,
+                            width: width/1.1,
+                            height: height/7.56,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(15),
                               color: Color(0xff0873C4),
@@ -176,20 +177,20 @@ class _RecordsState extends State<Records> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Padding(
-                                      padding: const EdgeInsets.only(left: 12.0,top:8,bottom: 5),
+                                      padding:  EdgeInsets.only(left: width/30,top: height/94.5,bottom: height/151.2),
                                       child: Text("Exam Reports",style: GoogleFonts.poppins(
                                           color: Colors.white,
-                                          fontSize: 22,
+                                          fontSize: width/18,
                                           fontWeight: FontWeight.w700
 
                                       ),
                                       ),
                                     ),
                                     Padding(
-                                      padding: const EdgeInsets.only(left: 12.0),
+                                      padding:  EdgeInsets.only(left:width/30),
                                       child: Text("View",style: GoogleFonts.poppins(
                                           color: Colors.white,
-                                          fontSize: 20,
+                                          fontSize: width/20,
                                           fontWeight: FontWeight.w600
 
                                       ),
@@ -198,8 +199,8 @@ class _RecordsState extends State<Records> {
                                   ],
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.only(right: 12.0),
-                                  child: Icon(Icons.text_snippet_rounded,color: Colors.white,size: 40,),
+                                  padding:  EdgeInsets.only(right: width/30),
+                                  child: Icon(Icons.text_snippet_rounded,color: Colors.white,size: width/9,),
                                 )
                               ],
                             )
@@ -209,14 +210,15 @@ class _RecordsState extends State<Records> {
                   ),
                 ],
               ),
+
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.only(top:15.0),
+                    padding:  EdgeInsets.only(top:height/50.4),
                     child: Material(
                       elevation:5,
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(15),
                       child: GestureDetector(
                         onTap: (){
                           Navigator.of(context).push(
@@ -224,8 +226,8 @@ class _RecordsState extends State<Records> {
                           );
                         },
                         child: Container(
-                            width: 350,
-                            height: 100,
+                            width: width/1.1,
+                            height: height/7.56,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(15),
                               color: Color(0xff0873C4),
@@ -237,20 +239,20 @@ class _RecordsState extends State<Records> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Padding(
-                                      padding: const EdgeInsets.only(left: 12.0,top:8,bottom: 5),
+                                      padding:  EdgeInsets.only(left: width/30,top: height/94.5,bottom: height/151.2),
                                       child: Text("Assignments Reports",style: GoogleFonts.poppins(
                                           color: Colors.white,
-                                          fontSize: 22,
+                                          fontSize: width/18,
                                           fontWeight: FontWeight.w700
 
                                       ),
                                       ),
                                     ),
                                     Padding(
-                                      padding: const EdgeInsets.only(left: 12.0),
+                                      padding:  EdgeInsets.only(left:width/30),
                                       child: Text("View",style: GoogleFonts.poppins(
                                           color: Colors.white,
-                                          fontSize: 20,
+                                          fontSize: width/20,
                                           fontWeight: FontWeight.w600
 
                                       ),
@@ -259,8 +261,8 @@ class _RecordsState extends State<Records> {
                                   ],
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.only(right: 12.0),
-                                  child: Icon(Icons.text_snippet_rounded,color: Colors.white,size: 40,),
+                                  padding:  EdgeInsets.only(right: width/30),
+                                  child: Icon(Icons.text_snippet_rounded,color: Colors.white,size: width/9,),
                                 )
                               ],
                             )
@@ -301,7 +303,7 @@ class _RecordsState extends State<Records> {
           ),
         ),
       ),
-    );;
+    );
   }
 }
 FirebaseApp _secondaryApp = Firebase.app('SecondaryApp');

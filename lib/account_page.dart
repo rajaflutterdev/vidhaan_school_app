@@ -356,7 +356,7 @@ class _AccountpageState extends State<Accountpage> {
   }
     else{
      print("Student enter");
-     var document2 = await _firestore2db.collection("Students").orderBy("stname").get();
+     var document2 = await _firestore2db.collection("Students").get();
      print(document2.docs.length);
      for(int j=0;j<document2.docs.length;j++){
 

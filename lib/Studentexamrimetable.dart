@@ -5,6 +5,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'View_exammarkdDetails.dart';
+
 class StudentExamTime extends StatefulWidget {
   String title;
   String docid;
@@ -26,7 +28,7 @@ class _StudentExamTimeState extends State<StudentExamTime> {
   static final List<String> section = [];
 
   String dropdownValue4="";
-  String dropdownValue5="Section";
+  String dropdownValue5="";
 
   getadmitclass() async {
     var studentdocument = await _firestore2db
@@ -36,6 +38,7 @@ class _StudentExamTimeState extends State<StudentExamTime> {
     Map<String, dynamic>? stuvalue = studentdocument.data();
     setState(() {
       dropdownValue4 = stuvalue!['admitclass'];
+      dropdownValue5 = stuvalue!['section'];
 
     });
 
@@ -74,6 +77,7 @@ class _StudentExamTimeState extends State<StudentExamTime> {
 
     }
   }
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -82,124 +86,338 @@ class _StudentExamTimeState extends State<StudentExamTime> {
       appBar: AppBar(
         title: Text("${widget.title}- TimeTable"),
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+      body: SingleChildScrollView(
+        physics: const ScrollPhysics(),
+        child: Column(
+          children: [
 
-
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-
+            Container(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  SizedBox(height: height/37.8,),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("Exam Time Table",style: GoogleFonts.poppins(fontWeight: FontWeight.w700,fontSize: width/18),),
 
-                  Container(
-                      padding: EdgeInsets.only(left: width/36,right:  width/36),
-                      height: height / 18.74,
-                      width: width / 1.963,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(
-                              color: Colors.black)),
-                      child: Center(
-                        child: Text("Subject",style: GoogleFonts.poppins(
-                            color: Colors.black,
-                            fontSize: 20,
-                            fontWeight: FontWeight.w700
-
-                        ),),
-                      )
-
-
-
+                    ],
                   ),
-                  Container(
-                      padding: EdgeInsets.only(left: width/36,right:  width/36),
-                      height: height / 18.74,
-                      width: width / 2.363,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          border: Border.all(
-                              color: Colors.black)),
-                      child: Center(
-                        child: Text("Date",style: GoogleFonts.poppins(
-                            color: Colors.black,
-                            fontSize: 20,
-                            fontWeight: FontWeight.w700
+                  SizedBox(height: height/37.8,),
 
-                        ),),
-                      )
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                            padding: EdgeInsets.only(left: width/36,right:  width/36),
+                            height: height / 18.74,
+                            width: width / 1.963,
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                border: Border.all(
+                                    color: Colors.black)),
+                            child: Center(
+                              child: Text("Exam Name",style: GoogleFonts.poppins(
+                                  color: Colors.black,
+                                  fontSize: width/24,
+                                  fontWeight: FontWeight.w600
 
-
-
-                  ),
-
-                ]
-            ),
-          ),
-          StreamBuilder(
-              stream: _firestore2db.collection("ExamMaster").doc(widget.docid).collection(dropdownValue4).snapshots(),
-              builder: (context,snap){
-
-                return ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: snap.data!.docs.length,
-                    itemBuilder: (context,index){
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-
-                            children: [
-
-                              Container(
-                                  padding: EdgeInsets.only(left: width/36,right:  width/36),
-                                  height: height / 18.74,
-                                  width: width / 1.963,
-                                  decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      border: Border.all(
-                                          color: Colors.black)),
-                                  child: Center(
-                                    child: Text(snap.data!.docs[index]["name"],style: GoogleFonts.poppins(
-                                        color: Colors.black,
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w600
-
-                                    ),),
-                                  )
+                              ),),
+                            )
 
 
 
-                              ),
-                              Container(
-                                  padding: EdgeInsets.only(left: width/36,right:  width/36),
-                                  height: height / 18.74,
-                                  width: width / 2.363,
-                                  decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      border: Border.all(
-                                          color: Colors.black)),
-                                  child: Center(
-                                    child: Text(snap.data!.docs[index]["date"],style: GoogleFonts.poppins(
-                                        color: Colors.black,
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.w600
-
-                                    ),),
-                                  )
-
-
-
-                              ),
-
-                            ]
                         ),
-                      );
-                    });
-              })
-        ],
+                        Container(
+                            padding: EdgeInsets.only(left: width/36,right:  width/36),
+                            height: height / 18.74,
+                            width: width / 2.363,
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                border: Border.all(
+                                    color: Colors.black)),
+                            child: Center(
+                              child: Text("Exam Date",style: GoogleFonts.poppins(
+                                  color: Colors.black,
+                                  fontSize: width/24,
+                                  fontWeight: FontWeight.w600
+
+                              ),),
+                            )
+
+
+
+                        ),
+
+                      ]
+                  ),
+                  StreamBuilder(
+                      stream: _firestore2db.collection("Students").doc(widget.userdocid).collection("Exams").snapshots(),
+                      builder: (context,snap){
+                        if(!snap.hasData){
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                        if(snap.hasData==null){
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+
+                        return ListView.builder(
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemCount: snap.data!.docs.length,
+                            itemBuilder: (context,index){
+
+                                return
+                                     StreamBuilder(stream:_firestore2db.collection("Students").doc(widget.userdocid).collection("Exams").
+                                     doc(snap.data!.docs[index].id).collection("Timetable").orderBy("timestamp2",descending: true).snapshots(),
+                                         builder: (context, snapshot2) {
+                                           if(!snapshot2.hasData){
+                                             return Center(
+                                               child: CircularProgressIndicator(),
+                                             );
+                                           }
+                                           if(snapshot2.hasData==null){
+                                             return Center(
+                                               child: CircularProgressIndicator(),
+                                             );
+                                           }
+                                           return ListView.builder(
+                                             shrinkWrap: true,
+                                             physics: const NeverScrollableScrollPhysics(),
+                                             itemCount: snapshot2.data!.docs.length,
+                                             itemBuilder: (context, index) {
+
+                                               if(snapshot2.data!.docs[index]['exam']==widget.title){
+                                                 return
+                                                   Row(
+                                                       mainAxisAlignment: MainAxisAlignment.center,
+                                                       children: [
+                                                         Container(
+                                                             padding: EdgeInsets.only(left: width/36,right:  width/36),
+                                                             height: height / 18.74,
+                                                             width: width / 1.963,
+                                                             decoration: BoxDecoration(
+                                                                 color: Colors.white,
+                                                                 border: Border.all(
+                                                                     color: Colors.black)),
+                                                             child: Center(
+                                                               child: Text(snapshot2.data!.docs[index]["name"],style: GoogleFonts.poppins(
+                                                                   color: Colors.black,
+                                                                   fontSize: width/24,
+                                                                   fontWeight: FontWeight.w600
+
+                                                               ),),
+                                                             )
+
+
+
+                                                         ),
+                                                         Container(
+                                                             padding: EdgeInsets.only(left: width/36,right:  width/36),
+                                                             height: height / 18.74,
+                                                             width: width / 2.363,
+                                                             decoration: BoxDecoration(
+                                                                 color: Colors.white,
+                                                                 border: Border.all(
+                                                                     color: Colors.black)),
+                                                             child: Center(
+                                                               child: Text("${snapshot2.data!.docs[index]["date"]}",style: GoogleFonts.poppins(
+                                                                   color: Colors.black,
+                                                                   fontSize: width/24,
+                                                                   fontWeight: FontWeight.w600
+
+                                                               ),),
+                                                             )
+
+
+
+                                                         ),
+
+                                                       ]
+                                                   );
+                                               }
+                                             return
+                                              SizedBox();
+                                           },);
+                                         },);
+
+
+                            });
+                      }),
+
+                  SizedBox(height: height/37.8,),
+                ],
+              ),
+            ),
+
+            Container(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: height/37.8,),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("Subject Mark Details",style: GoogleFonts.poppins(fontWeight: FontWeight.w700,fontSize: width/18),),
+
+                    ],
+                  ),
+                  SizedBox(height: height/37.8,),
+
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                            padding: EdgeInsets.only(left: width/36,right:  width/36),
+                            height: height / 18.74,
+                            width: width / 1.963,
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                border: Border.all(
+                                    color: Colors.black)),
+                            child: Center(
+                              child: Text("Subject Name",style: GoogleFonts.poppins(
+                                  color: Colors.black,
+                                  fontSize: width/24,
+                                  fontWeight: FontWeight.w600
+
+                              ),),
+                            )
+
+
+
+                        ),
+                        Container(
+                            padding: EdgeInsets.only(left: width/36,right:  width/36),
+                            height: height / 18.74,
+                            width: width / 2.363,
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                border: Border.all(
+                                    color: Colors.black)),
+                            child: Center(
+                              child: Text("Mark/Total Mark",style: GoogleFonts.poppins(
+                                  color: Colors.black,
+                                  fontSize: width/24,
+                                  fontWeight: FontWeight.w600
+
+                              ),),
+                            )
+
+
+
+                        ),
+
+                      ]
+                  ),
+                  StreamBuilder(
+                      stream: _firestore2db.collection("Students").doc(widget.userdocid).collection("Exams").snapshots(),
+                      builder: (context,snap){
+                        if(!snap.hasData){
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                        if(snap.hasData==null){
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+
+                        return ListView.builder(
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemCount: snap.data!.docs.length,
+                            itemBuilder: (context,index){
+
+                                return
+                                     StreamBuilder(stream:_firestore2db.collection("Students").doc(widget.userdocid).collection("Exams").
+                                     doc(snap.data!.docs[index].id).collection("Timetable").orderBy("name",descending: true).snapshots(),
+                                         builder: (context, snapshot2) {
+                                           if(!snapshot2.hasData){
+                                             return Center(
+                                               child: CircularProgressIndicator(),
+                                             );
+                                           }
+                                           if(snapshot2.hasData==null){
+                                             return Center(
+                                               child: CircularProgressIndicator(),
+                                             );
+                                           }
+                                           return ListView.builder(
+                                             shrinkWrap: true,
+                                             physics: const NeverScrollableScrollPhysics(),
+                                             itemCount: snapshot2.data!.docs.length,
+                                             itemBuilder: (context, index) {
+
+                                               if(snapshot2.data!.docs[index]['exam']==widget.title){
+                                                 return
+                                                   Row(
+                                                       mainAxisAlignment: MainAxisAlignment.center,
+                                                       children: [
+                                                         Container(
+                                                             padding: EdgeInsets.only(left: width/36,right:  width/36),
+                                                             height: height / 18.74,
+                                                             width: width / 1.963,
+                                                             decoration: BoxDecoration(
+                                                                 color: Colors.white,
+                                                                 border: Border.all(
+                                                                     color: Colors.black)),
+                                                             child: Center(
+                                                               child: Text(snapshot2.data!.docs[index]["name"],style: GoogleFonts.poppins(
+                                                                   color: Colors.black,
+                                                                   fontSize: width/24,
+                                                                   fontWeight: FontWeight.w600
+
+                                                               ),),
+                                                             )
+
+
+
+                                                         ),
+                                                         Container(
+                                                             padding: EdgeInsets.only(left: width/36,right:  width/36),
+                                                             height: height / 18.74,
+                                                             width: width / 2.363,
+                                                             decoration: BoxDecoration(
+                                                                 color: Colors.white,
+                                                                 border: Border.all(
+                                                                     color: Colors.black)),
+                                                             child: Center(
+                                                               child: Text("${snapshot2.data!.docs[index]["mark"]}/${snapshot2.data!.docs[index]["total"]}",style: GoogleFonts.poppins(
+                                                                   color: Colors.black,
+                                                                   fontSize: width/24,
+                                                                   fontWeight: FontWeight.w600
+
+                                                               ),),
+                                                             )
+
+
+
+                                                         ),
+
+                                                       ]
+                                                   );
+                                               }
+                                             return
+                                              SizedBox();
+                                           },);
+                                         },);
+
+
+                            });
+                      }),
+
+                  SizedBox(height: height/37.8,),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
 
     );

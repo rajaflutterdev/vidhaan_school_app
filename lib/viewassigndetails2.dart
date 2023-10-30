@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 import 'package:vidhaan_school_app/photoviewpage.dart';
 
 class Assignmentsdetails2 extends StatefulWidget {
@@ -11,7 +12,8 @@ class Assignmentsdetails2 extends StatefulWidget {
   String sec;
   String id;
   String docid;
-   Assignmentsdetails2(this.date,this.classes,this.sec,this.id,this.docid);
+  String topic;
+   Assignmentsdetails2(this.date,this.classes,this.sec,this.id,this.docid,this.topic);
 
   @override
   State<Assignmentsdetails2> createState() => _Assignmentsdetails2State();
@@ -29,7 +31,7 @@ class _Assignmentsdetails2State extends State<Assignmentsdetails2> {
             fontWeight:
             FontWeight
                 .w700,
-            fontSize: 18),),
+            fontSize:width/20),),
       ),
       body: FutureBuilder(
           future: _firestore2db.collection("homeworks").doc(widget.date).
@@ -42,37 +44,43 @@ class _Assignmentsdetails2State extends State<Assignmentsdetails2> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.all(4.0),
+                    padding:  EdgeInsets.symmetric(
+                      vertical: height/189,
+                      horizontal: width/90
+                    ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Container(
-                          width: 380,
+                          width: width/1.028,
 
                           decoration: BoxDecoration(
                               color: Color(0xff0271C5),
                               borderRadius: BorderRadius.circular(20)
                           ),
                           child: Padding(
-                            padding: const EdgeInsets.all(8.0),
+                            padding:  EdgeInsets.symmetric(
+                              horizontal: width/45,
+                              vertical: height/94.5,
+                            ),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                SizedBox(height: 20,),
+                                SizedBox(height: height/37.8,),
                                 Text("Student Name",style: GoogleFonts.poppins(
                                     color: Colors.white,
                                     fontWeight:
                                     FontWeight
-                                        .w600,
-                                    fontSize: 18)),
+                                        .w700,
+                                    fontSize:width/20)),
                                 Text("${val!["stname"]} - ${val!["stregno"]}",style: GoogleFonts.poppins(
                                     color: Colors.white,
                                     fontWeight:
                                     FontWeight
-                                        .w700,
-                                    fontSize: 24)),
+                                        .w500,
+                                    fontSize:width/25)),
                                 Container(
-                                  width: 200,
+                                  width:width/1.8,
                                   child: Divider(
                                     color: Colors.white,
                                   ),
@@ -81,41 +89,59 @@ class _Assignmentsdetails2State extends State<Assignmentsdetails2> {
                                     color: Colors.white,
                                     fontWeight:
                                     FontWeight
-                                        .w600,
-                                    fontSize: 18)),
+                                        .w700,
+                                    fontSize:width/20)),
                                 Text("${val['date']} - ${val['Time']}",style: GoogleFonts.poppins(
                                     color: Colors.white,
                                     fontWeight:
                                     FontWeight
-                                        .w700,
-                                    fontSize: 24)),
+                                        .w500,
+                                    fontSize:width/25)),
                                 Container(
-                                  width: 200,
+                                  width:width/1.8,
+                                  child: Divider(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                Text("Topic",style: GoogleFonts.poppins(
+                                    color: Colors.white,
+                                    fontWeight:
+                                    FontWeight
+                                        .w700,
+                                    fontSize:width/20)),
+                                Text(widget.topic,style: GoogleFonts.poppins(
+                                    color: Colors.white,
+                                    fontWeight:
+                                    FontWeight
+                                        .w500,
+                                    fontSize:width/25)),
+                                Container(
+                                  width:width/1.8,
                                   child: Divider(
                                     color: Colors.white,
                                   ),
                                 ),
 
-                                Text("Description",style: GoogleFonts.poppins(
+                                Text("Answer",style: GoogleFonts.poppins(
                                     color: Colors.white,
                                     fontWeight:
                                     FontWeight
-                                        .w600,
-                                    fontSize: 18)),
+                                        .w700,
+                                    fontSize:width/20)),
                                 Text(val["des"],
                                     style: GoogleFonts.poppins(
                                         color: Colors.white,
                                         fontWeight:
                                         FontWeight
-                                            .w700,
-                                        fontSize: 20)),
+                                            .w500,
+                                        fontSize: width/25)),
                                 Container(
-                                  width: 200,
+                                  width:width/1.8,
                                   child: Divider(
                                     color: Colors.white,
                                   ),
                                 ),
-                                SizedBox(height: 10,),
+                                SizedBox(height: height/75.6,),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
@@ -124,13 +150,21 @@ class _Assignmentsdetails2State extends State<Assignmentsdetails2> {
                                       elevation: 4,
                                       child: GestureDetector(
                                         onTap: (){
-                                          Navigator.of(context).push(
-                                              MaterialPageRoute(builder: (context)=>PhotoViewPage(val["imageurl1"],val["imageurl2"],val["imageurl3"],val["imageurl4"],val["imageurl5"],))
-                                          );
+
+                                          if(val["imageurl1"]==""&&val["imageurl2"]==""&&val["imageurl3"]==""&&val["imageurl4"]==""&&val["imageurl5"]==""){
+
+                                            NoImagedatapopup();
+                                          }
+
+                                         else{
+                                            Navigator.of(context).push(
+                                                MaterialPageRoute(builder: (context)=>PhotoViewPage(val["imageurl1"],val["imageurl2"],val["imageurl3"],val["imageurl4"],val["imageurl5"],))
+                                            );
+                                          }
                                         },
                                         child: Container(
-                                          width: 250,
-                                          height: 50,
+                                           width: width/1.44,
+                                          height: height/15.12,
                                           decoration: BoxDecoration(
                                               color: Colors.white,
                                               borderRadius: BorderRadius.circular(20)
@@ -142,14 +176,14 @@ class _Assignmentsdetails2State extends State<Assignmentsdetails2> {
                                                 fontWeight:
                                                 FontWeight
                                                     .w600,
-                                                fontSize: 18)),
+                                                fontSize:width/20)),
                                           ),
                                         ),
                                       ),
                                     ),
                                   ],
                                 ),
-                                SizedBox(height: 10,),
+                                SizedBox(height: height/75.6,),
                               ],
                             ),
                           ),
@@ -174,6 +208,63 @@ class _Assignmentsdetails2State extends State<Assignmentsdetails2> {
       ),
     );
   }
+
+
+  NoImagedatapopup(){
+
+    double height=MediaQuery.of(context).size.height;
+    double width=MediaQuery.of(context).size.width;
+    return showDialog(context: context, builder:
+        (context) {
+
+      return AlertDialog(
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text("Error",
+              textAlign: TextAlign.center,
+              style: GoogleFonts.poppins(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600
+              ),)
+          ],
+
+        ),
+
+        content: SingleChildScrollView(
+          physics: const ScrollPhysics(),
+          child: Column(
+            children: [
+              Text("Sorry Attachments are Empty !.....",
+                textAlign: TextAlign.center,
+                style: GoogleFonts.poppins(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600
+                ),),
+          Lottie.asset("assets/error animation.json",height: height/5.04,width: width/2.4,fit: BoxFit.cover)
+
+            ],
+          ),
+        ),
+
+        actions: [
+
+          TextButton(
+              onPressed: (){
+                Navigator.pop(context);
+
+              },
+              child: Text("Okay"))
+
+        ],
+
+
+      );
+    },);
+
+  }
+
+
 }
 FirebaseApp _secondaryApp = Firebase.app('SecondaryApp');
 final FirebaseFirestore _firestoredb = FirebaseFirestore.instance;

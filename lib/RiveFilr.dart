@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:lottie/lottie.dart';
 import 'package:rive/rive.dart';
 
 class Rivefile extends StatefulWidget {
@@ -11,6 +12,6 @@ class Rivefile extends StatefulWidget {
 class _RivefileState extends State<Rivefile> {
   @override
   Widget build(BuildContext context) {
-    return RiveAnimation.asset("assets/otp.riv");
+    return Lottie.asset("assets/otpwaiting.json",repeat: true);
   }
 }

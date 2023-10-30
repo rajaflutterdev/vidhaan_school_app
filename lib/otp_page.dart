@@ -13,6 +13,8 @@ import 'RiveFilr.dart';
 import 'Student_Landing_Page.dart';
 import 'app/modules/register_screen/controllers/register_screen_controller.dart';
 import 'homepage.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+
 
 class Otppage extends StatefulWidget {
 
@@ -79,7 +81,6 @@ class _OtppageState extends State<Otppage> {
     print(widget.phoneController);
     print(widget.nameController);
     print(widget.staffid);
-
     getToken();
     // TODO: implement initState
     super.initState();
@@ -89,6 +90,7 @@ class _OtppageState extends State<Otppage> {
   var _verificationCode;
 
   _verifyphone()async{
+    print("Init Fun ction+++++++++++++");
     await _firebaseauth2db.verifyPhoneNumber(
         phoneNumber: "+91${widget.phoneController}" ,
         verificationCompleted:(PhoneAuthCredential credential)async{
@@ -104,11 +106,15 @@ class _OtppageState extends State<Otppage> {
           print("Vaerification failed");
         } ,
         codeSent:(String ?verificationid ,int ?resendtoken ){
+          print(verificationid);
+          print("This ver ID +++++++++++++++++++++++++++++");
           setState(() {
             _verificationCode=verificationid;
           });
         },
         codeAutoRetrievalTimeout:( String verificationid){
+          print(verificationid);
+          print("This ver ID 22222222 +++++++++++++++++++++++++++++");
           setState(() {
             _verificationCode=verificationid;
           });
@@ -211,7 +217,8 @@ class _OtppageState extends State<Otppage> {
                         closeKeyboardWhenCompleted: true,
                         autofocus: true,
                         pinAnimationType: PinAnimationType.scale,
-                        keyboardAppearance:Brightness.dark,onCompleted: (value){
+                        keyboardAppearance:Brightness.dark,
+                        onCompleted: (value){
                         setState(() {
                           otp=value;
                         });
@@ -238,31 +245,47 @@ class _OtppageState extends State<Otppage> {
                       children: [
 
 
-                        RichText(
-                          text: TextSpan(
+                        InkWell(
+                          onTap: (){
+                            _verifyphone();
+                            Fluttertoast.showToast(
+                                msg: "OTP Resent Successfully",
+                                toastLength: Toast.LENGTH_SHORT,
+                                gravity: ToastGravity.TOP,
+                                textColor: Colors.white,
+                                fontSize: 16.0
+                            );
+                          },
+                          child: RichText(
+                            text: TextSpan(
 
-                              text:"Didn't You receive the OTP? ",
-                              style: GoogleFonts.montserrat(
-                                  color: Colors.grey.shade700,
-                                  fontSize: 14
-
-                              ),
-                              children: <TextSpan>[
-
-                                TextSpan(text: "Resend OTP",
-                                    style: GoogleFonts.montserrat(color: Color(0xff1D3BFF),
+                                text:"Didn't You receive the OTP? ",
+                                style: GoogleFonts.montserrat(
+                                    color: Colors.grey.shade700,
                                     fontSize: 14
-                                )),
+
+                                ),
+                                children: <TextSpan>[
+
+                                  TextSpan(text: "Resend OTP",
+                                      style: GoogleFonts.montserrat(color: Color(0xff1D3BFF),
+                                      fontSize: 14
+                                  ),
+
+
+
+                                  ),
 
 
 
 
-                              ]
+                                ]
+
+
+                            ),
 
 
                           ),
-
-
                         ),
 
 
@@ -280,65 +303,79 @@ class _OtppageState extends State<Otppage> {
                     elevation: 5,
                     shadowColor: Color(0xff0873C4),
 
-                    child: Container(
-                      height: height*7/92.125,
-                      width: width*14/23.75,
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [
-                            Color(0xff0873C4),
-                            Color(0xff3786F7),
-                          ]
-                        ),
-                          borderRadius: BorderRadius.circular(15)
-                      ),
-                      child: GestureDetector(
-                        onTap: ()async{
-                          setState(() {
-                            loading=true;
-                          });
+                    child: InkWell(
+                      onTap: ()async{
+                        print("Print 1");
+                        setState(() {
+                          loading=true;
+                        });
+                        print(_verificationCode);
+                        print(otp);
 
-                          _firebaseauth2db.signInWithCredential(
+                        _firebaseauth2db.signInWithCredential(
                             PhoneAuthProvider.credential(
-                              verificationId: _verificationCode,
-                              smsCode: otp)).then((value) => {
-                                if(value.user!=null){
+                                verificationId: _verificationCode,
+                                smsCode: otp)).then((value) => {
+                          if(value.user!=null){
+
+                            print("User not null+++++++++++++++++++++++"),
+                            if(widget.nameController=="Teacher"){
+
+                              print("Teacher login+++++++++++++++++++++++"),
+                              print(_firebaseauth2db.currentUser!.uid),
+                              print(usertoken),
+                              _firestore2db.collection("Staffs").doc(widget.staffid).update({
+                                "userid":_firebaseauth2db.currentUser!.uid,
+                                "token":usertoken
+                              }),
+                              _firestore2db.collection('deviceid').doc(_firebaseauth2db.currentUser!.uid).set({
+                                "id":_firebaseauth2db.currentUser!.uid,
+                                "type":"Teacher",
+                              }),
+                        print("++++++++++++++++++++++++Push Successful"),
+                              Navigator.of(context).pushAndRemoveUntil(
+                                  MaterialPageRoute(builder: (context)=> Homepage()),(Route<dynamic> route) => false),
+                            },
+
+                            if(widget.nameController=="Student"){
+                        print("Student login================================="),
+                        print(_firebaseauth2db.currentUser!.uid),
+                        print(usertoken),
+                              _firestore2db.collection("Students").doc(widget.staffid).update({
+                                "studentid":_firebaseauth2db.currentUser!.uid,
+                                "token":usertoken
+                              }),
+                              _firestore2db.collection('deviceid').doc(_firebaseauth2db.currentUser!.uid).set({
+                                "id":_firebaseauth2db.currentUser!.uid,
+                                "type":"Student",
+                              }),
+                        print("++++++++++++++++++++++++Push Successful"),
+                              Navigator.of(context).pushAndRemoveUntil(
+                                  MaterialPageRoute(builder: (context)=> Student_landing_Page("",false)),(Route<dynamic> route) => false),
+                            },
 
 
-                                  if(widget.nameController=="Teacher"){
-                                   _firestore2db.collection("Staffs").doc(widget.staffid).update({
-                                      "userid":_firebaseauth2db.currentUser!.uid,
-                                     "token":usertoken
-                                    }),
-                                   _firestore2db.collection('deviceid').doc(_firebaseauth2db.currentUser!.uid).set({
-                                                      "id":_firebaseauth2db.currentUser!.uid,
-                                                      "type":"Teacher",
-                                                      }),
-                                    Navigator.of(context).pushAndRemoveUntil(
-                                        MaterialPageRoute(builder: (context)=> Homepage()),(Route<dynamic> route) => false),
-                                  },
-
-                                  if(widget.nameController=="Student"){
-                                   _firestore2db.collection("Students").doc(widget.staffid).update({
-                                      "studentid":_firebaseauth2db.currentUser!.uid,
-                                     "token":usertoken
-                                    }),
-                                   _firestore2db.collection('deviceid').doc(_firebaseauth2db.currentUser!.uid).set({
-                                      "id":_firebaseauth2db.currentUser!.uid,
-                                      "type":"Student",
-                                    }),
-                                    Navigator.of(context).pushAndRemoveUntil(
-                                        MaterialPageRoute(builder: (context)=> Student_landing_Page()),(Route<dynamic> route) => false),
-                                  },
+                          }
+                          else{
+                            print("User Null+++++++++++++++++++++++"),
+                          }
+                        });
 
 
-                                }
-                              });
-
-
-                          },
-
-                        child:  Row(
+                      },
+                      child: Container(
+                        height: height*7/92.125,
+                        width: width*14/23.75,
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              Color(0xff0873C4),
+                              Color(0xff3786F7),
+                            ]
+                          ),
+                            borderRadius: BorderRadius.circular(15)
+                        ),
+                        child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
@@ -373,8 +410,8 @@ class _OtppageState extends State<Otppage> {
             ),
           ),
           loading==true?Container(
-            height: 300,
-            width: 300,
+            height: height/2.52,
+            width: width/1.2,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5),
 

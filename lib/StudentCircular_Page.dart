@@ -11,6 +11,8 @@ class StudentCircular_Page extends StatefulWidget {
 class _StudentCircular_PageState extends State<StudentCircular_Page> {
   @override
   Widget build(BuildContext context) {
+    double height=MediaQuery.of(context).size.height;
+
     return Scaffold(
       body: StreamBuilder(
         stream: FirebaseFirestore.instance.collection("Circulars").snapshots(),
@@ -18,7 +20,7 @@ class _StudentCircular_PageState extends State<StudentCircular_Page> {
           return Column(
             children: snapshot.data!.docs.map((e){
               return Container(
-                height: 100,
+                height: height/7.56,
                 width: double.infinity,
                 color:Colors.red,
                 child: Column(

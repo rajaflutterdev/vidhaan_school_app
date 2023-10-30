@@ -154,7 +154,7 @@ class _CameraViewState extends State<CameraView> {
     bottom: 8,
     right: 8,
     child: SizedBox(
-      height: 50.0,
+      height: 50,
       width: 50.0,
       child: FloatingActionButton(
         heroTag: Object(),

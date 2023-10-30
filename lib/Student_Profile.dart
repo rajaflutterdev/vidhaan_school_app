@@ -127,7 +127,7 @@ class _Student_ProfileState extends State<Student_Profile> {
                                           Text(y1["mobile"],
                                             style: GoogleFonts.poppins(
                                                 color: Colors.black,
-                                                fontSize: 13,
+                                                fontSize:width/27.692,
                                                 fontWeight: FontWeight.w500
 
                                             ),),
@@ -150,7 +150,7 @@ class _Student_ProfileState extends State<Student_Profile> {
                                           Text(
                                             y1["email"], style: GoogleFonts.poppins(
                                               color: Colors.black,
-                                              fontSize: 13,
+                                              fontSize:width/27.692,
                                               fontWeight: FontWeight.w500
 
                                           ),),
@@ -170,7 +170,7 @@ class _Student_ProfileState extends State<Student_Profile> {
 
                                           Text( y1["entrydate"], style: GoogleFonts.poppins(
                                               color: Colors.black,
-                                              fontSize: 13,
+                                              fontSize:width/27.692,
                                               fontWeight: FontWeight.w500
 
                                           ),),
@@ -190,7 +190,7 @@ class _Student_ProfileState extends State<Student_Profile> {
 
                                           Text( y1["bloodgroup"], style: GoogleFonts.poppins(
                                               color: Colors.black,
-                                              fontSize: 13,
+                                              fontSize:width/27.692,
                                               fontWeight: FontWeight.w500
 
                                           ),),
@@ -255,7 +255,7 @@ class _Student_ProfileState extends State<Student_Profile> {
 
                                             child: Text("Father Name ", style: GoogleFonts.poppins(
                                                 color: Colors.black,
-                                                fontSize: 13,
+                                                fontSize:width/27.692,
                                                 fontWeight: FontWeight.w500
 
                                             ),),
@@ -266,7 +266,7 @@ class _Student_ProfileState extends State<Student_Profile> {
 
                                             child: Text(": ${y1["fathername"]}", style: GoogleFonts.poppins(
                                                 color: Colors.black,
-                                                fontSize: 13,
+                                                fontSize:width/27.692,
                                                 fontWeight: FontWeight.w500
 
                                             ),),
@@ -289,7 +289,7 @@ class _Student_ProfileState extends State<Student_Profile> {
 
                                             child: Text("Mother Name ", style: GoogleFonts.poppins(
                                                 color: Colors.black,
-                                                fontSize: 13,
+                                                fontSize:width/27.692,
                                                 fontWeight: FontWeight.w500
 
                                             ),),
@@ -300,7 +300,7 @@ class _Student_ProfileState extends State<Student_Profile> {
 
                                             child: Text(": ${y1["mothername"]}", style: GoogleFonts.poppins(
                                                 color: Colors.black,
-                                                fontSize: 13,
+                                                fontSize:width/27.692,
                                                 fontWeight: FontWeight.w500
 
                                             ),),
@@ -320,7 +320,7 @@ class _Student_ProfileState extends State<Student_Profile> {
 
                                             child: Text("Weight", style: GoogleFonts.poppins(
                                                 color: Colors.black,
-                                                fontSize: 13,
+                                                fontSize:width/27.692,
                                                 fontWeight: FontWeight.w500
 
                                             ),),
@@ -330,7 +330,7 @@ class _Student_ProfileState extends State<Student_Profile> {
 
                                             child: Text(": ${y1["stweight"]}", style: GoogleFonts.poppins(
                                                 color: Colors.black,
-                                                fontSize: 13,
+                                                fontSize:width/27.692,
                                                 fontWeight: FontWeight.w500
 
                                             ),),
@@ -350,7 +350,7 @@ class _Student_ProfileState extends State<Student_Profile> {
 
                                             child: Text("Height", style: GoogleFonts.poppins(
                                                 color: Colors.black,
-                                                fontSize: 13,
+                                                fontSize:width/27.692,
                                                 fontWeight: FontWeight.w500
 
                                             ),),
@@ -360,7 +360,7 @@ class _Student_ProfileState extends State<Student_Profile> {
 
                                             child: Text(": ${y1["sheight"]}", style: GoogleFonts.poppins(
                                                 color: Colors.black,
-                                                fontSize: 13,
+                                                fontSize:width/27.692,
                                                 fontWeight: FontWeight.w500
 
                                             ),),
@@ -380,7 +380,7 @@ class _Student_ProfileState extends State<Student_Profile> {
 
                                             child: Text("Section", style: GoogleFonts.poppins(
                                                 color: Colors.black,
-                                                fontSize: 13,
+                                                fontSize:width/27.692,
                                                 fontWeight: FontWeight.w500
 
                                             ),),
@@ -390,7 +390,7 @@ class _Student_ProfileState extends State<Student_Profile> {
 
                                             child: Text(": ${y1["section"]}", style: GoogleFonts.poppins(
                                                 color: Colors.black,
-                                                fontSize: 13,
+                                                fontSize:width/27.692,
                                                 fontWeight: FontWeight.w500
 
                                             ),),
@@ -412,7 +412,7 @@ class _Student_ProfileState extends State<Student_Profile> {
 
                                             child: Text("Mother Mobile", style: GoogleFonts.poppins(
                                                 color: Colors.black,
-                                                fontSize: 13,
+                                                fontSize:width/27.692,
                                                 fontWeight: FontWeight.w500
 
                                             ),),
@@ -422,7 +422,7 @@ class _Student_ProfileState extends State<Student_Profile> {
 
                                             child: Text(": ${y1["motherMobile"]}", style: GoogleFonts.poppins(
                                                 color: Colors.black,
-                                                fontSize: 13,
+                                                fontSize:width/27.692,
                                                 fontWeight: FontWeight.w500
 
                                             ),),
@@ -442,7 +442,7 @@ class _Student_ProfileState extends State<Student_Profile> {
 
                                             child: Text("Mother Email", style: GoogleFonts.poppins(
                                                 color: Colors.black,
-                                                fontSize: 13,
+                                                fontSize:width/27.692,
                                                 fontWeight: FontWeight.w500
 
                                             ),),
@@ -452,7 +452,7 @@ class _Student_ProfileState extends State<Student_Profile> {
 
                                             child: Text(": ${y1["motherEmail"]}", style: GoogleFonts.poppins(
                                                 color: Colors.black,
-                                                fontSize: 13,
+                                                fontSize:width/27.692,
                                                 fontWeight: FontWeight.w500
 
                                             ),),
@@ -472,7 +472,7 @@ class _Student_ProfileState extends State<Student_Profile> {
 
                                             child: Text("Mother Aadhaar", style: GoogleFonts.poppins(
                                                 color: Colors.black,
-                                                fontSize: 13,
+                                                fontSize:width/27.692,
                                                 fontWeight: FontWeight.w500
 
                                             ),),
@@ -482,7 +482,7 @@ class _Student_ProfileState extends State<Student_Profile> {
 
                                             child: Text(": ${y1["motherAadhaar"]}", style: GoogleFonts.poppins(
                                                 color: Colors.black,
-                                                fontSize: 13,
+                                                fontSize:width/27.692,
                                                 fontWeight: FontWeight.w500
 
                                             ),),
@@ -502,7 +502,7 @@ class _Student_ProfileState extends State<Student_Profile> {
 
                                             child: Text("Mother Occupation", style: GoogleFonts.poppins(
                                                 color: Colors.black,
-                                                fontSize: 13,
+                                                fontSize:width/27.692,
                                                 fontWeight: FontWeight.w500
 
                                             ),),
@@ -512,7 +512,7 @@ class _Student_ProfileState extends State<Student_Profile> {
 
                                             child: Text(": ${y1["motherOccupation"]}", style: GoogleFonts.poppins(
                                                 color: Colors.black,
-                                                fontSize: 13,
+                                                fontSize:width/27.692,
                                                 fontWeight: FontWeight.w500
 
                                             ),),
@@ -534,7 +534,7 @@ class _Student_ProfileState extends State<Student_Profile> {
 
                                             child: Text("Father Mobile", style: GoogleFonts.poppins(
                                                 color: Colors.black,
-                                                fontSize: 13,
+                                                fontSize:width/27.692,
                                                 fontWeight: FontWeight.w500
 
                                             ),),
@@ -544,7 +544,7 @@ class _Student_ProfileState extends State<Student_Profile> {
 
                                             child: Text(": ${y1["fatherMobile"]}", style: GoogleFonts.poppins(
                                                 color: Colors.black,
-                                                fontSize: 13,
+                                                fontSize:width/27.692,
                                                 fontWeight: FontWeight.w500
 
                                             ),),
@@ -564,7 +564,7 @@ class _Student_ProfileState extends State<Student_Profile> {
 
                                             child: Text("Father Email", style: GoogleFonts.poppins(
                                                 color: Colors.black,
-                                                fontSize: 13,
+                                                fontSize:width/27.692,
                                                 fontWeight: FontWeight.w500
 
                                             ),),
@@ -574,7 +574,7 @@ class _Student_ProfileState extends State<Student_Profile> {
 
                                             child: Text(": ${y1["fatherEmail"]}", style: GoogleFonts.poppins(
                                                 color: Colors.black,
-                                                fontSize: 13,
+                                                fontSize:width/27.692,
                                                 fontWeight: FontWeight.w500
 
                                             ),),
@@ -594,7 +594,7 @@ class _Student_ProfileState extends State<Student_Profile> {
 
                                             child: Text("Father Aadhaar", style: GoogleFonts.poppins(
                                                 color: Colors.black,
-                                                fontSize: 13,
+                                                fontSize:width/27.692,
                                                 fontWeight: FontWeight.w500
 
                                             ),),
@@ -604,7 +604,7 @@ class _Student_ProfileState extends State<Student_Profile> {
 
                                             child: Text(": ${y1["fatherAadhaar"]}", style: GoogleFonts.poppins(
                                                 color: Colors.black,
-                                                fontSize: 13,
+                                                fontSize:width/27.692,
                                                 fontWeight: FontWeight.w500
 
                                             ),),
@@ -624,7 +624,7 @@ class _Student_ProfileState extends State<Student_Profile> {
 
                                             child: Text("Father Occupation", style: GoogleFonts.poppins(
                                                 color: Colors.black,
-                                                fontSize: 13,
+                                                fontSize:width/27.692,
                                                 fontWeight: FontWeight.w500
 
                                             ),),
@@ -634,7 +634,7 @@ class _Student_ProfileState extends State<Student_Profile> {
 
                                             child: Text(": ${y1["fatherOccupation"]}", style: GoogleFonts.poppins(
                                                 color: Colors.black,
-                                                fontSize: 13,
+                                                fontSize:width/27.692,
                                                 fontWeight: FontWeight.w500
 
                                             ),),
@@ -657,7 +657,7 @@ class _Student_ProfileState extends State<Student_Profile> {
 
                                             child: Text("Guardian Name", style: GoogleFonts.poppins(
                                                 color: Colors.black,
-                                                fontSize: 13,
+                                                fontSize:width/27.692,
                                                 fontWeight: FontWeight.w500
 
                                             ),),
@@ -667,7 +667,7 @@ class _Student_ProfileState extends State<Student_Profile> {
 
                                             child: Text(": ${y1["guardianname"]}", style: GoogleFonts.poppins(
                                                 color: Colors.black,
-                                                fontSize: 13,
+                                                fontSize:width/27.692,
                                                 fontWeight: FontWeight.w500
 
                                             ),),
@@ -687,7 +687,7 @@ class _Student_ProfileState extends State<Student_Profile> {
 
                                             child: Text("Guardian Mobile", style: GoogleFonts.poppins(
                                                 color: Colors.black,
-                                                fontSize: 13,
+                                                fontSize:width/27.692,
                                                 fontWeight: FontWeight.w500
 
                                             ),),
@@ -697,7 +697,7 @@ class _Student_ProfileState extends State<Student_Profile> {
 
                                             child: Text(": ${y1["guardianMobile"]}", style: GoogleFonts.poppins(
                                                 color: Colors.black,
-                                                fontSize: 13,
+                                                fontSize:width/27.692,
                                                 fontWeight: FontWeight.w500
 
                                             ),),
@@ -717,7 +717,7 @@ class _Student_ProfileState extends State<Student_Profile> {
 
                                             child: Text("Guardian Email", style: GoogleFonts.poppins(
                                                 color: Colors.black,
-                                                fontSize: 13,
+                                                fontSize:width/27.692,
                                                 fontWeight: FontWeight.w500
 
                                             ),),
@@ -727,7 +727,7 @@ class _Student_ProfileState extends State<Student_Profile> {
 
                                             child: Text(": ${y1["guardianEmail"]}", style: GoogleFonts.poppins(
                                                 color: Colors.black,
-                                                fontSize: 13,
+                                                fontSize:width/27.692,
                                                 fontWeight: FontWeight.w500
 
                                             ),),
@@ -747,7 +747,7 @@ class _Student_ProfileState extends State<Student_Profile> {
 
                                             child: Text("Guardian Aadhaar", style: GoogleFonts.poppins(
                                                 color: Colors.black,
-                                                fontSize: 13,
+                                                fontSize:width/27.692,
                                                 fontWeight: FontWeight.w500
 
                                             ),),
@@ -757,7 +757,7 @@ class _Student_ProfileState extends State<Student_Profile> {
 
                                             child: Text(": ${y1["guardianAadhaar"]}", style: GoogleFonts.poppins(
                                                 color: Colors.black,
-                                                fontSize: 13,
+                                                fontSize:width/27.692,
                                                 fontWeight: FontWeight.w500
 
                                             ),),
@@ -777,7 +777,7 @@ class _Student_ProfileState extends State<Student_Profile> {
 
                                             child: Text("Guardian Occupation", style: GoogleFonts.poppins(
                                                 color: Colors.black,
-                                                fontSize: 13,
+                                                fontSize:width/27.692,
                                                 fontWeight: FontWeight.w500
 
                                             ),),
@@ -787,7 +787,7 @@ class _Student_ProfileState extends State<Student_Profile> {
 
                                             child: Text(": ${y1["guardianOccupation"]}", style: GoogleFonts.poppins(
                                                 color: Colors.black,
-                                                fontSize: 13,
+                                                fontSize:width/27.692,
                                                 fontWeight: FontWeight.w500
 
                                             ),),
@@ -808,9 +808,9 @@ class _Student_ProfileState extends State<Student_Profile> {
                                           SizedBox(
                                             width:width/3.60,
 
-                                            child: Text("Brother Name ", style: GoogleFonts.poppins(
+                                            child: Text("Sibling Name ", style: GoogleFonts.poppins(
                                                 color: Colors.black,
-                                                fontSize: 13,
+                                                fontSize:width/27.692,
                                                 fontWeight: FontWeight.w500
 
                                             ),),
@@ -820,7 +820,7 @@ class _Student_ProfileState extends State<Student_Profile> {
 
                                             child: Text(": ${y1["brothername"]}", style: GoogleFonts.poppins(
                                                 color: Colors.black,
-                                                fontSize: 13,
+                                                fontSize:width/27.692,
                                                 fontWeight: FontWeight.w500
 
                                             ),),
@@ -838,9 +838,9 @@ class _Student_ProfileState extends State<Student_Profile> {
                                           SizedBox(
                                             width:width/3.60,
 
-                                            child: Text("Brother Studying ", style: GoogleFonts.poppins(
+                                            child: Text("Sibling Studying ", style: GoogleFonts.poppins(
                                                 color: Colors.black,
-                                                fontSize: 13,
+                                                fontSize:width/27.692,
                                                 fontWeight: FontWeight.w500
 
                                             ),),
@@ -850,7 +850,7 @@ class _Student_ProfileState extends State<Student_Profile> {
 
                                             child: Text(": ${y1["brother studying here"]}", style: GoogleFonts.poppins(
                                                 color: Colors.black,
-                                                fontSize: 13,
+                                                fontSize:width/27.692,
                                                 fontWeight: FontWeight.w500
 
                                             ),),
@@ -861,35 +861,7 @@ class _Student_ProfileState extends State<Student_Profile> {
 
                                     //..botehr--end
 
-                                    Padding(
-                                      padding: EdgeInsets.only(
-                                          left: width / 25, right: width / 45,
-                                          top: height / 94.5, bottom: height / 94.5),
-                                      child: Row(
-                                        children: [
-                                          SizedBox(
-                                            width:width/3.60,
 
-                                            child: Text("Absent Days", style: GoogleFonts.poppins(
-                                                color: Colors.black,
-                                                fontSize: 13,
-                                                fontWeight: FontWeight.w500
-
-                                            ),),
-                                          ),
-                                          SizedBox(
-                                            width:width/1.714,
-
-                                            child: Text(": ${y1["absentdays"]}", style: GoogleFonts.poppins(
-                                                color: Colors.black,
-                                                fontSize: 13,
-                                                fontWeight: FontWeight.w500
-
-                                            ),),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
 
 
                                     Padding(
@@ -901,9 +873,9 @@ class _Student_ProfileState extends State<Student_Profile> {
                                           SizedBox(
                                             width:width/3.60,
 
-                                            child: Text("Identificatiol Mark", style: GoogleFonts.poppins(
+                                            child: Text("Identification Mark", style: GoogleFonts.poppins(
                                                 color: Colors.black,
-                                                fontSize: 13,
+                                                fontSize:width/27.692,
                                                 fontWeight: FontWeight.w500
 
                                             ),),
@@ -913,7 +885,7 @@ class _Student_ProfileState extends State<Student_Profile> {
 
                                             child: Text(": ${y1["identificatiolmark"]}", style: GoogleFonts.poppins(
                                                 color: Colors.black,
-                                                fontSize: 13,
+                                                fontSize:width/27.692,
                                                 fontWeight: FontWeight.w500
 
                                             ),),
@@ -933,7 +905,7 @@ class _Student_ProfileState extends State<Student_Profile> {
 
                                             child: Text("Gender", style: GoogleFonts.poppins(
                                                 color: Colors.black,
-                                                fontSize: 13,
+                                                fontSize:width/27.692,
                                                 fontWeight: FontWeight.w500
 
                                             ),),
@@ -943,7 +915,7 @@ class _Student_ProfileState extends State<Student_Profile> {
 
                                             child: Text(": ${y1["gender"]}", style: GoogleFonts.poppins(
                                                 color: Colors.black,
-                                                fontSize: 13,
+                                                fontSize:width/27.692,
                                                 fontWeight: FontWeight.w500
 
                                             ),),
@@ -963,7 +935,7 @@ class _Student_ProfileState extends State<Student_Profile> {
 
                                             child: Text("DOB", style: GoogleFonts.poppins(
                                                 color: Colors.black,
-                                                fontSize: 13,
+                                                fontSize:width/27.692,
                                                 fontWeight: FontWeight.w500
 
                                             ),),
@@ -973,7 +945,7 @@ class _Student_ProfileState extends State<Student_Profile> {
 
                                             child: Text(": ${y1["dob"]}", style: GoogleFonts.poppins(
                                                 color: Colors.black,
-                                                fontSize: 13,
+                                                fontSize:width/27.692,
                                                 fontWeight: FontWeight.w500
 
                                             ),),
@@ -993,7 +965,7 @@ class _Student_ProfileState extends State<Student_Profile> {
 
                                             child: Text("Community", style: GoogleFonts.poppins(
                                                 color: Colors.black,
-                                                fontSize: 13,
+                                                fontSize:width/27.692,
                                                 fontWeight: FontWeight.w500
 
                                             ),),
@@ -1003,7 +975,7 @@ class _Student_ProfileState extends State<Student_Profile> {
 
                                             child: Text(": ${y1["community"]}", style: GoogleFonts.poppins(
                                                 color: Colors.black,
-                                                fontSize: 13,
+                                                fontSize:width/27.692,
                                                 fontWeight: FontWeight.w500
 
                                             ),),
@@ -1023,7 +995,7 @@ class _Student_ProfileState extends State<Student_Profile> {
 
                                             child: Text("Religion", style: GoogleFonts.poppins(
                                                 color: Colors.black,
-                                                fontSize: 13,
+                                                fontSize:width/27.692,
                                                 fontWeight: FontWeight.w500
 
                                             ),),
@@ -1033,7 +1005,7 @@ class _Student_ProfileState extends State<Student_Profile> {
 
                                             child: Text(": ${y1["religion"]}", style: GoogleFonts.poppins(
                                                 color: Colors.black,
-                                                fontSize: 13,
+                                                fontSize:width/27.692,
                                                 fontWeight: FontWeight.w500
 
                                             ),),
@@ -1053,7 +1025,7 @@ class _Student_ProfileState extends State<Student_Profile> {
 
                                             child: Text("Aadhaar No", style: GoogleFonts.poppins(
                                                 color: Colors.black,
-                                                fontSize: 13,
+                                                fontSize:width/27.692,
                                                 fontWeight: FontWeight.w500
 
                                             ),),
@@ -1063,7 +1035,7 @@ class _Student_ProfileState extends State<Student_Profile> {
 
                                             child: Text(": ${y1["aadhaarno"]}", style: GoogleFonts.poppins(
                                                 color: Colors.black,
-                                                fontSize: 13,
+                                                fontSize:width/27.692,
                                                 fontWeight: FontWeight.w500
 
                                             ),),
@@ -1083,7 +1055,7 @@ class _Student_ProfileState extends State<Student_Profile> {
 
                                             child: Text("Reg No", style: GoogleFonts.poppins(
                                                 color: Colors.black,
-                                                fontSize: 13,
+                                                fontSize:width/27.692,
                                                 fontWeight: FontWeight.w500
 
                                             ),),
@@ -1093,7 +1065,7 @@ class _Student_ProfileState extends State<Student_Profile> {
 
                                             child: Text(": ${y1["regno"]}", style: GoogleFonts.poppins(
                                                 color: Colors.black,
-                                                fontSize: 13,
+                                                fontSize:width/27.692,
                                                 fontWeight: FontWeight.w500
 
                                             ),),
@@ -1112,7 +1084,7 @@ class _Student_ProfileState extends State<Student_Profile> {
                                             width:width/3.60,
                                             child: Text("Admit Class", style: GoogleFonts.poppins(
                                                 color: Colors.black,
-                                                fontSize: 13,
+                                                fontSize:width/27.692,
                                                 fontWeight: FontWeight.w500
 
                                             ),),
@@ -1122,7 +1094,7 @@ class _Student_ProfileState extends State<Student_Profile> {
 
                                             child: Text(": ${y1["admitclass"]}", style: GoogleFonts.poppins(
                                                 color: Colors.black,
-                                                fontSize: 13,
+                                                fontSize:width/27.692,
                                                 fontWeight: FontWeight.w500
 
                                             ),),
@@ -1130,35 +1102,7 @@ class _Student_ProfileState extends State<Student_Profile> {
                                         ],
                                       ),
                                     ),
-
-                                    Padding(
-                                      padding: EdgeInsets.only(
-                                          left: width / 25, right: width / 45,
-                                          top: height / 94.5, bottom: height / 94.5),
-                                      child: Row(
-                                        children: [
-                                          SizedBox(
-                                            width:width/3.60,
-                                            child: Text("Behaviour", style: GoogleFonts.poppins(
-                                                color: Colors.black,
-                                                fontSize: 13,
-                                                fontWeight: FontWeight.w500
-
-                                            ),),
-                                          ),
-                                          SizedBox(
-                                            width:width/1.714,
-
-                                            child: Text(": ${y1["behaviour"].toString()}", style: GoogleFonts.poppins(
-                                                color: Colors.black,
-                                                fontSize: 13,
-                                                fontWeight: FontWeight.w500
-
-                                            ),),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
+                                    
 
                                     Padding(
                                       padding: EdgeInsets.only(
@@ -1170,7 +1114,7 @@ class _Student_ProfileState extends State<Student_Profile> {
                                             width:width/3.60,
                                             child: Text("House", style: GoogleFonts.poppins(
                                                 color: Colors.black,
-                                                fontSize: 13,
+                                                fontSize:width/27.692,
                                                 fontWeight: FontWeight.w500
 
                                             ),),
@@ -1180,7 +1124,7 @@ class _Student_ProfileState extends State<Student_Profile> {
 
                                             child: Text(": ${y1["house"]}", style: GoogleFonts.poppins(
                                                 color: Colors.black,
-                                                fontSize: 13,
+                                                fontSize:width/27.692,
                                                 fontWeight: FontWeight.w500
 
                                             ),),
@@ -1199,7 +1143,7 @@ class _Student_ProfileState extends State<Student_Profile> {
                                             width:width/3.60,
                                             child: Text("Transport", style: GoogleFonts.poppins(
                                                 color: Colors.black,
-                                                fontSize: 13,
+                                                fontSize:width/27.692,
                                                 fontWeight: FontWeight.w500
 
                                             ),),
@@ -1209,7 +1153,7 @@ class _Student_ProfileState extends State<Student_Profile> {
 
                                             child: Text(": ${y1["transport"]}", style: GoogleFonts.poppins(
                                                 color: Colors.black,
-                                                fontSize: 13,
+                                                fontSize:width/27.692,
                                                 fontWeight: FontWeight.w500
 
                                             ),),
@@ -1228,7 +1172,7 @@ class _Student_ProfileState extends State<Student_Profile> {
                                             width:width/3.60,
                                             child: Text("Academic", style: GoogleFonts.poppins(
                                                 color: Colors.black,
-                                                fontSize: 13,
+                                                fontSize:width/27.692,
                                                 fontWeight: FontWeight.w500
 
                                             ),),
@@ -1238,7 +1182,7 @@ class _Student_ProfileState extends State<Student_Profile> {
 
                                             child: Text(": ${y1["academic"]}", style: GoogleFonts.poppins(
                                                 color: Colors.black,
-                                                fontSize: 13,
+                                                fontSize:width/27.692,
                                                 fontWeight: FontWeight.w500
 
                                             ),),
@@ -1257,7 +1201,7 @@ class _Student_ProfileState extends State<Student_Profile> {
                                             width:width/3.60,
                                             child: Text("EMIS", style: GoogleFonts.poppins(
                                                 color: Colors.black,
-                                                fontSize: 13,
+                                                fontSize:width/27.692,
                                                 fontWeight: FontWeight.w500
 
                                             ),),
@@ -1267,7 +1211,7 @@ class _Student_ProfileState extends State<Student_Profile> {
 
                                             child: Text(": ${y1["EMIS"]}", style: GoogleFonts.poppins(
                                                 color: Colors.black,
-                                                fontSize: 13,
+                                                fontSize:width/27.692,
                                                 fontWeight: FontWeight.w500
 
                                             ),),
@@ -1287,7 +1231,7 @@ class _Student_ProfileState extends State<Student_Profile> {
 
                                             child: Text("Address", style: GoogleFonts.poppins(
                                                 color: Colors.black,
-                                                fontSize: 13,
+                                                fontSize:width/27.692,
                                                 fontWeight: FontWeight.w500
 
                                             ),),
@@ -1297,7 +1241,7 @@ class _Student_ProfileState extends State<Student_Profile> {
 
                                             child: Text(": ${y1["address"]}", style: GoogleFonts.poppins(
                                                 color: Colors.black,
-                                                fontSize: 13,
+                                                fontSize:width/27.692,
                                                 fontWeight: FontWeight.w500
 
                                             ),),
@@ -1403,7 +1347,7 @@ class _Student_ProfileState extends State<Student_Profile> {
                                       ],
                                     ),
 
-                                    const SizedBox(height: 5,),
+                                     SizedBox(height: height/151.2,),
 
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -1412,22 +1356,22 @@ class _Student_ProfileState extends State<Student_Profile> {
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             Padding(
-                                              padding: EdgeInsets.only(left: width / 12),
+                                              padding: EdgeInsets.only(left: width / 9,top:height/100.2),
                                               child:
                                               Text(
-                                                y1["stname"], style: GoogleFonts.poppins(
+                                                "${y1["stname"]} ${y1["stlastname"]}", style: GoogleFonts.poppins(
                                                   color: Colors.white,
-                                                  fontSize: 22,
+                                                  fontSize: width/16.363,
                                                   fontWeight: FontWeight.bold
 
                                               ),),
                                             ),
                                             Padding(
-                                              padding: EdgeInsets.only(left: width / 12),
+                                              padding: EdgeInsets.only(left: width / 9),
                                               child: Text("ID : ${y1["regno"]}",
                                                 style: GoogleFonts.poppins(
                                                     color: Colors.white,
-                                                    fontSize: 16,
+                                                    fontSize: width/22.5,
                                                     fontWeight: FontWeight.w500
 
                                                 ),),
@@ -1442,15 +1386,7 @@ class _Student_ProfileState extends State<Student_Profile> {
                                   ],
                                 ),
 
-                                Positioned(
-                                  bottom: height / 15.45, left: width / 3.6,
-                                  child: const CircleAvatar(
-                                      radius: 24,
-                                      backgroundColor: Colors.white,
-                                      child: Icon(Icons.create_outlined,
-                                        color: Colors.black, size: 26,)
-                                  ),
-                                )
+                              
 
                               ]
                           ),
@@ -1502,10 +1438,10 @@ class _Student_ProfileState extends State<Student_Profile> {
                 ),*/
 
                 Padding(
-                  padding:  EdgeInsets.only(left:170,top:100),
+                  padding:  EdgeInsets.only(left:width/2.117,top:height/7.56),
                   child: Container(
-                      height:100,
-                      width:220,
+                      height:height/7.56,
+                      width:width/1.636,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(100),
@@ -1518,19 +1454,19 @@ class _Student_ProfileState extends State<Student_Profile> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          SizedBox(height:5),
+                          SizedBox(height:height/151.2),
                           Text(
-                            "Studying Classes", style: GoogleFonts.poppins(
+                            "Studying Class", style: GoogleFonts.poppins(
                               color: Colors.black,
-                              fontSize: 18,
+                              fontSize:width/20,
                               fontWeight: FontWeight.bold
 
                           ),),
-                          SizedBox(height:5),
+                          SizedBox(height:height/155.2),
                           Text(
                             "${y1["admitclass"]} ${y1["section"]}", style: GoogleFonts.poppins(
                               color: Colors.black,
-                              fontSize: 18,
+                              fontSize:width/20,
                               fontWeight: FontWeight.bold
 
                           ),),

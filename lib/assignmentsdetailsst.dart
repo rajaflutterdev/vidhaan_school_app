@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:lottie/lottie.dart';
 import 'package:path/path.dart' as p;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -20,7 +21,8 @@ class AssigmentsST extends StatefulWidget {
   String stname;
   String stregno;
   String date;
-  AssigmentsST(this.docid,this.classes,this.sec,this.stname,this.stregno,this.date);
+  String type;
+  AssigmentsST(this.docid,this.classes,this.sec,this.stname,this.stregno,this.date,this.type);
 
   @override
   State<AssigmentsST> createState() => _AssigmentsSTState();
@@ -40,6 +42,7 @@ class _AssigmentsSTState extends State<AssigmentsST> {
   String imageurl4="";
   String imageurl5="";
   int status = 0;
+
   add() async {
     int status = 1;
     if(_pickedFile!=null) {
@@ -133,12 +136,10 @@ class _AssigmentsSTState extends State<AssigmentsST> {
     collection("class HomeWorks").doc(widget.docid).collection("Submissions").doc().set({
 
       "date": DateFormat.yMMMd().format(DateTime.now()),
+      "submitted_date": DateFormat.yMMMd().format(DateTime.now()),
       "des": homecoller.text,
-      "timestamp": DateTime
-          .now()
-          .millisecondsSinceEpoch,
+      "timestamp": DateTime.now().millisecondsSinceEpoch,
       "Time": "${DateFormat('hh:mm a').format(DateTime.now())}",
-
       "imageurl1": imageurl1,
       "imageurl2": imageurl2,
       "imageurl3": imageurl3,
@@ -157,6 +158,7 @@ class _AssigmentsSTState extends State<AssigmentsST> {
     homecoller.clear();
 
   }
+
   croppimage()async{
     if(_pickedFile==null) {
       ImagePicker _picker = ImagePicker();
@@ -211,6 +213,7 @@ class _AssigmentsSTState extends State<AssigmentsST> {
     }
 
   }
+
   SuccessHomeworkdialog() {
     double width = MediaQuery.of(context).size.width;
     return AwesomeDialog(
@@ -232,7 +235,70 @@ class _AssigmentsSTState extends State<AssigmentsST> {
     )
       ..show();
   }
+
   TextEditingController homecoller = TextEditingController();
+
+
+  bool submitted=false;
+
+  checksubmittedfunction()async{
+    setState(() {
+      submitted=false;
+    });
+print(widget.stregno);
+print(widget.date);
+print(widget.docid);
+print(widget.classes);
+print(widget.stname);
+
+  _firestore2db.collection("homeworks").doc(widget.date).
+    collection(widget.classes).doc(widget.sec).
+    collection("class HomeWorks").doc(widget.docid).get().then((value){
+
+      if(value['submited'].contains(widget.stregno)){
+
+        setState(() {
+          submitted=true;
+        });
+        shoedialogpopup();
+      }
+   });
+
+  }
+
+  @override
+  void initState() {
+    print(" Time:  ${DateFormat('hh:mm a').format(DateTime.now())}");
+    getstatus();
+   // checksubmittedfunction();
+    // TODO: implement initState
+    super.initState();
+  }
+
+  bool statusval = false;
+
+  String sdate="";
+  String stime="";
+
+
+  getstatus() async {
+    setState(() {
+      statusval= false;
+    });
+var docu=  await  _firestore2db.collection("homeworks").doc(widget.date).
+    collection(widget.classes).doc(widget.sec).
+    collection("class HomeWorks").doc(widget.docid).collection("Submissions").get();
+for(int i=0;i<docu.docs.length;i++){
+  if(docu.docs[i]["stregno"]==widget.stregno)
+  setState(() {
+    statusval = true;
+    sdate = docu.docs[i]["submitted_date"];
+    stime = docu.docs[i]["Time"];
+  });
+}
+  }
+
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -244,7 +310,7 @@ class _AssigmentsSTState extends State<AssigmentsST> {
             fontWeight:
             FontWeight
                 .w700,
-            fontSize: 18),),
+            fontSize: width/20),),
       ),
       body: FutureBuilder(
         future: _firestore2db.collection("homeworks").doc(widget.date).
@@ -257,73 +323,117 @@ class _AssigmentsSTState extends State<AssigmentsST> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Padding(
-                  padding: const EdgeInsets.all(4.0),
+                  padding:  EdgeInsets.symmetric(
+                    vertical: height/189,
+                    horizontal: width/90,
+                  ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Container(
-                        width: 380,
+                        width: width/1.028,
 
                         decoration: BoxDecoration(
                           color: Color(0xff0271C5),
                           borderRadius: BorderRadius.circular(20)
                         ),
                         child: Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding:  EdgeInsets.symmetric(
+                            horizontal: width/45,
+                            vertical: height/94.5
+                          ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              SizedBox(height: 20,),
+                              SizedBox(height: height/37.8,),
                               Text("Subject",style: GoogleFonts.poppins(
                                   color: Colors.white,
                                   fontWeight:
-                                  FontWeight
-                                      .w600,
-                                  fontSize: 18)),
+                                  FontWeight.w700,
+                                  fontSize: width/22)),
                               Text(val!["subject"],style: GoogleFonts.poppins(
                                   color: Colors.white,
                                   fontWeight:
                                   FontWeight
-                                      .w700,
-                                  fontSize: 24)),
+                                      .w500,
+                                  fontSize: width/25)),
                               Container(
-                                width: 200,
+                                width: width/1.8,
                                 child: Divider(
                                   color: Colors.white,
                                 ),
                               ),
-                              Text("Due Date & Time",style: GoogleFonts.poppins(
-                                  color: Colors.white,
-                                  fontWeight:
-                                  FontWeight
-                                      .w600,
-                                  fontSize: 18)),
-                              Text("${val['date']} - ${val['Time']}",style: GoogleFonts.poppins(
+
+
+                              Text("Assigned Date  & Time",style: GoogleFonts.poppins(
                                   color: Colors.white,
                                   fontWeight:
                                   FontWeight
                                       .w700,
-                                  fontSize: 24)),
+                                  fontSize: width/22)),
+                              Text("${val["Assignedondate"].toString()}  - ${val['Time']}",style: GoogleFonts.poppins(
+                                  color: Colors.white,
+                                  fontWeight:
+                                  FontWeight
+                                      .w500,
+                                  fontSize: width/25)),
                               Container(
-                                width: 200,
+                                width: width/1.8,
                                 child: Divider(
                                   color: Colors.white,
                                 ),
                               ),
-                              Text("Assigned by",style: GoogleFonts.poppins(
+                              Text("Due Date",style: GoogleFonts.poppins(
                                   color: Colors.white,
                                   fontWeight:
                                   FontWeight
                                       .w600,
-                                  fontSize: 18)),
+                                  fontSize: width/22)),
+                              Text("${val['Duedate']}",style: GoogleFonts.poppins(
+                                  color: Colors.white,
+                                  fontWeight:
+                                  FontWeight
+                                      .w500,
+                                  fontSize: width/25)),
+                              Container(
+                                width: width/1.8,
+                                child: Divider(
+                                  color: Colors.white,
+                                ),
+                              ),
+                              Text("Assigned By",style: GoogleFonts.poppins(
+                                  color: Colors.white,
+                                  fontWeight:
+                                  FontWeight
+                                      .w700,
+                                  fontSize: width/22)),
                               Text(val["statffname"],style: GoogleFonts.poppins(
                                   color: Colors.white,
                                   fontWeight:
                                   FontWeight
-                                      .w700,
-                                  fontSize: 24)),
+                                      .w500,
+                                  fontSize: width/25)),
                               Container(
-                                width: 200,
+                               width: width/1.8,
+                                child: Divider(
+                                  color: Colors.white,
+                                ),
+                              ),
+                              Text("Topic",style: GoogleFonts.poppins(
+                                  color: Colors.white,
+                                  fontWeight:
+                                  FontWeight
+                                      .w700,
+                                  fontSize: width/22)),
+                              Text(val["topic"],
+                                  style: GoogleFonts.poppins(
+                                  color: Colors.white,
+                                  fontWeight:
+                                  FontWeight
+                                      .w500,
+                                  fontSize: width/25)),
+                              Container(
+                               width: width/1.8,
                                 child: Divider(
                                   color: Colors.white,
                                 ),
@@ -332,22 +442,22 @@ class _AssigmentsSTState extends State<AssigmentsST> {
                                   color: Colors.white,
                                   fontWeight:
                                   FontWeight
-                                      .w600,
-                                  fontSize: 18)),
+                                      .w700,
+                                  fontSize: width/22)),
                               Text(val["des"],
                                   style: GoogleFonts.poppins(
-                                  color: Colors.white,
-                                  fontWeight:
-                                  FontWeight
-                                      .w700,
-                                  fontSize: 20)),
+                                      color: Colors.white,
+                                      fontWeight:
+                                      FontWeight
+                                          .w500,
+                                      fontSize: width/25)),
                               Container(
-                                width: 200,
+                                width: width/1.8,
                                 child: Divider(
                                   color: Colors.white,
                                 ),
                               ),
-                              SizedBox(height: 10,),
+                              SizedBox(height: height/75.6,),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
@@ -361,8 +471,8 @@ class _AssigmentsSTState extends State<AssigmentsST> {
                                         );
                                       },
                                       child: Container(
-                                        width: 250,
-                                        height: 50,
+                                        width: width/1.44,
+                                        height: height/15.12,
                                         decoration: BoxDecoration(
                                           color: Colors.white,
                                           borderRadius: BorderRadius.circular(20)
@@ -374,14 +484,14 @@ class _AssigmentsSTState extends State<AssigmentsST> {
                                               fontWeight:
                                               FontWeight
                                                   .w600,
-                                              fontSize: 18)),
+                                              fontSize: width/20)),
                                         ),
                                       ),
                                     ),
                                   ),
                                 ],
                               ),
-                              SizedBox(height: 10,),
+                              SizedBox(height: height/75.6,),
                             ],
                           ),
                         ),
@@ -390,10 +500,10 @@ class _AssigmentsSTState extends State<AssigmentsST> {
                     ],
                   ),
                 ),
-                Row(
+                statusval==true  ?SizedBox():  Row(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding:  EdgeInsets.all(8.0),
                       child: Text(
                         "Answer",
                         style: GoogleFonts.poppins(
@@ -409,7 +519,7 @@ class _AssigmentsSTState extends State<AssigmentsST> {
                 /// today homework
 
 
-                Center(
+                statusval==true  ?SizedBox():  Center(
                   child: Container(
                     padding: EdgeInsets.only(
                         top: height / 157.8,
@@ -490,7 +600,7 @@ class _AssigmentsSTState extends State<AssigmentsST> {
                                     padding: const EdgeInsets
                                         .only(left: 15.0),
                                     child: Container(
-                                      width: 170,
+                                      width: width/2.117,
                                       child: Text(
                                         p.basename(_pickedFile!.path),
 
@@ -745,7 +855,7 @@ class _AssigmentsSTState extends State<AssigmentsST> {
                     ),
                   ),
                 ): SizedBox(),
-                val["statffname"].contains(widget.stregno)  ?SizedBox():  Center(
+                statusval==true  ?SizedBox():  Center(
                   child: InkWell(
                     onTap: () {
                       croppimage();
@@ -828,7 +938,7 @@ class _AssigmentsSTState extends State<AssigmentsST> {
                   ),
                 ),
                 SizedBox(height: height / 49.133),
-                val["statffname"].contains(widget.stregno)  ?
+                statusval==true ?
                 Center(
                   child: GestureDetector(
                     onTap: () {
@@ -872,8 +982,14 @@ class _AssigmentsSTState extends State<AssigmentsST> {
                   child: GestureDetector(
                     onTap: () {
 
-                      add();
-                      SuccessHomeworkdialog();
+                      if(submitted==true){
+                        shoedialogpopup();
+                      }
+
+                      else{
+                        add();
+                        SuccessHomeworkdialog();
+                      }
 
                     },
                     child: Container(
@@ -908,6 +1024,14 @@ class _AssigmentsSTState extends State<AssigmentsST> {
                     ),
                   ),
                 ),
+                SizedBox(height: height / 99.133),
+                statusval==true  ?  Text("Submitted on ${sdate} \nat ${stime}",
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.poppins(
+                    color: Color(0xff0271C5),
+                    fontWeight:
+                    FontWeight.w600,
+                    fontSize: width/28)) : SizedBox(),
 
                 SizedBox(height: height / 4.2125),
               ],
@@ -917,6 +1041,104 @@ class _AssigmentsSTState extends State<AssigmentsST> {
       ),
     );
   }
+
+
+
+  shoedialogpopup(){
+
+    double height=MediaQuery.of(context).size.height;
+    double width=MediaQuery.of(context).size.width;
+
+    return showDialog(
+      barrierDismissible: false,
+
+      context: context, builder:(context) {
+      return
+        Padding(
+          padding:  EdgeInsets.only(top:height/3.78,bottom: height/3.78,left: width/7.2,right: width/7.2),
+          child: Scaffold(
+            body: Container(
+              height: height/3.024,
+              width: width/1.44,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8)
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(height: height/25.2,),
+                  Text(
+                    "Already to Submitted.....",
+                    style:
+                    GoogleFonts.poppins(
+                        color: Colors
+                            .black,
+                        fontSize: width / 22.5,
+                        fontWeight:
+                        FontWeight
+                            .w500),
+                  ),
+
+                  SizedBox(height: height/25.2,),
+                  SizedBox(
+                    height: height/9.45,
+                    width: width/4.5,
+                    child: Lottie.asset("assets/2pv43mVDXm.json"),
+                    
+                  ),
+                  SizedBox(height: height/25.2,),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      GestureDetector(
+                        onTap: (){
+                          Navigator.pop(context);
+                          Navigator.pop(context);
+
+                        },
+                        child: Container(
+                          height: height / 16.37,
+                          width: width / 2.8,
+                          decoration: BoxDecoration(
+                              color: Color(0xff609F00),
+                              border: Border.all(
+                                  color: Colors.grey),
+                              borderRadius:
+                              BorderRadius.circular(
+                                  7)),
+                          child: Center(
+                            child: Text(
+                              "Okay",
+                              style:
+                              GoogleFonts.poppins(
+                                  color: Colors
+                                      .white,
+                                  fontSize: width / 22.5,
+                                  fontWeight:
+                                  FontWeight
+                                      .w500),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
+                ],
+              ),
+
+
+
+            ),
+          ),
+        );
+    },);
+
+
+  }
+
+
+
 }
 FirebaseApp _secondaryApp = Firebase.app('SecondaryApp');
 final FirebaseFirestore _firestoredb = FirebaseFirestore.instance;

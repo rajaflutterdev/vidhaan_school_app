@@ -86,6 +86,8 @@ class RegisterScreenController extends GetxController {
         badge: true,
         sound: true,
       );
+
+
     }
   }
 
@@ -116,6 +118,7 @@ class RegisterScreenController extends GetxController {
       criticalAlert: false,
       provisional: false,
       sound: true,
+
     );
 
     if (settings.authorizationStatus == AuthorizationStatus.authorized) {

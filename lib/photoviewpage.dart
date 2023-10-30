@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
@@ -6,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:lottie/lottie.dart';
+import 'package:path_provider/path_provider.dart';
 
 class PhotoViewPage extends StatefulWidget {
   String img1;
@@ -35,10 +37,42 @@ class _PhotoViewPageState extends State<PhotoViewPage> {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("File Downloaded")));
   }
 
+  // downloadFile(String url) async {
+  //   Dio dio = Dio();
+  //   try {
+  //     var dir = await getApplicationDocumentsDirectory();
+  //     await dio.download(url, "${dir.path}/video.mp4", onReceiveProgress: (rec, total) async {
+  //       print("Rec: $rec , Total: $total");
+  //
+  //       String filePath = '${dir.path}/video.mp4';
+  //       File videoFile = File(filePath);
+  //     });
+  //
+  //     String? taskId = await FlutterDownloader.enqueue(
+  //         url: url,
+  //         savedDir: '/storage/emulated/0/Download',
+  //         fileName: 'video.mp4',
+  //         showNotification: true,
+  //         allowCellular: true,
+  //         openFileFromNotification: true,
+  //         saveInPublicStorage: true,
+  //         requiresStorageNotLow: true
+  //     );
+  //     //await Share.shareFiles([(dir.path)]);
+  //
+  //     return taskId; // Return the task ID
+  //
+  //   } catch (e) {
+  //   }
+  // }
+
   String imageData="";
   bool dataLoaded = false;
   @override
   Widget build(BuildContext context) {
+
+    double height =MediaQuery.of(context).size.height;
+    double width =MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         title: Row(
@@ -76,15 +110,15 @@ class _PhotoViewPageState extends State<PhotoViewPage> {
           controller: dd,
           children: [
             widget.img1!=""?CachedNetworkImage(imageUrl:widget.img1.toString(),placeholder: (context, url) => Container(
-                width:100,height:100,child: Lottie.asset("assets/Loadingvi.json")),): SizedBox(),
+                width:width/3.60,height:height/7.56,child: Lottie.asset("assets/Loadingvi.json")),): SizedBox(),
             widget.img2!=""? CachedNetworkImage(imageUrl:widget.img2.toString(),placeholder: (context, url) => Container(
-    width:100,height:100,child: Lottie.asset("assets/Loadingvi.json")),): SizedBox(),
+    width:width/3.60,height:height/7.56,child: Lottie.asset("assets/Loadingvi.json")),): SizedBox(),
             widget.img3!=""? CachedNetworkImage(imageUrl:widget.img3.toString(),placeholder: (context, url) => Container(
-    width:100,height:100,child: Lottie.asset("assets/Loadingvi.json")),): SizedBox(),
+                width:width/3.60,height:height/7.56,child: Lottie.asset("assets/Loadingvi.json")),): SizedBox(),
             widget.img4!=""? CachedNetworkImage(imageUrl:widget.img4.toString(),placeholder: (context, url) => Container(
-    width:100,height:100,child: Lottie.asset("assets/Loadingvi.json")),): SizedBox(),
+                width:width/3.60,height:height/7.56,child: Lottie.asset("assets/Loadingvi.json")),): SizedBox(),
             widget.img5!=""?CachedNetworkImage(imageUrl:widget.img5.toString(),placeholder: (context, url) => Container(
-    width:100,height:100,child: Lottie.asset("assets/Loadingvi.json")),): SizedBox(),
+                width:width/3.60,height:height/7.56,child: Lottie.asset("assets/Loadingvi.json")),): SizedBox(),
 
           ],
         ),

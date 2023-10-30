@@ -7,20 +7,20 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:splash_view/source/presentation/pages/pages.dart';
 import 'package:unique_identifier/unique_identifier.dart';
 import 'package:video_player/video_player.dart';
-import 'package:vidhaan_school_app/otp_page.dart';
 import 'Student_Landing_Page.dart';
 import 'account_page.dart';
 import 'firebase_options1.dart';
 import 'firebase_options2.dart';
 import 'homepage.dart';
-import 'package:dotlottie_loader/dotlottie_loader.dart';
-import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
+
+
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp(
@@ -32,6 +32,10 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   );
   print('Handling a background message ${message.messageId}');
 }
+
+
+
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -42,21 +46,171 @@ void main() async {
     options: SecondaryFirebaseOptions.currentPlatform,
   );
 
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-
+  //initialize background
+    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
 
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((value) => runApp( MyApp()));
+
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class MyApp extends StatefulWidget {
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
 
+class _MyAppState extends State<MyApp> {
+
+
+  final GlobalKey<NavigatorState> navigatorKey = GlobalKey();
+
+  @override
+  void initState() {
+    print("Init Stateeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
+    usertypecheckfunction();
+    setupInteractedMessage();
+
+
+    // FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    //   print("Notification Data: ${message.data}");
+    //   print("11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111");
+    //   // Extract necessary information and navigate
+    //   String pageToNavigate = message.data['page'];
+    //   navigateToPage(pageToNavigate);
+    // });
+
+
+    // TODO: implement initState
+    super.initState();
+  }
+
+
+  navigateToPage(String page) {
+    print("Navigate the Firebase messing Pagessssssssssssssssssssssssssssssssssssssssss");
+    // Implement your navigation logic here
+    // For example, use Navigator.push to navigate to the desired page
+    // You can replace the code below with your actual navigation logic
+
+    BuildContext context = navigatorKey.currentContext!;
+
+    if(userType=="Student"){
+      if(page=="Home Work"){
+        Navigator.push(context, MaterialPageRoute(builder: (context) => Student_landing_Page(page,true)));
+      }
+      if(page=="Attendance"){
+        Navigator.push(context, MaterialPageRoute(builder: (context) => Student_landing_Page(page,true)));
+      }
+      if(page=="Message"){
+        Navigator.push(context, MaterialPageRoute(builder: (context) => Student_landing_Page(page,true)));
+      }
+      if(page=="Feed Back"){
+        Navigator.push(context, MaterialPageRoute(builder: (context) => Student_landing_Page(page,true)));
+      }
+    }
+
+    if(userType=="Teacher"){
+
+      Navigator.push(context, MaterialPageRoute(builder: (context) => Homepage()));
+
+    }
+
+  }
+
+// It is assumed that all messages contain a data field with the key 'type'
+ setupInteractedMessage() async {
+    print("1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111");
+    // Get any messages which caused the application to open from
+    // a terminated state.
+    RemoteMessage? initialMessage =
+    await FirebaseMessaging.instance.getInitialMessage();
+
+    // If the message also contains a data property with a "type" of "chat",
+    // navigate to a chat screen
+    if (initialMessage != null) {
+      _handleMessage(initialMessage);
+    }
+
+    // Also handle any interaction when the app is in the background via a
+    // Stream listener
+    FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
+  }
+
+   _handleMessage(RemoteMessage message) {
+    print(message.data['page'].toString());
+    navigateToPage(message.data['page'].toString());
+
+  }
+
+
+
+
+
+
+  String userType ="";
+  String? _deviceId;
+  String schoolurl="";
+
+  usertypecheckfunction() async {
+    String? deviceId;
+    // Platform messages may fail, so we use a try/catch PlatformException.
+    try {
+      deviceId = await UniqueIdentifier.serial;
+    } on PlatformException {
+      deviceId = 'Failed to get deviceId.';
+    }
+
+    // If the widget was removed from the tree while the asynchronous platform
+    // message was in flight, we want to discard the reply rather than calling
+    // setState to update our non-existent appearance.
+    if (!mounted) return;
+
+    setState(() {
+      _deviceId = deviceId;
+      print("deviceId->$_deviceId");
+    });
+    if(_firebaseauth2db.currentUser!=null){
+      var  result = await FirebaseFirestore.instance.collection('UserID').get();
+
+      for(int i=0;i<result.docs.length;i++) {
+        if (_deviceId == result.docs[i]["id"]) {
+          setState(() {
+            schoolurl = result.docs[i]["schoolurl"];
+          });
+        }
+      }
+    }
+
+      if(_firebaseauth2db.currentUser!=null){
+        var getdate=await _firestore2db.collection('deviceid').where("id",isEqualTo: _firebaseauth2db.currentUser!.uid).where("type",isEqualTo:"Student" ).get();
+        var getdate2=await _firestore2db.collection('deviceid').where("id",isEqualTo: _firebaseauth2db.currentUser!.uid).where("type",isEqualTo:"Teacher" ).get();
+        if(getdate.docs.length>0){
+          Timer(Duration(seconds: 5),(){
+            setState(() {
+              userType="Student";
+            });
+          }
+          );
+        }
+        if(getdate2.docs.length>0){
+          Timer(Duration(seconds: 5),(){
+            setState(() {
+              userType="Teacher";
+            });
+
+          }
+          );
+        }
+      }
+
+
+
+  }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
 
+    return MaterialApp(
+      navigatorKey: navigatorKey,
       debugShowCheckedModeBanner: false,
       title: 'Vidhaan',
       theme: Theme.of(context).copyWith(
@@ -71,23 +225,15 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key,});
-
-
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
 
-  void _incrementCounter() {
-    setState(() {
 
-      _counter++;
-    });
-  }
+
   bool school= false;
 
   @override
@@ -99,11 +245,27 @@ class _MyHomePageState extends State<MyHomePage> {
     });
     // TODO: implement initState
     super.initState();
+
+    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
+
+
+
   }
+
+
+
+
+
+
+
   demo(){
   }
+
   TextEditingController schoolid = new TextEditingController();
+
   String _deviceId =" ";
+
   Future<void> initPlatformState(url) async {
     String? deviceId;
 
@@ -126,6 +288,7 @@ class _MyHomePageState extends State<MyHomePage> {
       "schoolurl": url
     });
   }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -149,8 +312,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Container(
-                      width: 320,
-                      height: 60,
+                      width: width/1.2,
+                      height: height/12.6,
                       decoration: BoxDecoration(color: Color(0xffFEFCFF),
 
                           borderRadius: BorderRadius.circular(15),
@@ -223,8 +386,8 @@ class _MyHomePageState extends State<MyHomePage> {
                         }
                       },
                       child: Container(
-                        width: 320,
-                        height: 60,
+                        width: width/1.125,
+                        height: height/12.6,
                         decoration: BoxDecoration(color: Color(0xff0271C5).withOpacity(0.80),
 
                             borderRadius: BorderRadius.circular(15),
@@ -279,10 +442,8 @@ class _splashscreenState extends State<splashscreen> {
       _deviceId = deviceId;
       print("deviceId->$_deviceId");
     });
-    var  result = await FirebaseFirestore.instance
-        .collection('UserID')
+    var  result = await FirebaseFirestore.instance.collection('UserID')
         .get();
-
 
     for(int i=0;i<result.docs.length;i++){
       if (_deviceId==result.docs[i]["id"]) {
@@ -295,7 +456,6 @@ class _splashscreenState extends State<splashscreen> {
     }
     if(user==false){
       Timer(Duration(seconds: 5),
-
               () {
             Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.fade, child:  MyHomePage()));
           }
@@ -307,12 +467,12 @@ class _splashscreenState extends State<splashscreen> {
         var getdate2=await _firestore2db.collection('deviceid').where("id",isEqualTo: _firebaseauth2db.currentUser!.uid).where("type",isEqualTo:"Teacher" ).get();
         if(getdate.docs.length>0){
           Timer(Duration(seconds: 5),(){
-            Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.fade, child: Student_landing_Page(),));
+            Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.fade, child: Student_landing_Page("",false),));
 
           }
           );
         }
-        else if(getdate2.docs.length>0){
+        if(getdate2.docs.length>0){
           Timer(Duration(seconds: 5),(){
             Navigator.pushReplacement(context, PageTransition(type: PageTransitionType.fade, child: Homepage(),));
 
@@ -337,8 +497,11 @@ class _splashscreenState extends State<splashscreen> {
   }
   late VideoPlayerController _controller;
   void initState() {
-    _controller =
-    VideoPlayerController.asset("assets/VidhaanLogoVideonew2.mp4")
+    _controller = VideoPlayerController.asset("assets/VidhaanLogoVideonew2.mp4",videoPlayerOptions: VideoPlayerOptions(
+      allowBackgroundPlayback: true,
+      mixWithOthers: true,
+
+    ))
       ..initialize().then((value) => {setState(() {})});
     _controller.setVolume(0.0);
     _controller.play();
@@ -377,6 +540,7 @@ class _splashscreenState extends State<splashscreen> {
   }
 
 }
+
 class Intro_Page extends StatefulWidget {
   const Intro_Page({Key? key}) : super(key: key);
 
@@ -399,7 +563,7 @@ class _Intro_PageState extends State<Intro_Page> {
       var getdate=await _firestore2db.collection('deviceid').where("id",isEqualTo: _firebaseauth2db.currentUser!.uid).where("type",isEqualTo:"Student" ).get();
       var getdate2=await _firestore2db.collection('deviceid').where("id",isEqualTo: _firebaseauth2db.currentUser!.uid).where("type",isEqualTo:"Teacher" ).get();
       if(getdate.docs.length>0){
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Student_landing_Page(),));
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Student_landing_Page("",false),));
       }
       else if(getdate2.docs.length>0){Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Homepage(),));
       }
@@ -419,6 +583,7 @@ class _Intro_PageState extends State<Intro_Page> {
     return Container();
   }
 }
+
 FirebaseApp _secondaryApp = Firebase.app('SecondaryApp');
 final FirebaseFirestore _firestoredb = FirebaseFirestore.instance;
 FirebaseFirestore _firestore2db = FirebaseFirestore.instanceFor(app: _secondaryApp);

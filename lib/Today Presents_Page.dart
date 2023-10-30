@@ -435,19 +435,18 @@ class _Today_Presents_PageState extends State<Today_Presents_Page> {
     // TODO: implement initState
     super.initState();
   }
+
   File? _pickedFile2;
+
   verfiy(val) async {
     ImagePicker _picker = ImagePicker();
-    await _picker.pickImage(source: ImageSource.camera,preferredCameraDevice: CameraDevice.values[2]).then((xFile) {
+    await _picker.pickImage(source: ImageSource.camera,preferredCameraDevice: CameraDevice.front).then((xFile) {
       if (xFile != null) {
         setState(() {
           _pickedFile2 = File(xFile.path);
         });
       }
     });
-    print("fun one completed");
-    print(_pickedFile2!.path);
-    print("Fun 2 Starteddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd");
     final faceDetector = FaceDetector(
       options: FaceDetectorOptions(
       enableContours: true,
@@ -497,63 +496,63 @@ class _Today_Presents_PageState extends State<Today_Presents_Page> {
       setState(() {
         i=0;
       });
-      if(value!["leftEyePositionx"]<=leftEyePosition!.x+150&&value!["leftEyePositionx"]>=leftEyePosition!.x-150){
+      if(value!["leftEyePositionx"]<=leftEyePosition!.x+200&&value!["leftEyePositionx"]>=leftEyePosition!.x-150){
         setState(() {
           i=i+1;
         });
       }
-      if(value!["rightEyePositionx"]<=rightEyePosition!.x+150&&value!["rightEyePositionx"]>=rightEyePosition!.x-150){
+      if(value!["rightEyePositionx"]<=rightEyePosition!.x+200&&value!["rightEyePositionx"]>=rightEyePosition!.x-150){
         setState(() {
           i=i+1;
         });
       }
-      if(value!["bottommouthPositionx"]<=bottommouthPosition!.x+150&&value!["bottommouthPositionx"]>=bottommouthPosition!.x-150){
+      if(value!["bottommouthPositionx"]<=bottommouthPosition!.x+200&&value!["bottommouthPositionx"]>=bottommouthPosition!.x-150){
         setState(() {
           i=i+1;
         });
       }
-      if(value!["rightmouthPositionx"]<=rightmouthPosition!.x+150&&value!["rightmouthPositionx"]>=rightmouthPosition!.x-150){
+      if(value!["rightmouthPositionx"]<=rightmouthPosition!.x+200&&value!["rightmouthPositionx"]>=rightmouthPosition!.x-150){
         setState(() {
           i=i+1;
         });
       }
-      if(value!["leftmouthPositionx"]<=leftmouthPosition!.x+150&&value!["leftmouthPositionx"]>=leftmouthPosition!.x-150){
+      if(value!["leftmouthPositionx"]<=leftmouthPosition!.x+200&&value!["leftmouthPositionx"]>=leftmouthPosition!.x-150){
         setState(() {
           i=i+1;
         });
       }
-      if(value!["nousePositionx"]<=nousePosition!.x+150&&value!["nousePositionx"]>=nousePosition!.x-150){
+      if(value!["nousePositionx"]<=nousePosition!.x+200&&value!["nousePositionx"]>=nousePosition!.x-150){
         setState(() {
           i=i+1;
         });
       }
 
-      if(value!["leftEyePositiony"]<=leftEyePosition!.y+150&&value!["leftEyePositiony"]>=leftEyePosition!.y-150){
+      if(value!["leftEyePositiony"]<=leftEyePosition!.y+200&&value!["leftEyePositiony"]>=leftEyePosition!.y-150){
         setState(() {
           i=i+1;
         });
       }
-      if(value!["rightEyePositiony"]<=rightEyePosition!.y+150&&value!["rightEyePositiony"]>=rightEyePosition!.y-150){
+      if(value!["rightEyePositiony"]<=rightEyePosition!.y+200&&value!["rightEyePositiony"]>=rightEyePosition!.y-150){
         setState(() {
           i=i+1;
         });
       }
-      if(value!["bottommouthPositiony"]<=bottommouthPosition!.y+150&&value!["bottommouthPositiony"]>=bottommouthPosition!.y-150){
+      if(value!["bottommouthPositiony"]<=bottommouthPosition!.y+200&&value!["bottommouthPositiony"]>=bottommouthPosition!.y-150){
         setState(() {
           i=i+1;
         });
       }
-      if(value!["rightmouthPositiony"]<=rightmouthPosition!.y+150&&value!["rightmouthPositiony"]>=rightmouthPosition!.y-150){
+      if(value!["rightmouthPositiony"]<=rightmouthPosition!.y+200&&value!["rightmouthPositiony"]>=rightmouthPosition!.y-150){
         setState(() {
           i=i+1;
         });
       }
-      if(value!["leftmouthPositiony"]<=leftmouthPosition!.y+150&&value!["leftmouthPositiony"]>=leftmouthPosition!.y-150){
+      if(value!["leftmouthPositiony"]<=leftmouthPosition!.y+200&&value!["leftmouthPositiony"]>=leftmouthPosition!.y-150){
         setState(() {
           i=i+1;
         });
       }
-      if(value!["nousePositiony"]<=nousePosition!.y+150&&value!["nousePositiony"]>=nousePosition!.y-150){
+      if(value!["nousePositiony"]<=nousePosition!.y+200&&value!["nousePositiony"]>=nousePosition!.y-150){
         setState(() {
           i=i+1;
         });
@@ -574,12 +573,11 @@ class _Today_Presents_PageState extends State<Today_Presents_Page> {
     // Print the face data.
     print(faceData);
     print(faceData2);
-
-    print("Fun 2 Completedddddddddddddddddddddddddddddddddddddddddddddd");
   }
+
   enroll() async {
     ImagePicker _picker = ImagePicker();
-    await _picker.pickImage(source: ImageSource.camera,preferredCameraDevice: CameraDevice.values[2]).then((xFile) {
+    await _picker.pickImage(source: ImageSource.camera,preferredCameraDevice: CameraDevice.values[0]).then((xFile) {
       if (xFile != null) {
         setState(() {
           _pickedFile2 = File(xFile.path);
@@ -663,6 +661,8 @@ class _Today_Presents_PageState extends State<Today_Presents_Page> {
   }
 
   showpopup(){
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return AlertDialog(
       content: Column(
 
@@ -683,7 +683,7 @@ class _Today_Presents_PageState extends State<Today_Presents_Page> {
             ),textAlign: TextAlign.center,),
           ),
           Lottie.asset("assets/done.json"),
-          SizedBox(height: 50,),
+          SizedBox(height: height/15.12,),
 
           GestureDetector(
             onTap: (){
@@ -691,8 +691,8 @@ class _Today_Presents_PageState extends State<Today_Presents_Page> {
               //Navigator.of(context).pop();
             },
             child: Container(
-              height: 50,
-              width: 200,
+              height: height/15.12,
+              width: width/1.8,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(7),
                 color: Color(0xff0271C5),
@@ -751,7 +751,7 @@ class _Today_Presents_PageState extends State<Today_Presents_Page> {
             ),textAlign: TextAlign.center,),
           ),
          Lottie.asset("assets/faceidd.json"),
-          SizedBox(height: 50,),
+          SizedBox(height: height/15.12,),
 
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -762,7 +762,7 @@ class _Today_Presents_PageState extends State<Today_Presents_Page> {
 
                 },
                 child: Container(
-                  height: 50,
+                  height: height/15.12,
                 width: 150,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(7),
@@ -779,8 +779,8 @@ class _Today_Presents_PageState extends State<Today_Presents_Page> {
 
                 },
                 child: Container(
-                  height: 50,
-                width: 150,
+                  height: height/15.12,
+                width: width/2.4,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(7),
                     color: Color(0xff0271C5),
@@ -833,15 +833,15 @@ class _Today_Presents_PageState extends State<Today_Presents_Page> {
             ),textAlign: TextAlign.center,),
           ),
           Lottie.asset("assets/saveface.json"),
-          SizedBox(height: 50,),
+          SizedBox(height: height/15.12,),
 
           GestureDetector(
             onTap: (){
               showwwaring();
             },
             child: Container(
-              height: 50,
-              width: 200,
+              height: height/15.12,
+              width: width/1.8,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(7),
                 color: Color(0xff0271C5),

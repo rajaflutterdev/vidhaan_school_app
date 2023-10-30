@@ -10,6 +10,9 @@ class RegisterScreenView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double height=MediaQuery.of(context).size.height;
+    double width=MediaQuery.of(context).size.width;
+
     log(registercontroller.clientusers.length.toString());
     return Scaffold(
       body: SafeArea(
@@ -32,8 +35,8 @@ class RegisterScreenView extends StatelessWidget {
                 ],
               ),
               SizedBox(
-                  height: 50,
-                  width: 200,
+                  height: height/15.12,
+                  width: width/1.8,
                   child: ElevatedButton(
                       onPressed: () async {
                         registercontroller.getToken();

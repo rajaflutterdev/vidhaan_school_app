@@ -78,7 +78,7 @@ class HomeController extends GetxController {
     }
   }
 
-  void sendPushMessage(String token, String body, String title) async {
+  void sendPushMessage(String token, String body, String title,String Page ) async {
     try {
       await http.post(
         Uri.parse('https://fcm.googleapis.com/fcm/send'),
@@ -89,12 +89,12 @@ class HomeController extends GetxController {
         },
         body: jsonEncode(
           <String, dynamic>{
-            'notification': <String, dynamic>{'body': body, 'title': title},
+            'notification': <String, dynamic>{'body': body, 'title': title,"page":Page},
             'priority': 'high',
             'data': <String, dynamic>{
               'click_action': 'FLUTTER_NOTIFICATION_CLICK',
               'id': '1',
-              'status': 'done'
+              'status': 'done',
             },
             "to": token,
           },
@@ -118,12 +118,12 @@ class HomeController extends GetxController {
     for(var i = 0; i < document.docs.length; i++){
       if(document.docs[i]["token"]!="") {
         print(document.docs[i]["token"]);
-        sendPushMessage(document.docs[i]["token"], body.text, title.text);
+        sendPushMessage(document.docs[i]["token"], body.text, title.text,"Attendance");
       }
     }
     for(var j = 0; j < document2.docs.length; j++){
       if(document2.docs[j]["token"]!="") {
-        sendPushMessage(document2.docs[j]["token"], body.text, title.text);
+        sendPushMessage(document2.docs[j]["token"], body.text, title.text,"Attendance");
       }
     }
   }

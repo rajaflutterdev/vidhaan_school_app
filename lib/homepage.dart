@@ -134,21 +134,23 @@ class _HomepageState extends State<Homepage> {
   }
 
   outoufield(){
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return showDialog(context: context, builder:(context) {
       return AlertDialog(
         content: Column(
           children: [
-            SizedBox(height: 15,),
+            SizedBox(height:height/50.4,),
             Text("out of range"),
-            SizedBox(height: 15,),
+            SizedBox(height:height/50.4,),
 
             GestureDetector(
               onTap: (){
                 Navigator.pop(context);
               },
               child: Container(
-                height:40,
-                width:120,
+                height:height/18.9,
+                width:width/3,
                 decoration: BoxDecoration(
                   color: Colors.red,
                   borderRadius: BorderRadius.circular(5)
@@ -158,7 +160,7 @@ class _HomepageState extends State<Homepage> {
                 ),
               ),
             ),
-            SizedBox(height: 15,),
+            SizedBox(height:height/50.4,),
 
 
           ],
@@ -168,13 +170,15 @@ class _HomepageState extends State<Homepage> {
   }
 
   inoufield(){
+    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery.of(context).size.width;
     return showDialog(context: context, builder:(context) {
       return AlertDialog(
         content: Column(
           children: [
-            SizedBox(height: 15,),
+            SizedBox(height:height/50.4,),
             Text("Attendance marked"),
-            SizedBox(height: 15,),
+            SizedBox(height:height/50.4,),
 
             GestureDetector(
               onTap: (){
@@ -182,8 +186,8 @@ class _HomepageState extends State<Homepage> {
 
               },
               child: Container(
-                height:40,
-                width:120,
+                height:height/18.9,
+                width:width/3,
                 decoration: BoxDecoration(
                     color: Colors.red,
                     borderRadius: BorderRadius.circular(5)
@@ -193,7 +197,7 @@ class _HomepageState extends State<Homepage> {
                 ),
               ),
             ),
-            SizedBox(height: 15,),
+            SizedBox(height:height/50.4,),
 
           ],
         ),
@@ -243,7 +247,7 @@ class _HomepageState extends State<Homepage> {
           "Staffattendance":true,
           "Staffname":staffname,
           "Staffregno":staffregno,
-          "Date":"${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year}",
+          "Date":"${DateTime.now().day}${DateTime.now().month}${DateTime.now().year}",
           "Time":DateFormat("h:mma").format(DateTime.now()),
           "timstamp":DateTime.now().millisecondsSinceEpoch,
         });

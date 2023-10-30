@@ -126,7 +126,9 @@ class FaceDetectorView extends StatefulWidget {
 class _FaceDetectorViewState extends State<FaceDetectorView> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    double  height= MediaQuery.of(context).size.height;
+    double  width= MediaQuery.of(context).size.width;
+     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -137,7 +139,7 @@ class _FaceDetectorViewState extends State<FaceDetectorView> {
               func();
             },
           ),
-          SizedBox(height: 50,),
+          SizedBox(height: height/15.12,),
           ElevatedButton(
             child: Text("Press2"),
             onPressed: (){

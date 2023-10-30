@@ -25,8 +25,7 @@ class _StudentExamState extends State<StudentExam> {
     var document =
     await _firestore2db.collection("Students").get();
     for (int i = 0; i < document.docs.length; i++) {
-      if (document.docs[i]["studentid"] ==
-          _firebaseauth2db.currentUser!.uid) {
+      if (document.docs[i]["studentid"] == _firebaseauth2db.currentUser!.uid) {
         setState(() {
           Studentid = document.docs[i].id;
         });
@@ -74,6 +73,7 @@ class _StudentExamState extends State<StudentExam> {
         padding:  EdgeInsets.only(
             left: width/36, right: width/36, top: height/15.12),
         child: SingleChildScrollView(
+          physics: ScrollPhysics(),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
 
@@ -132,74 +132,90 @@ class _StudentExamState extends State<StudentExam> {
                 thickness: 1.5,
               ),
               StreamBuilder(
-                  stream: _firestore2db.collection("ExamMaster").snapshots(),
+                  stream: _firestore2db.collection("Students").doc(Studentid).collection("Exams").snapshots(),
                   builder: (context,snap){
-                    if(snap.hasData==null){
-                      return Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
+
                     if(!snap.hasData){
                       return Center(
                         child: CircularProgressIndicator(),
                       );
                     }
+                    if(snap.hasData==null){
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+
 
                     return ListView.builder(
                         shrinkWrap: true,
                         itemCount: snap.data!.docs.length,
+                        physics: NeverScrollableScrollPhysics(),
                         itemBuilder: (context,index){
-                          return Material(
-                            elevation:5,
-                            borderRadius: BorderRadius.circular(12),
-                            child: GestureDetector(
-                              onTap: (){
-                                Navigator.of(context).push(
-                                    MaterialPageRoute(builder: (context)=>StudentExamTime(snap.data!.docs[index]["name"],snap.data!.docs[index].id,Studentid))
-                                );
-                              },
-                              child: Container(
-                                  width: 300,
-                                  height: 100,
+                          return
+                            Padding(
+                            padding:  EdgeInsets.only(bottom: height/94.5),
+                            child: Material(
+                              elevation:5,
+                              borderRadius: BorderRadius.circular(15),
+                              child: GestureDetector(
+                                onTap: (){
 
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(15),
-                                    color: Color(0xff0873C4),
-                                  ),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.only(left: 12.0,top:8,bottom: 5),
-                                            child: Text(snap.data!.docs[index]["name"],style: GoogleFonts.poppins(
-                                                color: Colors.white,
-                                                fontSize: 25,
-                                                fontWeight: FontWeight.w700
+                                  print(Studentid.toString());
+                                  Navigator.of(context).push(
 
-                                            ),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(left: 12.0),
-                                            child: Text("View",style: GoogleFonts.poppins(
-                                                color: Colors.white,
-                                                fontSize: 20,
-                                                fontWeight: FontWeight.w600
+                                      MaterialPageRoute(builder: (context)=>StudentExamTime(
+                                          snap.data!.docs[index]["name"].toString(),
+                                          snap.data!.docs[index].id.toString(),
+                                          Studentid.toString()))
+                                  );
 
+
+                                },
+                                child:
+                                Container(
+                                    width: width/1.2,
+                                    height: height/7.56,
+
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(15),
+                                      color: Color(0xff0873C4),
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.only(left: 12.0,top:8,bottom: 5),
+                                              child: Text(snap.data!.docs[index]["name"],style: GoogleFonts.poppins(
+                                                  color: Colors.white,
+                                                  fontSize: 25,
+                                                  fontWeight: FontWeight.w700
+
+                                              ),
+                                              ),
                                             ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(left: 12.0),
+                                              child: Text("View",style: GoogleFonts.poppins(
+                                                  color: Colors.white,
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.w600
+
+                                              ),
+                                              ),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(right: 12.0),
-                                        child: Icon(Icons.text_snippet_rounded,color: Colors.white,size: 40,),
-                                      )
-                                    ],
-                                  )
+                                          ],
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(right: 12.0),
+                                          child: Icon(Icons.text_snippet_rounded,color: Colors.white,size: 40,),
+                                        )
+                                      ],
+                                    )
+                                ),
                               ),
                             ),
                           );
