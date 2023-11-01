@@ -43,7 +43,8 @@ import 'package:vidhaan_school_app/modules/home/controllers/home_controller.dart
 
 
 class Frontpage extends StatefulWidget {
-
+String?staffid;
+Frontpage(this.staffid);
 
   @override
   State<Frontpage> createState() => _FrontpageState();
@@ -127,7 +128,7 @@ class _FrontpageState extends State<Frontpage> with SingleTickerProviderStateMix
 
   }
 
-  Date() {
+  Date() async {
     Period.clear();
     setState(() {
       Period.clear();
@@ -157,7 +158,7 @@ class _FrontpageState extends State<Frontpage> with SingleTickerProviderStateMix
       print(Period);
     }
     else if (day == "Tuesday") {
-      for (int i = 0; i < Fridaylists.length; i++) {
+      for (int i = 0; i < tueslists.length; i++) {
         setState(() {
           Period.add(tueslists[i]);
         });
@@ -165,7 +166,7 @@ class _FrontpageState extends State<Frontpage> with SingleTickerProviderStateMix
       print(Period);
     }
    else if (day == "Wednesday") {
-      for (int i = 0; i < Fridaylists.length; i++) {
+      for (int i = 0; i < wedneslists.length; i++) {
         setState(() {
           Period.add(wedneslists[i]);
         });
@@ -173,7 +174,7 @@ class _FrontpageState extends State<Frontpage> with SingleTickerProviderStateMix
       print(Period);
     }
    else if (day == "Thursday") {
-      for (int i = 0; i < Fridaylists.length; i++) {
+      for (int i = 0; i < thurslists.length; i++) {
         setState(() {
           Period.add(thurslists[i]);
         });
@@ -188,6 +189,15 @@ class _FrontpageState extends State<Frontpage> with SingleTickerProviderStateMix
       }
       print(Period);
     }
+    else  if (day == "Saturday") {
+      for (int i = 0; i < Satlists.length; i++) {
+        setState(() {
+          Period.add(Satlists[i]);
+        });
+      }
+      print(Period);
+    }
+
   }
 
   @override
@@ -276,7 +286,7 @@ class _FrontpageState extends State<Frontpage> with SingleTickerProviderStateMix
       staffphono = staffvalue['mobile'];
     });
 
-    print("staffname stff id staff img");
+
     print("Home PAge 2");
     print(staffname);
     print(staffregno);
@@ -6861,7 +6871,7 @@ class _FrontpageState extends State<Frontpage> with SingleTickerProviderStateMix
   String imageurl4="";
   String imageurl5="";
   int status = 0;
-  
+
   List teachertable=["","","","","","","",""];
   timetablelogic() async {
     setState(() {
@@ -6897,7 +6907,6 @@ class _FrontpageState extends State<Frontpage> with SingleTickerProviderStateMix
           else if(document.docs[i]["period"]==7){
             teachertable.replaceRange(7,8,["${document.docs[i]["class"]} ${document.docs[i]["section"]}" ]);
           }
-
 
         }
       for(int j=0;j<teachertable.length;j++){
@@ -7090,8 +7099,42 @@ class _FrontpageState extends State<Frontpage> with SingleTickerProviderStateMix
       });
       print(teachertable);
 
+    ///9360464167
+
+    print("replace Timetableeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
+    for(int j=0;j< teachertable.length;j++){
+      if(teachertable[j]=="Free Period"){
+        print( teachertable[j]);
+        print("free period itemmm list --------------------------------------");
+        // teachertable.replaceRange(i,j,["${document.docs[i]["class"]} ${document.docs[i]["section"]}" ]);
+        var _staffdocument=await _firestore2db.collection("Staffs").doc(staffid).collection("Subtitution").get();
+        print("document lengthhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
+        print(_staffdocument.docs.length);
+        for(int i=0;i<_staffdocument.docs.length;i++){
+          if(day==_staffdocument.docs[i]['day']){
+           var removeindex= (int.parse(_staffdocument.docs[i]['period'].toString()).remainder(8));
+            print((int.parse(_staffdocument.docs[i]['period'].toString()).remainder(8)));
+            print("final Loop valu+++++++++++++++++++++++++++++++++++++++++++++++++ ");
+            print("i value==========${i}");
+            print("j value==========${j}");
+            print(removeindex);
+             // teachertable.removeAt(removeindex);
+             print(teachertable[removeindex]);
+           teachertable.replaceRange(removeindex, removeindex+1, ["${_staffdocument.docs[i]['class']}${_staffdocument.docs[i]['section']}"]);
+            print("final Loop enddddddd+++++++++++++++++++++++++++++++++++++++++++++++++ ");
+          }
+
+          print(_staffdocument.docs[i]['period']);
+        }
+      }
+    }
+
+    ///9488621872 number
+    setState(() {
+
+    });
+
   }
-  
 
   add() async {
     int status = 1;

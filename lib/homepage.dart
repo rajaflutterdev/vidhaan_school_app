@@ -289,7 +289,7 @@ class _HomepageState extends State<Homepage> {
 
         body:
         selectedIndexvalue == 0 ?
-        Frontpage() :
+        Frontpage(staffid) :
         selectedIndexvalue == 1 ?
         Records(staffregno) :
         selectedIndexvalue == 2 ?
